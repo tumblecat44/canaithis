@@ -30,9 +30,18 @@ openssl rand -base64 32   # AUTH_SECRET
 
 ## 배포 (Vercel)
 
-1. Production에 `.env.example` 변수 등록 (`DATABASE_URL`, `DIRECT_URL`, `AUTH_*`, OAuth)
-2. `npx prisma migrate deploy`
-3. OAuth 콜백에 프로덕션 URL 등록
+- **Production:** https://canaithis.vercel.app
+- Production에 `.env.example` 변수 등록 (`DATABASE_URL`, `DIRECT_URL`, `AUTH_*`, OAuth)
+- OAuth 콜백: `https://canaithis.vercel.app/api/auth/callback/github` · `.../google`
+
+## 제출 (Phase 6)
+
+| 파일 | 경로 |
+|------|------|
+| 보고서 PDF | `docs/제출-보고서.pdf` |
+| 채점용 env 템플릿 | `submission/.env` |
+| 채점 안내 | `submission/README-채점.md` |
+| 소스 ZIP | `bash scripts/package-submission.sh` → `canaithis-submission.zip` |
 
 ## 문서
 
