@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "title": "CanAIThis",
+    "description": "Can AI do this? Share challenges and vote on real solutions."
+  },
+  "nav": {
+    "brand": "CanAIThis",
+    "newChallenge": "Post challenge",
+    "profile": "Profile",
+    "login": "Sign in",
+    "logout": "Sign out",
+    "github": "Continue with GitHub",
+    "google": "Continue with Google"
+  },
+  "home": {
+    "eyebrow": "AI experiment board",
+    "title": "Can AI do this?",
+    "subtitle": "Post a challenge and upvote solutions others can actually follow.",
+    "searchPlaceholder": "Search challenges",
+    "allCategories": "All",
+    "emptyTitle": "No challenges yet",
+    "emptyDescription": "Be the first to post a question.",
+    "loginRequired": "Sign in required.",
+    "solutions": "solutions",
+    "featured": "Featured",
+    "search": "Search",
+    "sortLabel": "Sort",
+    "sortLatest": "Latest",
+    "sortPopular": "Popular"
+  },
+  "challenge": {
+    "newTitle": "Post a challenge",
+    "newSubtitle": "Describe what you want to know if AI can handle.",
+    "title": "Title",
+    "description": "Description",
+    "category": "Category",
+    "imageUrl": "Image URL (optional)",
+    "submit": "Publish",
+    "delete": "Delete",
+    "by": "by",
+    "solutionsTitle": "Solutions",
+    "solutionsSubtitle": "Most liked answers rise to the top.",
+    "addSolution": "Submit solution",
+    "content": "How you did it",
+    "githubUrl": "GitHub URL",
+    "demoUrl": "Demo URL",
+    "likes": "likes",
+    "loginToLike": "Sign in to like.",
+    "like": "Like",
+    "liked": "Liked",
+    "noSolutions": "No solutions yet.",
+    "notFound": "Challenge not found.",
+    "editSolution": "Edit solution",
+    "saveSolution": "Save",
+    "saved": "Saved.",
+    "cancel": "Cancel"
+  },
+  "profile": {
+    "title": "Profile",
+    "myChallenges": "My challenges",
+    "mySolutions": "My solutions",
+    "emptyChallenges": "You have not posted any challenges.",
+    "emptySolutions": "You have not submitted any solutions.",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Continue with GitHub or Google."
+  },
+  "categories": {
+    "editing": "Editing",
+    "coding": "Coding",
+    "automation": "Automation",
+    "design": "Design",
+    "other": "Other"
+  },
+  "footer": {
+    "tagline": "CanAIThis — Can AI do this?",
+    "home": "Home",
+    "newChallenge": "Post challenge"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "unauthorized": "Sign in required.",
+    "retry": "Try again"
+  }
+}
