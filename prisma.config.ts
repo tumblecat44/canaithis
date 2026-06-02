@@ -19,6 +19,15 @@ if (!databaseUrl) {
   );
 }
 
+if (
+  process.env.VERCEL === "1" &&
+  (databaseUrl.includes("localhost") || databaseUrl.includes("127.0.0.1"))
+) {
+  throw new Error(
+    "Production build must not use localhost database URLs. Set DATABASE_URL and DIRECT_URL in Vercel project settings.",
+  );
+}
+
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
