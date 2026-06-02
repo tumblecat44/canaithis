@@ -1,16 +1,19 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
 import { auth } from "@/auth";
-
-export const dynamic = "force-dynamic";
 import { ChallengeForm } from "@/components/challenge-form";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 
+export const dynamic = "force-dynamic";
+
 export default async function NewChallengePage() {
+  noStore();
   const session = await auth();
-  if (!session?.user?.id) {
+
+  if (!session?.user) {
     redirect("/login?callbackUrl=/challenges/new");
   }
 

@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import { NextResponse } from "next/server";
 
 import { locales } from "@/i18n/routing";
 
@@ -42,8 +43,13 @@ export const authConfig = {
         pathname.startsWith("/profile/") ||
         isSolutionWrite;
 
-      if (isProtected) {
-        return !!auth?.user;
+      if (isProtected && !auth?.user) {
+        const signInUrl = new URL("/login", request.nextUrl);
+        signInUrl.searchParams.set(
+          "callbackUrl",
+          `${pathname}${request.nextUrl.search}`,
+        );
+        return NextResponse.redirect(signInUrl);
       }
       return true;
     },
