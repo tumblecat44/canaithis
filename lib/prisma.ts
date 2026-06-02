@@ -49,11 +49,7 @@ function resolvePoolConfig(connectionString: string): PoolConfig {
 
 function createPrismaClient() {
   const connectionString = getPostgresConnectionString();
-  const useResolvedConfig =
-    connectionString.includes("pooler.supabase.com") ||
-    connectionString.includes("db.") && connectionString.includes(".supabase.co");
-
-  const pool = useResolvedConfig
+  const pool = connectionString.includes("pooler.supabase.com")
     ? new Pool(resolvePoolConfig(connectionString))
     : new Pool({ connectionString });
 
