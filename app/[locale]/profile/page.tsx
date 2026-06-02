@@ -17,6 +17,8 @@ import {
 } from "@/lib/queries/challenges";
 import { cn } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProfilePage() {
   const session = await auth();
   const t = await getTranslations("profile");
