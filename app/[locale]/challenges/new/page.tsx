@@ -1,10 +1,17 @@
+import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
+import { auth } from "@/auth";
 import { ChallengeForm } from "@/components/challenge-form";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 
 export default async function NewChallengePage() {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/login?callbackUrl=/challenges/new");
+  }
+
   const t = await getTranslations("challenge");
 
   return (

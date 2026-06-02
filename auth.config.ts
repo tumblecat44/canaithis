@@ -2,6 +2,18 @@ import type { NextAuthConfig } from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
+import { locales } from "@/i18n/routing";
+
+function stripLocalePrefix(pathname: string) {
+  for (const locale of locales) {
+    if (pathname === `/${locale}`) return "/";
+    if (pathname.startsWith(`/${locale}/`)) {
+      return pathname.slice(locale.length + 1);
+    }
+  }
+  return pathname;
+}
+
 export const authConfig = {
   providers: [
     GitHub({
@@ -19,7 +31,7 @@ export const authConfig = {
   trustHost: true,
   callbacks: {
     authorized({ auth, request }) {
-      const { pathname } = request.nextUrl;
+      const pathname = stripLocalePrefix(request.nextUrl.pathname);
       const isSolutionWrite =
         /^\/challenges\/[^/]+\/solutions\/new\/?$/.test(pathname) ||
         /^\/challenges\/[^/]+\/solutions\/[^/]+\/edit\/?$/.test(pathname);
