@@ -1,8 +1,14 @@
 import { config } from "dotenv";
-
-config({ path: ".env.local" });
-config({ path: ".env" });
 import { defineConfig } from "prisma/config";
+
+if (
+  process.env.VERCEL !== "1" &&
+  !process.env.DIRECT_URL &&
+  !process.env.DATABASE_URL
+) {
+  config({ path: ".env.local" });
+  config({ path: ".env" });
+}
 
 const databaseUrl =
   process.env.DIRECT_URL ?? process.env.POSTGRES_URL ?? process.env.DATABASE_URL;
