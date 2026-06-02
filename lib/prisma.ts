@@ -1,5 +1,5 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
+import { Pool, type PoolConfig } from "pg";
 
 import { PrismaClient } from "@/lib/generated/prisma/client";
 
@@ -21,14 +21,42 @@ function getPostgresConnectionString() {
   }
 
   throw new Error(
-    "Set POSTGRES_URL or DIRECT_URL to a postgresql:// URL for the app runtime. (prisma+postgres:// is CLI-only.)",
+    "Set DATABASE_URL or DIRECT_URL to a postgresql:// URL for the app runtime. (prisma+postgres:// is CLI-only.)",
   );
+}
+
+/** Supabase pooler usernames use a dot; URL parsers often misread them as host. */
+function resolvePoolConfig(connectionString: string): PoolConfig {
+  const url = new URL(connectionString);
+  const projectRef = process.env.SUPABASE_PROJECT_REF;
+  // Node URL keeps %2E in username; pg needs postgres.{ref}
+  let user = decodeURIComponent(url.username);
+
+  if (user === "postgres" && url.hostname.includes("pooler.supabase.com") && projectRef) {
+    user = `postgres.${projectRef}`;
+  }
+
+  return {
+    host: url.hostname,
+    port: Number(url.port) || 5432,
+    user,
+    password: decodeURIComponent(url.password),
+    database: url.pathname.replace(/^\//, "") || "postgres",
+    ssl: url.searchParams.get("sslmode") === "require" ? { rejectUnauthorized: false } : undefined,
+    max: 10,
+  };
 }
 
 function createPrismaClient() {
   const connectionString = getPostgresConnectionString();
+  const useResolvedConfig =
+    connectionString.includes("pooler.supabase.com") ||
+    connectionString.includes("db.") && connectionString.includes(".supabase.co");
 
-  const pool = new Pool({ connectionString });
+  const pool = useResolvedConfig
+    ? new Pool(resolvePoolConfig(connectionString))
+    : new Pool({ connectionString });
+
   const adapter = new PrismaPg(pool);
   return new PrismaClient({ adapter });
 }

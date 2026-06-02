@@ -17,9 +17,10 @@ fi
 
 : "${SUPABASE_DB_PASSWORD:?Set SUPABASE_DB_PASSWORD}"
 
-# Pooler usernames contain a dot; Prisma must see postgres%2E{ref} in the URL.
-POOLER_USER="postgres%2E${REF}"
+# Direct host (reliable on Vercel). Pooler auth on this project ref was failing (P1000).
+export DIRECT_URL="postgresql://postgres:${SUPABASE_DB_PASSWORD}@db.${REF}.supabase.co:5432/postgres?sslmode=require"
+export DATABASE_URL="${DIRECT_URL}"
 
-# Session pooler (5432) for migrations; transaction pooler (6543) for the app runtime.
-export DIRECT_URL="postgresql://${POOLER_USER}:${SUPABASE_DB_PASSWORD}@${REGION_HOST}:5432/postgres"
-export DATABASE_URL="postgresql://${POOLER_USER}:${SUPABASE_DB_PASSWORD}@${REGION_HOST}:6543/postgres?pgbouncer=true"
+# Optional: transaction pooler (use only if pooler password works in your dashboard)
+# POOLER_USER="postgres%2E${REF}"
+# export DATABASE_URL="postgresql://${POOLER_USER}:${SUPABASE_DB_PASSWORD}@${REGION_HOST}:6543/postgres?pgbouncer=true"
