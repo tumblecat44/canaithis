@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
 import { ChallengeCard } from "@/components/design/challenge-card";
+import { SolutionSnippet } from "@/components/design/solution-snippet";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { ShellCard } from "@/components/design/shell-card";
@@ -137,6 +138,7 @@ export default async function PublicUserPage({ params }: PublicUserPageProps) {
                 >
                   {s.challenge.title}
                 </Link>
+                <SolutionSnippet content={s.content} />
                 <p className="text-xs text-muted-foreground">
                   {t("likesOnSolution", { count: s._count.likes })}
                 </p>

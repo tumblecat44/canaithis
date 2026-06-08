@@ -16,6 +16,7 @@ import { ShellCard } from "@/components/design/shell-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { buttonVariants } from "@/components/ui/button";
 import { ChallengeCard } from "@/components/design/challenge-card";
+import { SolutionSnippet } from "@/components/design/solution-snippet";
 import {
   getUserBookmarks,
   getUserChallenges,
@@ -169,6 +170,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                   >
                     {s.challenge.title}
                   </Link>
+                  <SolutionSnippet content={s.content} />
                   <p className="text-xs text-muted-foreground">
                     {t("likeCount", { count: s._count.likes })}
                   </p>
