@@ -129,6 +129,9 @@
     "statLikesReceived": "Likes received",
     "myBookmarks": "Saved",
     "emptyBookmarks": "No saved challenges yet.",
+    "emptyBookmarksDescription": "Save challenges you like and find them here.",
+    "emptyBookmarksExploreCta": "Browse challenges",
+    "emptyBookmarksHomeCta": "Back home",
     "publicProfile": "View public profile"
   },
   "login": {

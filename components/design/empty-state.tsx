@@ -10,6 +10,8 @@ type EmptyStateProps = {
   description: string;
   actionLabel?: string;
   actionHref?: string;
+  secondaryActionLabel?: string;
+  secondaryActionHref?: string;
 };
 
 export function EmptyState({
@@ -17,6 +19,8 @@ export function EmptyState({
   description,
   actionLabel,
   actionHref,
+  secondaryActionLabel,
+  secondaryActionHref,
 }: EmptyStateProps) {
   return (
     <ShellCard className="py-4">
@@ -29,15 +33,28 @@ export function EmptyState({
           <p className="max-w-sm text-sm text-muted-foreground">{description}</p>
         </div>
         {actionLabel && actionHref ? (
-          <Link
-            href={actionHref}
-            className={cn(
-              buttonVariants({ size: "lg" }),
-              "rounded-full shadow-sm ease-premium active:scale-[0.98]",
-            )}
-          >
-            {actionLabel}
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href={actionHref}
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "rounded-full shadow-sm ease-premium active:scale-[0.98]",
+              )}
+            >
+              {actionLabel}
+            </Link>
+            {secondaryActionLabel && secondaryActionHref ? (
+              <Link
+                href={secondaryActionHref}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "lg" }),
+                  "rounded-full ease-premium active:scale-[0.98]",
+                )}
+              >
+                {secondaryActionLabel}
+              </Link>
+            ) : null}
+          </div>
         ) : null}
       </div>
     </ShellCard>

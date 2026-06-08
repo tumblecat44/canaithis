@@ -129,6 +129,9 @@
     "statLikesReceived": "받은 좋아요",
     "myBookmarks": "저장한 챌린지",
     "emptyBookmarks": "저장한 챌린지가 없습니다.",
+    "emptyBookmarksDescription": "마음에 드는 챌린지를 저장하면 여기서 모아볼 수 있어요.",
+    "emptyBookmarksExploreCta": "챌린지 둘러보기",
+    "emptyBookmarksHomeCta": "홈으로",
     "publicProfile": "공개 프로필 보기"
   },
   "login": {

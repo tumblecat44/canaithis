@@ -11,6 +11,7 @@ import { deleteSolution } from "@/actions/solutions";
 import { PageHeader } from "@/components/design/page-header";
 import { ProfileStats } from "@/components/profile-stats";
 import { Reveal } from "@/components/design/reveal";
+import { EmptyState } from "@/components/design/empty-state";
 import { ShellCard } from "@/components/design/shell-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { buttonVariants } from "@/components/ui/button";
@@ -200,9 +201,14 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
         </TabsContent>
         <TabsContent value="bookmarks" className="mt-4 space-y-3">
           {bookmarks.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("emptyBookmarks")}
-            </p>
+            <EmptyState
+              title={t("emptyBookmarks")}
+              description={t("emptyBookmarksDescription")}
+              actionLabel={t("emptyBookmarksExploreCta")}
+              actionHref="/?sort=popular"
+              secondaryActionLabel={t("emptyBookmarksHomeCta")}
+              secondaryActionHref="/"
+            />
           ) : (
             <div className="grid gap-4 md:grid-cols-2">
               {bookmarks.map((b) => (
