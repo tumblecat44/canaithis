@@ -166,6 +166,11 @@
     "rss": "RSS",
     "sitemap": "Sitemap"
   },
+  "notFoundPage": {
+    "title": "Page not found",
+    "description": "The page you requested does not exist.",
+    "message": "Page not found."
+  },
   "errors": {
     "generic": "Something went wrong. Please try again.",
     "unauthorized": "Sign in required.",

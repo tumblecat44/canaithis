@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "not-found-global-meta",
-      "task": "전역 not-found 페이지 title·description 메타",
+      "id": "locale-not-found-meta",
+      "task": "[locale] not-found 페이지 title·description 메타",
       "status": "pending"
     }
   ],
@@ -34,6 +34,7 @@
     "profile-page-meta",
     "challenge-new-meta",
     "challenge-edit-meta",
-    "solution-edit-meta"
+    "solution-edit-meta",
+    "not-found-global-meta"
   ]
 }
