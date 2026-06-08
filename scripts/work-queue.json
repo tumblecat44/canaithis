@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "public-profile-jsonld-breadcrumb",
-      "task": "공개 프로필 JSON-LD BreadcrumbList + 홈 링크 메타 보강",
+      "id": "challenge-jsonld-breadcrumb",
+      "task": "챌린지 상세 JSON-LD BreadcrumbList + canonical·홈 breadcrumb 메타",
       "status": "pending"
     }
   ],
@@ -25,6 +25,7 @@
     "profile-bookmark-empty-cta",
     "profile-challenges-empty-cta",
     "profile-solutions-empty-cta",
-    "public-profile-empty-cta"
+    "public-profile-empty-cta",
+    "public-profile-jsonld-breadcrumb"
   ]
 }

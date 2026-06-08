@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -8,15 +9,27 @@ import { ProfileSolutionCard } from "@/components/design/profile-solution-card";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { ShellCard } from "@/components/design/shell-card";
+import { Link } from "@/i18n/navigation";
 import { getPublicUser } from "@/lib/queries/users";
 
 export const dynamic = "force-dynamic";
+
+function siteBase() {
+  return (
+    process.env.AUTH_URL ??
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000")
+  );
+}
 
 type PublicUserPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
 
-export async function generateMetadata({ params }: PublicUserPageProps) {
+export async function generateMetadata({
+  params,
+}: PublicUserPageProps): Promise<Metadata> {
   const { locale, id } = await params;
   const user = await getPublicUser(id);
   const t = await getTranslations({ locale, namespace: "meta" });
@@ -26,15 +39,20 @@ export async function generateMetadata({ params }: PublicUserPageProps) {
   }
   const name = user.name ?? tu("anonymous");
   const description = `${name} · ${t("title")}`;
+  const profileUrl = `${siteBase()}/users/${user.id}`;
   return {
     title: `${name} · ${t("title")}`,
     description,
+    alternates: {
+      canonical: profileUrl,
+    },
     openGraph: {
       locale: locale === "ko" ? "ko_KR" : "en_US",
       siteName: t("title"),
       title: name,
       description,
       type: "profile",
+      url: profileUrl,
       ...(user.image ? { images: [{ url: user.image }] } : {}),
     },
   };
@@ -45,23 +63,43 @@ export default async function PublicUserPage({ params }: PublicUserPageProps) {
   setRequestLocale(locale);
 
   const t = await getTranslations("user");
+  const tm = await getTranslations("meta");
   const user = await getPublicUser(id);
 
   if (!user) {
     notFound();
   }
 
-  const base =
-    process.env.AUTH_URL ??
-    (process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000");
+  const base = siteBase();
+  const name = user.name ?? t("anonymous");
+  const profileUrl = `${base}/users/${user.id}`;
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: user.name ?? t("anonymous"),
-    url: `${base}/users/${user.id}`,
-    ...(user.image ? { image: user.image } : {}),
+    "@graph": [
+      {
+        "@type": "Person",
+        name,
+        url: profileUrl,
+        ...(user.image ? { image: user.image } : {}),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: tm("title"),
+            item: base,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name,
+            item: profileUrl,
+          },
+        ],
+      },
+    ],
   };
 
   return (
@@ -70,8 +108,26 @@ export default async function PublicUserPage({ params }: PublicUserPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <nav aria-label={t("breadcrumbLabel")}>
+        <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+          <li>
+            <Link
+              href="/"
+              className="transition-colors hover:text-primary"
+            >
+              {tm("title")}
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <span aria-current="page" className="text-foreground">
+              {name}
+            </span>
+          </li>
+        </ol>
+      </nav>
       <Reveal>
-        <PageHeader title={user.name ?? t("anonymous")} />
+        <PageHeader title={name} />
       </Reveal>
 
       <Reveal delay={0.05}>

@@ -118,7 +118,8 @@
     "emptySolutionsHomeCta": "Back home",
     "likesOnSolution": "{count} likes",
     "notFound": "User not found.",
-    "backHome": "Back home"
+    "backHome": "Back home",
+    "breadcrumbLabel": "Breadcrumb"
   },
   "profile": {
     "title": "Profile",
