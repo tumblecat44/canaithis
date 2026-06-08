@@ -1,0 +1,17 @@
+{
+  "note": "에이전트 턴이 시작되면 pending[0]부터 처리 후 status를 done으로 바꿀 것. autopilot은 이 파일을 읽지 않음 — 사람/에이전트용.",
+  "pending": [
+    { "id": "card-views", "task": "챌린지 카드에 viewCount 표시", "status": "done" },
+    { "id": "not-found-user", "task": "존재하지 않는 /users/[id] → notFound", "status": "pending" },
+    { "id": "challenge-edit-author", "task": "챌린지 수정 시 imageUrl 미리보기", "status": "pending" }
+  ],
+  "done": [
+    "feed-xml-middleware",
+    "sort-views",
+    "recent-activity",
+    "solution-author-link",
+    "bookmarks",
+    "comments",
+    "public-profile"
+  ]
+}

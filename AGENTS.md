@@ -106,9 +106,20 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **실수**: `/feed.xml` 404 원인(middleware matcher에 `feed.xml` 미제외) 알면서 **그 턴에 안 고침**.
 - **이 턴에서 할 것**: feed.xml 수정, `?sort=views`, 최근 활동, 솔루션 작성자 링크 → push → **curl로 feed.xml 검증**.
 
+### [2026-06-08] #13 — “메시지 뱉지 말고 절대 안 멈추게” → autopilot 분리
+
+- **한계**: Cursor 에이전트는 **턴이 끝나면 무조건 정지**. 코드만으로 에이전트 자체를 infinite run 할 수 없음.
+- **대안 (실제로 안 멈추는 것)**:
+  1. `bash scripts/autopilot.sh` — 프로덕션 smoke 무한 루프 (로컬 `nohup`)
+  2. `.github/workflows/smoke.yml` — 30분마다 + push 시 프로덕션 검증 (GitHub가 돌림)
+  3. `scripts/work-queue.json` — 기능 구현 큐 (에이전트 턴이 소비)
+- **다시 하지 마라**: “계속 돌린다”고 말만 하기. **스크립트/CI를 띄우거나** `work-queue.json` pending을 줄이는 커밋으로 증명.
+
 **고정 참조**
 ```bash
-source scripts/prod-db-urls.sh && node scripts/seed-demo.mjs   # 프로덕션 DB 시드
-npm run build && git push origin main                          # Vercel 배포
-curl -sL https://canaithis.vercel.app/ko | grep -c "text-2xl" # DB+렌더 스모크
+nohup bash scripts/autopilot.sh >> .autopilot.log 2>&1 &   # 로컬 무한 smoke
+source scripts/prod-db-urls.sh && node scripts/seed-demo.mjs
+npm run build && git push origin main
+curl -sL https://canaithis.vercel.app/feed.xml | head -1   # <?xml 확인
+curl -sL https://canaithis.vercel.app/ko | grep -c "text-2xl"
 ```

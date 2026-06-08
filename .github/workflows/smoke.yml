@@ -1,0 +1,25 @@
+name: Production smoke
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check homepage
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko)
+          echo "/ko → $code"
+          test "$code" = "200"
+
+      - name: Check RSS feed
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/feed.xml)
+          echo "/feed.xml → $code"
+          test "$code" = "200"
+          curl -sL https://canaithis.vercel.app/feed.xml | head -1 | grep -q "<?xml"

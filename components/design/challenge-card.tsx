@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { ArrowUpRightIcon, ChatCircleIcon } from "@phosphor-icons/react/dist/ssr";
+import {
+  ArrowUpRightIcon,
+  ChatCircleIcon,
+  EyeIcon,
+} from "@phosphor-icons/react/dist/ssr";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { HighlightText } from "@/components/highlight-text";
@@ -15,6 +19,7 @@ export type ChallengeCardData = {
   category: string;
   imageUrl: string | null;
   createdAt: Date;
+  viewCount: number;
   author: { id: string; name: string | null; image: string | null };
   _count: { solutions: number };
 };
@@ -88,9 +93,15 @@ export async function ChallengeCard({
           </p>
           <div className="flex items-center justify-between gap-3 pt-1">
             <div className="flex flex-col gap-0.5 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <ChatCircleIcon weight="light" className="size-4" />
-                {challenge._count.solutions} {t("home.solutions")}
+              <span className="flex items-center gap-3">
+                <span className="flex items-center gap-1.5">
+                  <ChatCircleIcon weight="light" className="size-4" />
+                  {challenge._count.solutions} {t("home.solutions")}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <EyeIcon weight="light" className="size-4" />
+                  {challenge.viewCount}
+                </span>
               </span>
               <span>
                 <Link
