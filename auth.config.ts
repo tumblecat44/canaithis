@@ -4,6 +4,7 @@ import Google from "next-auth/providers/google";
 import { NextResponse } from "next/server";
 
 import { locales } from "@/i18n/routing";
+import { isValidUserId } from "@/lib/user-id";
 
 function stripLocalePrefix(pathname: string) {
   for (const locale of locales) {
@@ -33,6 +34,16 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request }) {
       const pathname = stripLocalePrefix(request.nextUrl.pathname);
+      const solutionEditMatch = pathname.match(
+        /^\/challenges\/([^/]+)\/solutions\/([^/]+)\/edit\/?$/,
+      );
+      if (
+        solutionEditMatch &&
+        (!isValidUserId(solutionEditMatch[1]!) ||
+          !isValidUserId(solutionEditMatch[2]!))
+      ) {
+        return new NextResponse(null, { status: 404 });
+      }
       const isSolutionWrite =
         /^\/challenges\/[^/]+\/solutions\/new\/?$/.test(pathname) ||
         /^\/challenges\/[^/]+\/solutions\/[^/]+\/edit\/?$/.test(pathname);
