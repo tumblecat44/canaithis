@@ -56,12 +56,14 @@ export const authConfig = {
       ) {
         return new NextResponse(null, { status: 404 });
       }
+      const isChallengeEdit = challengeEditMatch !== null;
       const isSolutionWrite =
         /^\/challenges\/[^/]+\/solutions\/new\/?$/.test(pathname) ||
         /^\/challenges\/[^/]+\/solutions\/[^/]+\/edit\/?$/.test(pathname);
       const isProtected =
         pathname === "/challenges/new" ||
         pathname.startsWith("/challenges/new/") ||
+        isChallengeEdit ||
         pathname === "/profile" ||
         pathname.startsWith("/profile/") ||
         isSolutionWrite;
