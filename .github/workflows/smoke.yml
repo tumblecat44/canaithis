@@ -68,6 +68,15 @@ jobs:
           test "$code" = "200"
           feed_body=$(curl -sL https://canaithis.vercel.app/feed.xml)
           echo "$feed_body" | head -1 | grep -q "<?xml"
+          channel_block=$(echo "$feed_body" | sed -n '/<channel>/,/<item>/p' | head -10)
+          echo "$channel_block" | grep -qE '<title>CanAIThis</title>'
+          echo "feed.xml channel → title OK"
+          echo "$channel_block" | grep -qE '<link>https?://[^<]+</link>'
+          echo "feed.xml channel → link OK"
+          echo "$channel_block" | grep -qE '<description>AI challenges and solutions community</description>'
+          echo "feed.xml channel → description OK"
+          echo "$channel_block" | grep -qE '<language>ko</language>'
+          echo "feed.xml channel → language OK"
           item_count=$(echo "$feed_body" | grep -c '<item>' || true)
           test "$item_count" -ge 1
           echo "feed.xml → ${item_count} RSS item(s) OK"

@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-feed-rss-channel-fields",
-      "task": "autopilot.sh·smoke.yml에 feed.xml RSS <channel> title·link·description·language 필드 검증 추가",
+      "id": "smoke-home-rss-alternate-link",
+      "task": "autopilot.sh·smoke.yml에 /ko HTML head의 RSS alternate link(rel=alternate, type=application/rss+xml, href=/feed.xml) 검증 추가",
       "status": "pending"
     }
   ],
@@ -61,6 +61,7 @@
     "smoke-robots-txt",
     "smoke-feed-rss-items",
     "smoke-feed-rss-item-fields",
-    "smoke-feed-rss-item-pubdate"
+    "smoke-feed-rss-item-pubdate",
+    "smoke-feed-rss-channel-fields"
   ]
 }

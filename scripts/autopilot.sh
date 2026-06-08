@@ -99,6 +99,32 @@ smoke() {
     log "smoke feed.xml body → NOT RSS"
     ok=1
   fi
+  local channel_block
+  channel_block=$(echo "$feed_body" | sed -n '/<channel>/,/<item>/p' | head -10 || true)
+  if echo "$channel_block" | grep -qE '<title>CanAIThis</title>'; then
+    log "smoke feed.xml channel → title OK"
+  else
+    log "smoke feed.xml channel → invalid title"
+    ok=1
+  fi
+  if echo "$channel_block" | grep -qE '<link>https?://[^<]+</link>'; then
+    log "smoke feed.xml channel → link OK"
+  else
+    log "smoke feed.xml channel → invalid link"
+    ok=1
+  fi
+  if echo "$channel_block" | grep -qE '<description>AI challenges and solutions community</description>'; then
+    log "smoke feed.xml channel → description OK"
+  else
+    log "smoke feed.xml channel → invalid description"
+    ok=1
+  fi
+  if echo "$channel_block" | grep -qE '<language>ko</language>'; then
+    log "smoke feed.xml channel → language OK"
+  else
+    log "smoke feed.xml channel → invalid language"
+    ok=1
+  fi
   local feed_item_count
   feed_item_count=$(echo "$feed_body" | grep -c '<item>' || true)
   if [[ "$feed_item_count" -ge 1 ]]; then
