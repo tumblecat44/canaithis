@@ -22,6 +22,9 @@ export async function SiteFooter() {
           <a href="/feed.xml" className="hover:text-primary">
             {t("rss")}
           </a>
+          <a href="/sitemap.xml" className="hover:text-primary">
+            {t("sitemap")}
+          </a>
           {session?.user ? (
             <Link href="/profile" className="hover:text-primary">
               {nav("profile")}

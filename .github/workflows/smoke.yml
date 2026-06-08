@@ -29,3 +29,10 @@ jobs:
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/users/not-a-valid-user)
           echo "/ko/users/invalid → $code"
           test "$code" = "404"
+
+      - name: Check sitemap includes users
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/sitemap.xml)
+          echo "/sitemap.xml → $code"
+          test "$code" = "200"
+          curl -sL https://canaithis.vercel.app/sitemap.xml | grep -q "/users/"

@@ -51,6 +51,17 @@ export const getPublicUser = cache(async function getPublicUser(userId: string) 
   return { ...user, likesReceived };
 });
 
+/** 챌린지 또는 솔루션을 올린 사용자 — 공개 프로필이 의미 있음 */
+export async function getActivePublicUserIds() {
+  return prisma.user.findMany({
+    where: {
+      OR: [{ challenges: { some: {} } }, { solutions: { some: {} } }],
+    },
+    select: { id: true, createdAt: true },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export async function incrementChallengeView(challengeId: string) {
   await prisma.challenge.update({
     where: { id: challengeId },

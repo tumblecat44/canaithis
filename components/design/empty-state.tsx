@@ -31,7 +31,10 @@ export function EmptyState({
         {actionLabel && actionHref ? (
           <Link
             href={actionHref}
-            className={cn(buttonVariants(), "rounded-full")}
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "rounded-full shadow-sm ease-premium active:scale-[0.98]",
+            )}
           >
             {actionLabel}
           </Link>

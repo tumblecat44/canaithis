@@ -31,19 +31,24 @@ type ChallengeDetailPageProps = {
 export async function generateMetadata({
   params,
 }: ChallengeDetailPageProps): Promise<Metadata> {
-  const { id } = await params;
+  const { locale, id } = await params;
   const challenge = await getChallengeById(id);
+  const t = await getTranslations({ locale, namespace: "meta" });
 
   if (!challenge) {
-    return { title: "CanAIThis" };
+    return { title: t("title") };
   }
 
+  const description = challenge.description.slice(0, 160);
+
   return {
-    title: `${challenge.title} · CanAIThis`,
-    description: challenge.description.slice(0, 160),
+    title: `${challenge.title} · ${t("title")}`,
+    description,
     openGraph: {
+      locale: locale === "ko" ? "ko_KR" : "en_US",
+      siteName: t("title"),
       title: challenge.title,
-      description: challenge.description.slice(0, 160),
+      description,
       images: challenge.imageUrl ? [challenge.imageUrl] : undefined,
     },
   };
@@ -74,8 +79,31 @@ export default async function ChallengeDetailPage({
     ? await isChallengeBookmarked(session.user.id, challenge.id)
     : false;
 
+  const base =
+    process.env.AUTH_URL ??
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000");
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "DiscussionForumPosting",
+    headline: challenge.title,
+    text: challenge.description,
+    datePublished: challenge.createdAt.toISOString(),
+    author: {
+      "@type": "Person",
+      name: challenge.author.name ?? "Anonymous",
+    },
+    url: `${base}/challenges/${challenge.id}`,
+    ...(challenge.imageUrl ? { image: challenge.imageUrl } : {}),
+  };
+
   return (
     <div className="space-y-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Reveal>
         <PageHeader
           eyebrow={tc(challenge.category as "other")}

@@ -115,6 +115,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
   3. `scripts/work-queue.json` — 기능 구현 큐 (에이전트 턴이 소비)
 - **다시 하지 마라**: “계속 돌린다”고 말만 하기. **스크립트/CI를 띄우거나** `work-queue.json` pending을 줄이는 커밋으로 증명.
 
+### [2026-06-08] #15 — “또 멈췄는데” → queue 전부 소비
+
+- **실수 패턴**: 사용자가 “또 멈췄는데” 보낼 때마다 **이전 턴 요약만** 하고 새 커밋 없이 종료.
+- **이 턴**: `sitemap-users`, footer sitemap, OG locale, 홈 empty CTA, RSS alternate link — **한 턴에 연속 커밋**.
+- **다시 하지 마라**: 멈췄다는 메시지에 **변명만**. `git log -1`로 증명할 커밋을 먼저.
+
 ### [2026-06-08] #14 — work-queue 2건 처리 + continuous 데몬
 
 - **이 턴**: `not-found-user`(cuid 검증·`generateMetadata`·전용 not-found·404 smoke), `challenge-edit-author`+작성 폼 `ImageUrlPreview`, `continuous.sh`+`work-queue-watch.sh`.

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { getAllChallengeIds } from "@/lib/queries/challenges";
+import { getActivePublicUserIds } from "@/lib/queries/users";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base =
@@ -26,14 +27,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    const challenges = await getAllChallengeIds();
+    const [challenges, users] = await Promise.all([
+      getAllChallengeIds(),
+      getActivePublicUserIds(),
+    ]);
     const challengeRoutes = challenges.map((c) => ({
       url: `${base}/challenges/${c.id}`,
       lastModified: c.createdAt,
       changeFrequency: "weekly" as const,
       priority: 0.7,
     }));
-    return [...staticRoutes, ...challengeRoutes];
+    const userRoutes = users.map((u) => ({
+      url: `${base}/users/${u.id}`,
+      lastModified: u.createdAt,
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    }));
+    return [...staticRoutes, ...challengeRoutes, ...userRoutes];
   } catch {
     return staticRoutes;
   }

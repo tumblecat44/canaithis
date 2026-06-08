@@ -20,6 +20,8 @@
     "allCategories": "All",
     "emptyTitle": "No challenges yet",
     "emptyDescription": "Be the first to post a question.",
+    "emptyCta": "Post the first challenge",
+    "postAnotherCta": "Post a new challenge",
     "loginRequired": "Sign in required.",
     "solutions": "solutions",
     "featured": "Featured",
@@ -140,7 +142,8 @@
     "tagline": "CanAIThis — Can AI do this?",
     "home": "Home",
     "newChallenge": "Post challenge",
-    "rss": "RSS"
+    "rss": "RSS",
+    "sitemap": "Sitemap"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

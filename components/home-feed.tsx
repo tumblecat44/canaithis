@@ -109,7 +109,7 @@ export async function HomeFeed({
                   : t("emptyDescription")
             }
             actionLabel={
-              q?.trim() || category ? t("clearFilters") : t("title")
+              q?.trim() || category ? t("clearFilters") : t("emptyCta")
             }
             actionHref={q?.trim() || category ? "/" : "/challenges/new"}
           />
@@ -145,16 +145,20 @@ export async function HomeFeed({
         />
       </Reveal>
 
-      <Reveal delay={0.12}>
-        <p className="text-center text-sm text-muted-foreground">
-          <Link
-            href="/challenges/new"
-            className="font-medium text-primary underline-offset-4 hover:underline"
-          >
-            {t("emptyDescription")}
-          </Link>
-        </p>
-      </Reveal>
+      {challenges.length > 0 ? (
+        <Reveal delay={0.12}>
+          <p className="text-center">
+            <Link
+              href="/challenges/new"
+              className={cn(
+                "inline-flex h-10 items-center justify-center rounded-full bg-primary px-6 text-sm font-medium text-primary-foreground shadow-sm transition-all hover:bg-primary/90 active:scale-[0.98]",
+              )}
+            >
+              {t("postAnotherCta")}
+            </Link>
+          </p>
+        </Reveal>
+      ) : null}
     </div>
   );
 }

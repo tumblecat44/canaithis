@@ -39,10 +39,22 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
+  const base =
+    process.env.AUTH_URL ??
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000");
+
   return {
     title: t("title"),
     description: t("description"),
+    alternates: {
+      types: {
+        "application/rss+xml": `${base}/feed.xml`,
+      },
+    },
     openGraph: {
+      locale: locale === "ko" ? "ko_KR" : "en_US",
       title: t("title"),
       description: t("description"),
       type: "website",

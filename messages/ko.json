@@ -20,6 +20,8 @@
     "allCategories": "전체",
     "emptyTitle": "아직 챌린지가 없어요",
     "emptyDescription": "첫 번째 질문을 올려보세요.",
+    "emptyCta": "첫 챌린지 올리기",
+    "postAnotherCta": "새 챌린지 올리기",
     "loginRequired": "로그인이 필요합니다.",
     "solutions": "솔루션",
     "featured": "주목",
@@ -140,7 +142,8 @@
     "tagline": "CanAIThis — AI로 이거 해봤다 / 이거 되나?",
     "home": "홈",
     "newChallenge": "챌린지 올리기",
-    "rss": "RSS"
+    "rss": "RSS",
+    "sitemap": "사이트맵"
   },
   "errors": {
     "generic": "문제가 발생했습니다. 다시 시도해 주세요.",

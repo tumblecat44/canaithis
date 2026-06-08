@@ -36,6 +36,16 @@ smoke() {
   log "smoke /ko/users/invalid → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/sitemap.xml" || echo "000")
+  log "smoke /sitemap.xml → ${code}"
+  [[ "$code" == "200" ]] || ok=1
+  if curl -sL "${PROD_URL}/sitemap.xml" | grep -q "/users/"; then
+    log "smoke sitemap → users OK"
+  else
+    log "smoke sitemap → no /users/ URLs"
+    ok=1
+  fi
+
   return $ok
 }
 

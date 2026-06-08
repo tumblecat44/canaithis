@@ -17,18 +17,23 @@ type PublicUserPageProps = {
 };
 
 export async function generateMetadata({ params }: PublicUserPageProps) {
-  const { id } = await params;
+  const { locale, id } = await params;
   const user = await getPublicUser(id);
+  const t = await getTranslations({ locale, namespace: "meta" });
+  const tu = await getTranslations({ locale, namespace: "user" });
   if (!user) {
     notFound();
   }
-  const name = user.name ?? "CanAIThis";
+  const name = user.name ?? tu("anonymous");
+  const description = `${name} · ${t("title")}`;
   return {
-    title: name,
-    description: `${name} on CanAIThis`,
+    title: `${name} · ${t("title")}`,
+    description,
     openGraph: {
+      locale: locale === "ko" ? "ko_KR" : "en_US",
+      siteName: t("title"),
       title: name,
-      description: `${name} on CanAIThis`,
+      description,
       type: "profile",
       ...(user.image ? { images: [{ url: user.image }] } : {}),
     },
