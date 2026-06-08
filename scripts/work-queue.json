@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "profile-solutions-empty-cta",
-      "task": "프로필 내 솔루션 탭 empty 상태에 챌린지 둘러보기 CTA 추가",
+      "id": "public-profile-empty-cta",
+      "task": "공개 프로필(/users/[id]) 챌린지·솔루션 empty 상태에 EmptyState + 홈 CTA",
       "status": "pending"
     }
   ],
@@ -23,6 +23,7 @@
     "profile-bookmark-card-actions",
     "profile-bookmark-unbookmark",
     "profile-bookmark-empty-cta",
-    "profile-challenges-empty-cta"
+    "profile-challenges-empty-cta",
+    "profile-solutions-empty-cta"
   ]
 }

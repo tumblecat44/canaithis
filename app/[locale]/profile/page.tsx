@@ -158,9 +158,12 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
         </TabsContent>
         <TabsContent value="solutions" className="mt-4 space-y-3">
           {solutions.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("emptySolutions")}
-            </p>
+            <EmptyState
+              title={t("emptySolutions")}
+              description={t("emptySolutionsDescription")}
+              actionLabel={t("emptySolutionsBrowseCta")}
+              actionHref="/"
+            />
           ) : (
             solutions.map((s) => (
               <ProfileSolutionCard

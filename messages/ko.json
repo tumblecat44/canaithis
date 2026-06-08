@@ -123,6 +123,8 @@
     "emptyChallengesPostCta": "새 챌린지 올리기",
     "emptyChallengesBrowseCta": "챌린지 둘러보기",
     "emptySolutions": "제출한 솔루션이 없습니다.",
+    "emptySolutionsDescription": "관심 있는 챌린지를 찾아 나만의 솔루션을 공유해 보세요.",
+    "emptySolutionsBrowseCta": "챌린지 둘러보기",
     "edit": "수정",
     "delete": "삭제",
     "solutionCount": "{count}개 솔루션",

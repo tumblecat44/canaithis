@@ -123,6 +123,8 @@
     "emptyChallengesPostCta": "Post a new challenge",
     "emptyChallengesBrowseCta": "Browse challenges",
     "emptySolutions": "You have not submitted any solutions.",
+    "emptySolutionsDescription": "Find a challenge you care about and share your approach.",
+    "emptySolutionsBrowseCta": "Browse challenges",
     "edit": "Edit",
     "delete": "Delete",
     "solutionCount": "{count} solutions",
