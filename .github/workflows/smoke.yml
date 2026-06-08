@@ -23,6 +23,17 @@ jobs:
           echo "/ko/login → $code"
           test "$code" = "200"
 
+      - name: Check challenges new redirects to login
+        run: |
+          hdr=$(mktemp)
+          code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "https://canaithis.vercel.app/ko/challenges/new")
+          location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
+          rm -f "$hdr"
+          echo "/ko/challenges/new → $code $location"
+          test "$code" = "307"
+          echo "$location" | grep -qi "/login"
+          echo "$location" | grep -qi "callbackUrl"
+
       - name: Check RSS feed
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/feed.xml)
