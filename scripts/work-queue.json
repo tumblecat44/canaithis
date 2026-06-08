@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-yml-solution-new-login-redirect",
-      "task": "GitHub smoke.yml에 /ko/challenges/{id}/solutions/new → /login 리다이렉트(307) 검증 추가 (feed.xml에서 challenge id)",
+      "id": "smoke-yml-challenges-new-login-redirect",
+      "task": "GitHub smoke.yml에 /ko/challenges/new → /login 리다이렉트(307) 검증 추가",
       "status": "pending"
     }
   ],
@@ -50,6 +50,7 @@
     "solution-edit-login-redirect-smoke",
     "challenge-edit-login-redirect-smoke",
     "smoke-yml-challenge-edit-login-redirect",
-    "smoke-yml-solution-edit-login-redirect"
+    "smoke-yml-solution-edit-login-redirect",
+    "smoke-yml-solution-new-login-redirect"
   ]
 }
