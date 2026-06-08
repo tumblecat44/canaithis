@@ -26,6 +26,7 @@
     "solutions": "솔루션",
     "featured": "주목",
     "search": "검색",
+    "searchTitle": "「{query}」 검색",
     "sortLabel": "정렬",
     "sortLatest": "최신순",
     "sortPopular": "인기순",

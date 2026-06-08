@@ -26,6 +26,7 @@
     "solutions": "solutions",
     "featured": "Featured",
     "search": "Search",
+    "searchTitle": "Search: {query}",
     "sortLabel": "Sort",
     "sortLatest": "Latest",
     "sortPopular": "Popular",

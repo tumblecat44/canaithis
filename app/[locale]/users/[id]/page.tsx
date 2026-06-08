@@ -51,8 +51,25 @@ export default async function PublicUserPage({ params }: PublicUserPageProps) {
     notFound();
   }
 
+  const base =
+    process.env.AUTH_URL ??
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000");
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: user.name ?? t("anonymous"),
+    url: `${base}/users/${user.id}`,
+    ...(user.image ? { image: user.image } : {}),
+  };
+
   return (
     <div className="space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Reveal>
         <PageHeader title={user.name ?? t("anonymous")} />
       </Reveal>

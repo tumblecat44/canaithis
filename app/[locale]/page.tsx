@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
@@ -16,6 +17,26 @@ type HomePageProps = {
     page?: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: HomePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const { q } = await searchParams;
+  const t = await getTranslations({ locale, namespace: "meta" });
+  const th = await getTranslations({ locale, namespace: "home" });
+
+  if (q?.trim()) {
+    const title = th("searchTitle", { query: q.trim() });
+    return {
+      title: `${title} · ${t("title")}`,
+      description: t("description"),
+    };
+  }
+
+  return { title: t("title"), description: t("description") };
+}
 
 export default async function HomePage({
   params,

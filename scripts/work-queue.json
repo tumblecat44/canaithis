@@ -7,7 +7,8 @@
     { "id": "home-empty-cta", "task": "홈 빈 상태 CTA 버튼 강조", "status": "done" },
     { "id": "rss-self-link", "task": "홈 메타에 alternate RSS link", "status": "done" },
     { "id": "challenge-jsonld", "task": "챌린지 상세 JSON-LD structured data", "status": "done" },
-    { "id": "user-jsonld", "task": "공개 프로필 Person JSON-LD", "status": "pending" }
+    { "id": "user-jsonld", "task": "공개 프로필 Person JSON-LD", "status": "done" },
+    { "id": "search-meta", "task": "검색 결과 페이지 title에 query 반영", "status": "done" }
   ],
   "done": [
     "feed-xml-middleware",
