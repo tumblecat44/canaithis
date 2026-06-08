@@ -169,6 +169,17 @@ jobs:
           echo "/ko/challenges/invalid/solutions/invalid/edit → $code"
           test "$code" = "404"
 
+      - name: Check robots.txt and Sitemap directive
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/robots.txt)
+          echo "/robots.txt → $code"
+          test "$code" = "200"
+          robots_body=$(curl -sL https://canaithis.vercel.app/robots.txt)
+          echo "$robots_body" | grep -qi "Sitemap:"
+          echo "robots.txt → Sitemap directive OK"
+          echo "$robots_body" | grep -qE 'Sitemap:\s*https?://[^[:space:]]+/sitemap\.xml'
+          echo "robots.txt → sitemap.xml URL OK"
+
       - name: Check sitemap includes users and challenges
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/sitemap.xml)

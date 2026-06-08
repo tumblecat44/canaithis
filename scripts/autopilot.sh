@@ -218,6 +218,24 @@ smoke() {
   log "smoke /ko/challenges/invalid/solutions/invalid/edit → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/robots.txt" || echo "000")
+  log "smoke /robots.txt → ${code}"
+  [[ "$code" == "200" ]] || ok=1
+  local robots_body
+  robots_body=$(curl -sL "${PROD_URL}/robots.txt" || true)
+  if echo "$robots_body" | grep -qi "Sitemap:"; then
+    log "smoke robots.txt → Sitemap directive OK"
+  else
+    log "smoke robots.txt → no Sitemap directive"
+    ok=1
+  fi
+  if echo "$robots_body" | grep -qE 'Sitemap:\s*https?://[^[:space:]]+/sitemap\.xml'; then
+    log "smoke robots.txt → sitemap.xml URL OK"
+  else
+    log "smoke robots.txt → invalid sitemap URL"
+    ok=1
+  fi
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/sitemap.xml" || echo "000")
   log "smoke /sitemap.xml → ${code}"
   [[ "$code" == "200" ]] || ok=1
