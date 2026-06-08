@@ -119,6 +119,25 @@ smoke() {
   fi
 
   hdr=$(mktemp)
+  code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "${PROD_URL}/en/profile" || echo "000")
+  location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
+  rm -f "$hdr"
+  log "smoke /en/profile → ${code} ${location:-}"
+  [[ "$code" == "307" ]] || ok=1
+  if echo "$location" | grep -qi "/login"; then
+    log "smoke /en/profile redirect → login OK"
+  else
+    log "smoke /en/profile redirect → not /login"
+    ok=1
+  fi
+  if echo "$location" | grep -qi "callbackUrl"; then
+    log "smoke /en/profile redirect → callbackUrl OK"
+  else
+    log "smoke /en/profile redirect → no callbackUrl"
+    ok=1
+  fi
+
+  hdr=$(mktemp)
   code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "${PROD_URL}/ko/challenges/new" || echo "000")
   location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
   rm -f "$hdr"

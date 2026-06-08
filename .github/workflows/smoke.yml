@@ -93,6 +93,17 @@ jobs:
           echo "$location" | grep -qi "/login"
           echo "$location" | grep -qi "callbackUrl"
 
+      - name: Check English profile redirects to login
+        run: |
+          hdr=$(mktemp)
+          code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "https://canaithis.vercel.app/en/profile")
+          location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
+          rm -f "$hdr"
+          echo "/en/profile → $code $location"
+          test "$code" = "307"
+          echo "$location" | grep -qi "/login"
+          echo "$location" | grep -qi "callbackUrl"
+
       - name: Check challenges new redirects to login
         run: |
           hdr=$(mktemp)
