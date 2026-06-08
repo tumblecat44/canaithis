@@ -40,6 +40,7 @@
     "prevPage": "Previous",
     "nextPage": "Next",
     "pageOf": "{page} / {total}",
+    "pageTitle": "Page {page}",
     "resultCount": "{count} results",
     "clearFilters": "Clear filters",
     "trendingTitle": "Trending solutions",

@@ -23,29 +23,35 @@ export async function generateMetadata({
   searchParams,
 }: HomePageProps): Promise<Metadata> {
   const { locale } = await params;
-  const { q, category } = await searchParams;
+  const { q, category, page } = await searchParams;
   const t = await getTranslations({ locale, namespace: "meta" });
   const th = await getTranslations({ locale, namespace: "home" });
   const tc = await getTranslations({ locale, namespace: "categories" });
+  const pageNum = Math.max(1, Number(page) || 1);
+
+  let titlePart: string;
+  let description = t("description");
 
   if (q?.trim()) {
-    const title = th("searchTitle", { query: q.trim() });
-    return {
-      title: `${title} · ${t("title")}`,
-      description: t("description"),
-    };
-  }
-
-  if (category) {
+    titlePart = th("searchTitle", { query: q.trim() });
+  } else if (category) {
     const label = tc(category as "other");
-    const title = th("categoryTitle", { category: label });
-    return {
-      title: `${title} · ${t("title")}`,
-      description: th("emptyCategoryDescription"),
-    };
+    titlePart = th("categoryTitle", { category: label });
+    description = th("emptyCategoryDescription");
+  } else if (pageNum > 1) {
+    titlePart = th("pageTitle", { page: pageNum });
+  } else {
+    return { title: t("title"), description };
   }
 
-  return { title: t("title"), description: t("description") };
+  if (pageNum > 1 && (q?.trim() || category)) {
+    titlePart = `${titlePart} · ${th("pageTitle", { page: pageNum })}`;
+  }
+
+  return {
+    title: `${titlePart} · ${t("title")}`,
+    description,
+  };
 }
 
 export default async function HomePage({
