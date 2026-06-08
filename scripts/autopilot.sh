@@ -44,6 +44,10 @@ smoke() {
   log "smoke /ko/challenges/invalid/edit → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/challenges/invalid/solutions/new" || echo "000")
+  log "smoke /ko/challenges/invalid/solutions/new → ${code}"
+  [[ "$code" == "404" ]] || ok=1
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/challenges/invalid/solutions/invalid/edit" || echo "000")
   log "smoke /ko/challenges/invalid/solutions/invalid/edit → ${code}"
   [[ "$code" == "404" ]] || ok=1

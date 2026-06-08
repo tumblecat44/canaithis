@@ -40,6 +40,12 @@ export const authConfig = {
       if (challengeEditMatch && !isValidUserId(challengeEditMatch[1]!)) {
         return new NextResponse(null, { status: 404 });
       }
+      const solutionNewMatch = pathname.match(
+        /^\/challenges\/([^/]+)\/solutions\/new\/?$/,
+      );
+      if (solutionNewMatch && !isValidUserId(solutionNewMatch[1]!)) {
+        return new NextResponse(null, { status: 404 });
+      }
       const solutionEditMatch = pathname.match(
         /^\/challenges\/([^/]+)\/solutions\/([^/]+)\/edit\/?$/,
       );
