@@ -21,6 +21,10 @@ smoke() {
   log "smoke /ko → ${code}"
   [[ "$code" == "200" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/login" || echo "000")
+  log "smoke /ko/login → ${code}"
+  [[ "$code" == "200" ]] || ok=1
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/feed.xml" || echo "000")
   log "smoke /feed.xml → ${code}"
   [[ "$code" == "200" ]] || ok=1

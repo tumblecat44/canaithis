@@ -17,6 +17,12 @@ jobs:
           echo "/ko → $code"
           test "$code" = "200"
 
+      - name: Check login page
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/login)
+          echo "/ko/login → $code"
+          test "$code" = "200"
+
       - name: Check RSS feed
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/feed.xml)
