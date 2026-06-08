@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { unstable_noStore as noStore } from "next/cache";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -13,6 +14,20 @@ export const dynamic = "force-dynamic";
 type NewChallengePageProps = {
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: Pick<NewChallengePageProps, "params">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "challenge" });
+  const meta = await getTranslations({ locale, namespace: "meta" });
+
+  return {
+    title: `${t("newTitle")} · ${meta("title")}`,
+    description: t("newSubtitle"),
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function NewChallengePage({
   params,
