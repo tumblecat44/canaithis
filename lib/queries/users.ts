@@ -1,6 +1,18 @@
+import { cache } from "react";
+
 import { prisma } from "@/lib/prisma";
 
-export async function getPublicUser(userId: string) {
+const CUID_RE = /^c[a-z0-9]{20,}$/i;
+
+export function isValidUserId(userId: string) {
+  return CUID_RE.test(userId);
+}
+
+export const getPublicUser = cache(async function getPublicUser(userId: string) {
+  if (!isValidUserId(userId)) {
+    return null;
+  }
+
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: {
@@ -40,7 +52,7 @@ export async function getPublicUser(userId: string) {
   });
 
   return { ...user, likesReceived };
-}
+});
 
 export async function incrementChallengeView(challengeId: string) {
   await prisma.challenge.update({

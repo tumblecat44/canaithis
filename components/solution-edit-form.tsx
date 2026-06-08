@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 
 import { updateSolution } from "@/actions/solutions";
+import { DemoUrlPreview } from "@/components/demo-url-preview";
 import { ShellCard } from "@/components/design/shell-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +33,7 @@ export function SolutionEditForm({
   const t = useTranslations("challenge");
   const router = useRouter();
   const [state, formAction, pending] = useActionState(updateSolution, null);
+  const [demoUrl, setDemoUrl] = useState(defaultValues.demoUrl);
 
   useEffect(() => {
     if (state?.ok && onSuccessNavigateBack) {
@@ -74,9 +76,11 @@ export function SolutionEditForm({
             name="demoUrl"
             type="url"
             required
-            defaultValue={defaultValues.demoUrl}
+            value={demoUrl}
+            onChange={(e) => setDemoUrl(e.target.value)}
             className="rounded-xl"
           />
+          <DemoUrlPreview url={demoUrl} />
         </div>
         {state && !state.ok ? (
           <p className="text-sm text-destructive">{state.error}</p>

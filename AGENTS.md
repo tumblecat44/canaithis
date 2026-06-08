@@ -115,11 +115,17 @@ This version has breaking changes — APIs, conventions, and file structure may 
   3. `scripts/work-queue.json` — 기능 구현 큐 (에이전트 턴이 소비)
 - **다시 하지 마라**: “계속 돌린다”고 말만 하기. **스크립트/CI를 띄우거나** `work-queue.json` pending을 줄이는 커밋으로 증명.
 
+### [2026-06-08] #14 — work-queue 2건 처리 + continuous 데몬
+
+- **이 턴**: `not-found-user`(cuid 검증·`generateMetadata`·전용 not-found·404 smoke), `challenge-edit-author`+작성 폼 `ImageUrlPreview`, `continuous.sh`+`work-queue-watch.sh`.
+- **다시 하지 마라**: “멈추지 마”에 **설명만** 하고 `work-queue.json` pending을 안 줄이기.
+- **다음 pending**: `solution-edit-preview`, `profile-public-link` — 턴 시작 시 `.agent-wake` 또는 queue 확인 후 바로 착수.
+
 **고정 참조**
 ```bash
-nohup bash scripts/autopilot.sh >> .autopilot.log 2>&1 &   # 로컬 무한 smoke
+bash scripts/continuous.sh   # autopilot + work-queue-watch (nohup 내장)
 source scripts/prod-db-urls.sh && node scripts/seed-demo.mjs
 npm run build && git push origin main
 curl -sL https://canaithis.vercel.app/feed.xml | head -1   # <?xml 확인
-curl -sL https://canaithis.vercel.app/ko | grep -c "text-2xl"
+curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/users/clxxxxxxxxxxxxxxxxxxxxxxxxx  # 404
 ```

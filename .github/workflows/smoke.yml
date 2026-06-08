@@ -23,3 +23,9 @@ jobs:
           echo "/feed.xml → $code"
           test "$code" = "200"
           curl -sL https://canaithis.vercel.app/feed.xml | head -1 | grep -q "<?xml"
+
+      - name: Check invalid user 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/users/clxxxxxxxxxxxxxxxxxxxxxxxxx)
+          echo "/ko/users/invalid → $code"
+          test "$code" = "404"

@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { createSolution } from "@/actions/solutions";
+import { DemoUrlPreview } from "@/components/demo-url-preview";
 import { ShellCard } from "@/components/design/shell-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,11 +30,14 @@ export function SolutionForm({ challengeId }: SolutionFormProps) {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<CreateSolutionInput>({
     resolver: zodResolver(createSolutionSchema),
     defaultValues: { challengeId },
   });
+
+  const demoUrl = watch("demoUrl") ?? "";
 
   const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
@@ -105,6 +109,7 @@ export function SolutionForm({ challengeId }: SolutionFormProps) {
           {errors.demoUrl ? (
             <p className="text-sm text-destructive">{errors.demoUrl.message}</p>
           ) : null}
+          <DemoUrlPreview url={demoUrl} />
         </div>
         <Button
           type="submit"

@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { createChallenge } from "@/actions/challenges";
+import { ImageUrlPreview } from "@/components/image-url-preview";
 import { ShellCard } from "@/components/design/shell-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ export function ChallengeForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<ChallengeFormValues>({
     resolver: zodResolver(createChallengeSchema),
@@ -36,6 +38,8 @@ export function ChallengeForm() {
       imageUrl: "",
     },
   });
+
+  const imageUrl = watch("imageUrl") ?? "";
 
   const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
@@ -119,6 +123,7 @@ export function ChallengeForm() {
           {errors.imageUrl ? (
             <p className="text-sm text-destructive">{errors.imageUrl.message}</p>
           ) : null}
+          <ImageUrlPreview url={imageUrl} />
         </div>
         <Button
           type="submit"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { ImageUrlPreview } from "@/components/image-url-preview";
 import { CHALLENGE_CATEGORIES } from "@/lib/constants/categories";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +35,7 @@ export function ChallengeEditForm({
   const router = useRouter();
   const boundUpdate = updateChallenge.bind(null, challengeId);
   const [state, formAction, pending] = useActionState(boundUpdate, null);
+  const [imageUrl, setImageUrl] = useState(defaultValues.imageUrl);
 
   useEffect(() => {
     if (state?.ok) {
@@ -90,9 +92,11 @@ export function ChallengeEditForm({
             name="imageUrl"
             type="url"
             placeholder="https://"
-            defaultValue={defaultValues.imageUrl}
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
             className="rounded-xl"
           />
+          <ImageUrlPreview url={imageUrl} />
         </div>
         {state && !state.ok ? (
           <p className="text-sm text-destructive">

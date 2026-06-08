@@ -69,11 +69,17 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                 .toUpperCase()}
             </div>
           )}
-          <div>
+          <div className="space-y-1">
             <p className="font-semibold">{session.user?.name ?? "User"}</p>
             <p className="text-sm text-muted-foreground">
               {session.user?.email}
             </p>
+            <Link
+              href={`/users/${userId}`}
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              {t("publicProfile")} →
+            </Link>
           </div>
         </ShellCard>
       </Reveal>

@@ -16,6 +16,25 @@ type PublicUserPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
 
+export async function generateMetadata({ params }: PublicUserPageProps) {
+  const { id } = await params;
+  const user = await getPublicUser(id);
+  if (!user) {
+    notFound();
+  }
+  const name = user.name ?? "CanAIThis";
+  return {
+    title: name,
+    description: `${name} on CanAIThis`,
+    openGraph: {
+      title: name,
+      description: `${name} on CanAIThis`,
+      type: "profile",
+      ...(user.image ? { images: [{ url: user.image }] } : {}),
+    },
+  };
+}
+
 export default async function PublicUserPage({ params }: PublicUserPageProps) {
   const { locale, id } = await params;
   setRequestLocale(locale);

@@ -46,3 +46,6 @@ next-env.d.ts
 .serena/
 canaithis-submission.zip
 .autopilot.log
+.work-queue.log
+.continuous.log
+.agent-wake

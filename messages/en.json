@@ -91,7 +91,8 @@
     "addComment": "Comment",
     "deleteComment": "Delete",
     "loginToComment": "Sign in to comment.",
-    "viewCount": "{count} views"
+    "viewCount": "{count} views",
+    "previewDemo": "Preview demo"
   },
   "user": {
     "anonymous": "Anonymous",
@@ -103,7 +104,9 @@
     "solutions": "Solutions",
     "noChallenges": "No challenges posted.",
     "noSolutions": "No solutions submitted.",
-    "likesOnSolution": "{count} likes"
+    "likesOnSolution": "{count} likes",
+    "notFound": "User not found.",
+    "backHome": "Back home"
   },
   "profile": {
     "title": "Profile",
@@ -119,7 +122,8 @@
     "statSolutions": "Solutions",
     "statLikesReceived": "Likes received",
     "myBookmarks": "Saved",
-    "emptyBookmarks": "No saved challenges yet."
+    "emptyBookmarks": "No saved challenges yet.",
+    "publicProfile": "View public profile"
   },
   "login": {
     "title": "Sign in",
