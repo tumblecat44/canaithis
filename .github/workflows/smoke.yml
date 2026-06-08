@@ -169,9 +169,13 @@ jobs:
           echo "/ko/challenges/invalid/solutions/invalid/edit → $code"
           test "$code" = "404"
 
-      - name: Check sitemap includes users
+      - name: Check sitemap includes users and challenges
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/sitemap.xml)
           echo "/sitemap.xml → $code"
           test "$code" = "200"
-          curl -sL https://canaithis.vercel.app/sitemap.xml | grep -q "/users/"
+          sitemap_body=$(curl -sL https://canaithis.vercel.app/sitemap.xml)
+          echo "$sitemap_body" | grep -q "/users/"
+          echo "sitemap → /users/ OK"
+          echo "$sitemap_body" | grep -qE '/challenges/[a-f0-9]{24}'
+          echo "sitemap → /challenges/ detail OK"

@@ -221,10 +221,18 @@ smoke() {
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/sitemap.xml" || echo "000")
   log "smoke /sitemap.xml → ${code}"
   [[ "$code" == "200" ]] || ok=1
-  if curl -sL "${PROD_URL}/sitemap.xml" | grep -q "/users/"; then
+  local sitemap_body
+  sitemap_body=$(curl -sL "${PROD_URL}/sitemap.xml" || true)
+  if echo "$sitemap_body" | grep -q "/users/"; then
     log "smoke sitemap → users OK"
   else
     log "smoke sitemap → no /users/ URLs"
+    ok=1
+  fi
+  if echo "$sitemap_body" | grep -qE '/challenges/[a-f0-9]{24}'; then
+    log "smoke sitemap → challenges OK"
+  else
+    log "smoke sitemap → no /challenges/ detail URLs"
     ok=1
   fi
 
