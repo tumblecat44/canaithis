@@ -27,6 +27,7 @@
     "sortLabel": "정렬",
     "sortLatest": "최신순",
     "sortPopular": "인기순",
+    "sortViews": "조회순",
     "statChallenges": "챌린지",
     "statSolutions": "솔루션",
     "statLikes": "좋아요",
@@ -41,7 +42,10 @@
     "trendingLikes": "좋아요",
     "emptySearchTitle": "검색 결과 없음",
     "emptySearchDescription": "「{query}」에 맞는 챌린지가 없습니다. 다른 키워드를 시도하거나 새 질문을 올려보세요.",
-    "emptyCategoryDescription": "이 카테고리에 챌린지가 없습니다. 첫 번째 질문을 올려보세요."
+    "emptyCategoryDescription": "이 카테고리에 챌린지가 없습니다. 첫 번째 질문을 올려보세요.",
+    "activityTitle": "최근 활동",
+    "activityChallenge": "새 챌린지",
+    "activitySolution": "새 솔루션"
   },
   "challenge": {
     "newTitle": "챌린지 올리기",

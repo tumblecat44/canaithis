@@ -22,6 +22,7 @@ function buildQuery(
   if (q?.trim()) params.set("q", q.trim());
   if (category) params.set("category", category);
   if (sort === "popular") params.set("sort", "popular");
+  if (sort === "views") params.set("sort", "views");
   if (page > 1) params.set("page", String(page));
   const query = params.toString();
   return query ? `?${query}` : "";

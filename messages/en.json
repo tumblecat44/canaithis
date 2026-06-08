@@ -27,6 +27,7 @@
     "sortLabel": "Sort",
     "sortLatest": "Latest",
     "sortPopular": "Popular",
+    "sortViews": "Most viewed",
     "statChallenges": "Challenges",
     "statSolutions": "Solutions",
     "statLikes": "Likes",
@@ -41,7 +42,10 @@
     "trendingLikes": "likes",
     "emptySearchTitle": "No results",
     "emptySearchDescription": "No challenges match \"{query}\". Try another keyword or post a new one.",
-    "emptyCategoryDescription": "No challenges in this category yet. Be the first to post."
+    "emptyCategoryDescription": "No challenges in this category yet. Be the first to post.",
+    "activityTitle": "Recent activity",
+    "activityChallenge": "New challenge",
+    "activitySolution": "New solution"
   },
   "challenge": {
     "newTitle": "Post a challenge",

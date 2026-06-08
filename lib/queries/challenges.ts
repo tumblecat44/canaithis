@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-export type ChallengeSort = "latest" | "popular";
+export type ChallengeSort = "latest" | "popular" | "views";
 
 const PAGE_SIZE = 9;
 
@@ -27,17 +27,26 @@ export async function getChallenges(filters?: {
     ];
   }
 
-  const sort = filters?.sort === "popular" ? "popular" : "latest";
+  const sort: ChallengeSort =
+    filters?.sort === "popular"
+      ? "popular"
+      : filters?.sort === "views"
+        ? "views"
+        : "latest";
   const page = Math.max(1, filters?.page ?? 1);
   const skip = (page - 1) * PAGE_SIZE;
+
+  const orderBy =
+    sort === "popular"
+      ? { solutions: { _count: "desc" as const } }
+      : sort === "views"
+        ? { viewCount: "desc" as const }
+        : { createdAt: "desc" as const };
 
   const [items, total] = await Promise.all([
     prisma.challenge.findMany({
       where,
-      orderBy:
-        sort === "popular"
-          ? { solutions: { _count: "desc" } }
-          : { createdAt: "desc" },
+      orderBy,
       include: {
         author: { select: { id: true, name: true, image: true } },
         _count: { select: { solutions: true } },
@@ -152,6 +161,72 @@ export async function getAllChallengeIds() {
     select: { id: true, createdAt: true },
     orderBy: { createdAt: "desc" },
   });
+}
+
+export async function getRecentActivity(limit = 5) {
+  const [challenges, solutions] = await Promise.all([
+    prisma.challenge.findMany({
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      select: {
+        id: true,
+        title: true,
+        createdAt: true,
+        author: { select: { name: true } },
+      },
+    }),
+    prisma.solution.findMany({
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      select: {
+        id: true,
+        createdAt: true,
+        author: { select: { name: true } },
+        challenge: { select: { id: true, title: true } },
+      },
+    }),
+  ]);
+
+  type ActivityItem =
+    | {
+        type: "challenge";
+        id: string;
+        title: string;
+        createdAt: Date;
+        authorName: string | null;
+        href: string;
+      }
+    | {
+        type: "solution";
+        id: string;
+        title: string;
+        createdAt: Date;
+        authorName: string | null;
+        href: string;
+      };
+
+  const items: ActivityItem[] = [
+    ...challenges.map((c) => ({
+      type: "challenge" as const,
+      id: c.id,
+      title: c.title,
+      createdAt: c.createdAt,
+      authorName: c.author.name,
+      href: `/challenges/${c.id}`,
+    })),
+    ...solutions.map((s) => ({
+      type: "solution" as const,
+      id: s.id,
+      title: s.challenge.title,
+      createdAt: s.createdAt,
+      authorName: s.author.name,
+      href: `/challenges/${s.challenge.id}`,
+    })),
+  ];
+
+  return items
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+    .slice(0, limit);
 }
 
 export async function getTrendingSolutions(limit = 3) {

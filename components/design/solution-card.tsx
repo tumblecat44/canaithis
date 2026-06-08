@@ -59,9 +59,12 @@ export async function SolutionCard({
                 {(solution.author.name ?? "?").slice(0, 1).toUpperCase()}
               </div>
             )}
-            <span className="text-sm font-medium">
+            <Link
+              href={`/users/${solution.author.id}`}
+              className="text-sm font-medium hover:text-primary"
+            >
               {solution.author.name ?? t("by")}
-            </span>
+            </Link>
           </div>
           <span className="text-sm text-muted-foreground">
             {solution._count.likes} {t("likes")}

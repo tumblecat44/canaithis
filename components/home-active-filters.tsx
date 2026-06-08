@@ -19,7 +19,9 @@ export async function HomeActiveFilters({
 }: HomeActiveFiltersProps) {
   const t = await getTranslations("home");
   const tc = await getTranslations("categories");
-  const hasFilters = Boolean(q?.trim() || category || sort === "popular");
+  const hasFilters = Boolean(
+    q?.trim() || category || sort === "popular" || sort === "views",
+  );
 
   if (!hasFilters && total === 0) {
     return null;
@@ -45,6 +47,11 @@ export async function HomeActiveFilters({
           {sort === "popular" ? (
             <Badge variant="secondary" className="rounded-full px-3 py-1">
               {t("sortPopular")}
+            </Badge>
+          ) : null}
+          {sort === "views" ? (
+            <Badge variant="secondary" className="rounded-full px-3 py-1">
+              {t("sortViews")}
             </Badge>
           ) : null}
           <Link

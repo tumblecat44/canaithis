@@ -46,13 +46,20 @@ export function HomeFilters({
           <select
             id="sort"
             name="sort"
-            defaultValue={sort === "popular" ? "popular" : "latest"}
+            defaultValue={
+              sort === "popular"
+                ? "popular"
+                : sort === "views"
+                  ? "views"
+                  : "latest"
+            }
             className={cn(
               "h-9 w-full rounded-xl border border-input bg-background px-3 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
             )}
           >
             <option value="latest">{t("sortLatest")}</option>
             <option value="popular">{t("sortPopular")}</option>
+            <option value="views">{t("sortViews")}</option>
           </select>
         </div>
         <div className="w-full space-y-2 md:w-48">

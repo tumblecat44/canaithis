@@ -9,6 +9,7 @@ import { HomeActiveFilters } from "@/components/home-active-filters";
 import { HomeFilters } from "@/components/home-filters";
 import { HomePagination } from "@/components/home-pagination";
 import { HomeStats } from "@/components/home-stats";
+import { RecentActivity } from "@/components/recent-activity";
 import { TrendingSolutions } from "@/components/trending-solutions";
 import {
   getChallenges,
@@ -35,7 +36,11 @@ export async function HomeFeed({
 
   const t = await getTranslations("home");
   const challengeSort: ChallengeSort =
-    sort === "popular" ? "popular" : "latest";
+    sort === "popular"
+      ? "popular"
+      : sort === "views"
+        ? "views"
+        : "latest";
   const pageNum = Math.max(1, Number(page) || 1);
   const feed = await getChallenges({
     q,
@@ -77,10 +82,15 @@ export async function HomeFeed({
         />
       </Reveal>
 
-      {!q && !category && pageNum === 1 ? (
-        <Reveal delay={0.07}>
-          <TrendingSolutions />
-        </Reveal>
+      {!q && !category && pageNum === 1 && challengeSort === "latest" ? (
+        <>
+          <Reveal delay={0.07}>
+            <TrendingSolutions />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <RecentActivity locale={locale} />
+          </Reveal>
+        </>
       ) : null}
 
       {challenges.length === 0 ? (
