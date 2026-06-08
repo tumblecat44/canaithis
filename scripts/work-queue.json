@@ -2,12 +2,13 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "challenge-not-found-meta",
-      "task": "challenges/[id] not-found 페이지 title·description 메타",
+      "id": "challenge-not-found-smoke",
+      "task": "autopilot smoke에 /ko/challenges/invalid 404 검증 추가",
       "status": "pending"
     }
   ],
   "done": [
+    "challenge-not-found-meta",
     "solution-new-meta",
     "login-page-meta",
     "feed-xml-middleware",

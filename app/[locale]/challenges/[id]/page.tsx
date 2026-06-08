@@ -45,7 +45,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "meta" });
 
   if (!challenge) {
-    return { title: t("title") };
+    notFound();
   }
 
   const description = challenge.description.slice(0, 160);

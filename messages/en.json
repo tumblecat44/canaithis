@@ -75,6 +75,8 @@
     "liked": "Liked",
     "noSolutions": "No solutions yet.",
     "notFound": "Challenge not found.",
+    "notFoundTitle": "Challenge not found",
+    "notFoundDescription": "The challenge you requested does not exist or may have been removed.",
     "editSolution": "Edit solution",
     "editSolutionSubtitle": "Update the content, GitHub, and demo URLs.",
     "saveSolution": "Save",
