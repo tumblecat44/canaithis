@@ -6,6 +6,7 @@ import { EmptyState } from "@/components/design/empty-state";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { HomeFilters } from "@/components/home-filters";
+import { HomePagination } from "@/components/home-pagination";
 import { HomeStats } from "@/components/home-stats";
 import {
   getChallenges,
@@ -18,15 +19,29 @@ type HomeFeedProps = {
   q?: string;
   category?: string;
   sort?: string;
+  page?: string;
 };
 
-export async function HomeFeed({ locale, q, category, sort }: HomeFeedProps) {
+export async function HomeFeed({
+  locale,
+  q,
+  category,
+  sort,
+  page,
+}: HomeFeedProps) {
   setRequestLocale(locale);
 
   const t = await getTranslations("home");
   const challengeSort: ChallengeSort =
     sort === "popular" ? "popular" : "latest";
-  const challenges = await getChallenges({ q, category, sort: challengeSort });
+  const pageNum = Math.max(1, Number(page) || 1);
+  const feed = await getChallenges({
+    q,
+    category,
+    sort: challengeSort,
+    page: pageNum,
+  });
+  const { items: challenges, totalPages } = feed;
 
   return (
     <div className="space-y-10">
@@ -43,7 +58,12 @@ export async function HomeFeed({ locale, q, category, sort }: HomeFeedProps) {
       </Reveal>
 
       <Reveal delay={0.05}>
-        <HomeFilters q={q} category={category} sort={sort} />
+        <HomeFilters
+          q={q}
+          category={category}
+          sort={sort}
+          page={page}
+        />
       </Reveal>
 
       {challenges.length === 0 ? (
@@ -74,6 +94,16 @@ export async function HomeFeed({ locale, q, category, sort }: HomeFeedProps) {
           ))}
         </div>
       )}
+
+      <Reveal delay={0.1}>
+        <HomePagination
+          page={pageNum}
+          totalPages={totalPages}
+          q={q}
+          category={category}
+          sort={sort}
+        />
+      </Reveal>
 
       <Reveal delay={0.12}>
         <p className="text-center text-sm text-muted-foreground">

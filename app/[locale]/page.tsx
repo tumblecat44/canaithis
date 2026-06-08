@@ -13,6 +13,7 @@ type HomePageProps = {
     q?: string;
     category?: string;
     sort?: string;
+    page?: string;
   }>;
 };
 
@@ -23,7 +24,7 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const { login, q, category, sort } = await searchParams;
+  const { login, q, category, sort, page } = await searchParams;
   const t = await getTranslations("home");
   const nav = await getTranslations("nav");
 
@@ -41,7 +42,13 @@ export default async function HomePage({
         </p>
       )}
       <Suspense fallback={<HomeFeedSkeleton />}>
-        <HomeFeed locale={locale} q={q} category={category} sort={sort} />
+        <HomeFeed
+          locale={locale}
+          q={q}
+          category={category}
+          sort={sort}
+          page={page}
+        />
       </Suspense>
     </div>
   );

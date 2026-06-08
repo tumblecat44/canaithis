@@ -2,10 +2,13 @@ import { prisma } from "@/lib/prisma";
 
 export type ChallengeSort = "latest" | "popular";
 
+const PAGE_SIZE = 9;
+
 export async function getChallenges(filters?: {
   q?: string;
   category?: string;
   sort?: ChallengeSort;
+  page?: number;
 }) {
   const where: {
     category?: string;
@@ -25,18 +28,33 @@ export async function getChallenges(filters?: {
   }
 
   const sort = filters?.sort === "popular" ? "popular" : "latest";
+  const page = Math.max(1, filters?.page ?? 1);
+  const skip = (page - 1) * PAGE_SIZE;
 
-  return prisma.challenge.findMany({
-    where,
-    orderBy:
-      sort === "popular"
-        ? { solutions: { _count: "desc" } }
-        : { createdAt: "desc" },
-    include: {
-      author: { select: { id: true, name: true, image: true } },
-      _count: { select: { solutions: true } },
-    },
-  });
+  const [items, total] = await Promise.all([
+    prisma.challenge.findMany({
+      where,
+      orderBy:
+        sort === "popular"
+          ? { solutions: { _count: "desc" } }
+          : { createdAt: "desc" },
+      include: {
+        author: { select: { id: true, name: true, image: true } },
+        _count: { select: { solutions: true } },
+      },
+      skip,
+      take: PAGE_SIZE,
+    }),
+    prisma.challenge.count({ where }),
+  ]);
+
+  return {
+    items,
+    total,
+    page,
+    pageSize: PAGE_SIZE,
+    totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)),
+  };
 }
 
 export async function getChallengeById(id: string) {

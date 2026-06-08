@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
 import { auth } from "@/auth";
+import { deleteChallenge } from "@/actions/challenges";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { SolutionCard } from "@/components/design/solution-card";
@@ -93,15 +94,33 @@ export default async function ChallengeDetailPage({
             <div className="flex flex-wrap items-center gap-2">
               <ShareButton title={challenge.title} />
               {session?.user?.id === challenge.authorId ? (
-                <Link
-                  href={`/challenges/${challenge.id}/edit`}
-                  className={cn(
-                    buttonVariants({ variant: "outline", size: "sm" }),
-                    "rounded-full",
-                  )}
-                >
-                  {t("editChallenge")}
-                </Link>
+                <>
+                  <Link
+                    href={`/challenges/${challenge.id}/edit`}
+                    className={cn(
+                      buttonVariants({ variant: "outline", size: "sm" }),
+                      "rounded-full",
+                    )}
+                  >
+                    {t("editChallenge")}
+                  </Link>
+                  <form
+                    action={async () => {
+                      "use server";
+                      await deleteChallenge(challenge.id);
+                    }}
+                  >
+                    <button
+                      type="submit"
+                      className={cn(
+                        buttonVariants({ variant: "destructive", size: "sm" }),
+                        "rounded-full",
+                      )}
+                    >
+                      {t("delete")}
+                    </button>
+                  </form>
+                </>
               ) : null}
             </div>
           </div>

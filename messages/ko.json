@@ -30,7 +30,11 @@
     "statChallenges": "챌린지",
     "statSolutions": "솔루션",
     "statLikes": "좋아요",
-    "statMembers": "멤버"
+    "statMembers": "멤버",
+    "paginationLabel": "페이지 이동",
+    "prevPage": "이전",
+    "nextPage": "다음",
+    "pageOf": "{page} / {total}"
   },
   "challenge": {
     "newTitle": "챌린지 올리기",

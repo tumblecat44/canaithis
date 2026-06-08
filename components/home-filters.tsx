@@ -11,10 +11,12 @@ export function HomeFilters({
   q,
   category,
   sort,
+  page,
 }: {
   q?: string;
   category?: string;
   sort?: string;
+  page?: string;
 }) {
   const t = useTranslations("home");
   const tc = useTranslations("categories");
@@ -22,6 +24,9 @@ export function HomeFilters({
   return (
     <ShellCard innerClassName="p-4 md:p-5">
       <form method="get" className="flex flex-col gap-4 md:flex-row md:items-end">
+        {page && Number(page) > 1 ? (
+          <input type="hidden" name="page" value={page} />
+        ) : null}
         <div className="flex-1 space-y-2">
           <label htmlFor="q" className="sr-only">
             {t("searchPlaceholder")}

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { ArrowUpRightIcon, ChatCircleIcon } from "@phosphor-icons/react/dist/ssr";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { ShellCard } from "@/components/design/shell-card";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +30,7 @@ export async function ChallengeCard({
   className,
 }: ChallengeCardProps) {
   const t = await getTranslations();
+  const locale = await getLocale();
   const excerpt =
     challenge.description.length > 140
       ? `${challenge.description.slice(0, 140)}…`
@@ -78,10 +79,19 @@ export async function ChallengeCard({
             {excerpt}
           </p>
           <div className="flex items-center justify-between gap-3 pt-1">
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <ChatCircleIcon weight="light" className="size-4" />
-              {challenge._count.solutions} {t("home.solutions")}
-            </span>
+            <div className="flex flex-col gap-0.5 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <ChatCircleIcon weight="light" className="size-4" />
+                {challenge._count.solutions} {t("home.solutions")}
+              </span>
+              <span>
+                {challenge.author.name ?? t("challenge.by")} ·{" "}
+                {new Intl.DateTimeFormat(locale, {
+                  month: "short",
+                  day: "numeric",
+                }).format(challenge.createdAt)}
+              </span>
+            </div>
             <span className="inline-flex size-8 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-500 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-px">
               <ArrowUpRightIcon weight="light" className="size-4" />
             </span>

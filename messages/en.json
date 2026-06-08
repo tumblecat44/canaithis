@@ -30,7 +30,11 @@
     "statChallenges": "Challenges",
     "statSolutions": "Solutions",
     "statLikes": "Likes",
-    "statMembers": "Members"
+    "statMembers": "Members",
+    "paginationLabel": "Pagination",
+    "prevPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "{page} / {total}"
   },
   "challenge": {
     "newTitle": "Post a challenge",
