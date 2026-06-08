@@ -76,6 +76,38 @@ smoke() {
     ok=1
   fi
 
+  local challenge_id
+  challenge_id=$(
+    curl -sL "${PROD_URL}/feed.xml" \
+      | grep -oE 'challenges/[a-f0-9]{24}' \
+      | head -1 \
+      | sed 's|challenges/||' \
+      || true
+  )
+  if [[ -z "$challenge_id" ]]; then
+    log "smoke solution-new redirect → no challenge id from feed.xml"
+    ok=1
+  else
+    hdr=$(mktemp)
+    code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "${PROD_URL}/ko/challenges/${challenge_id}/solutions/new" || echo "000")
+    location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
+    rm -f "$hdr"
+    log "smoke /ko/challenges/${challenge_id}/solutions/new → ${code} ${location:-}"
+    [[ "$code" == "307" ]] || ok=1
+    if echo "$location" | grep -qi "/login"; then
+      log "smoke solution-new redirect → login OK"
+    else
+      log "smoke solution-new redirect → not /login"
+      ok=1
+    fi
+    if echo "$location" | grep -qi "callbackUrl"; then
+      log "smoke solution-new redirect → callbackUrl OK"
+    else
+      log "smoke solution-new redirect → no callbackUrl"
+      ok=1
+    fi
+  fi
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/users/not-a-valid-user" || echo "000")
   log "smoke /ko/users/invalid → ${code}"
   [[ "$code" == "404" ]] || ok=1
