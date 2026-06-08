@@ -31,6 +31,8 @@ type ChallengeCardProps = {
   highlightQuery?: string;
   /** Overlay link — card body navigates to challenge; author link stays separate. */
   fullCardClick?: boolean;
+  /** Interactive controls (e.g. bookmark) — use with fullCardClick + pointer-events-auto. */
+  actions?: React.ReactNode;
 };
 
 export async function ChallengeCard({
@@ -39,6 +41,7 @@ export async function ChallengeCard({
   className,
   highlightQuery,
   fullCardClick = false,
+  actions,
 }: ChallengeCardProps) {
   const t = await getTranslations();
   const locale = await getLocale();
@@ -140,9 +143,19 @@ export async function ChallengeCard({
                 }).format(challenge.createdAt)}
               </span>
             </div>
-            <span className="inline-flex size-8 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-500 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-px">
-              <ArrowUpRightIcon weight="light" className="size-4" />
-            </span>
+            {actions ? (
+              <div
+                className={cn(
+                  fullCardClick && "pointer-events-auto relative z-10",
+                )}
+              >
+                {actions}
+              </div>
+            ) : (
+              <span className="inline-flex size-8 items-center justify-center rounded-full bg-primary/10 text-primary transition-all duration-500 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-px">
+                <ArrowUpRightIcon weight="light" className="size-4" />
+              </span>
+            )}
           </div>
         </div>
       </ShellCard>

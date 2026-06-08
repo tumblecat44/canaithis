@@ -14,6 +14,7 @@ import { Reveal } from "@/components/design/reveal";
 import { ShellCard } from "@/components/design/shell-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { buttonVariants } from "@/components/ui/button";
+import { BookmarkButton } from "@/components/bookmark-button";
 import { ChallengeCard } from "@/components/design/challenge-card";
 import { ProfileChallengeCard } from "@/components/design/profile-challenge-card";
 import { ProfileSolutionCard } from "@/components/design/profile-solution-card";
@@ -209,6 +210,12 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                   key={b.id}
                   challenge={b.challenge}
                   fullCardClick
+                  actions={
+                    <BookmarkButton
+                      challengeId={b.challenge.id}
+                      initialBookmarked
+                    />
+                  }
                 />
               ))}
             </div>
