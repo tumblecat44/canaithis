@@ -115,6 +115,13 @@ This version has breaking changes — APIs, conventions, and file structure may 
   3. `scripts/work-queue.json` — 기능 구현 큐 (에이전트 턴이 소비)
 - **다시 하지 마라**: “계속 돌린다”고 말만 하기. **스크립트/CI를 띄우거나** `work-queue.json` pending을 줄이는 커밋으로 증명.
 
+### [2026-06-08] #16 — grok-loop: 5분마다 headless 하위 세션
+
+- `scripts/grok-loop.sh` — 300초마다 `grok-tick.sh` → `grok -p … --max-turns 25 --permission-mode bypassPermissions`
+- `scripts/continuous.sh`가 grok-loop도 nohup 기동. 로그: `.grok-loop.log`, `.grok-tick.log`
+- **다시 하지 마라**: “에이전트는 턴 끝나면 멈춤”만 말하고 **grok-loop를 안 띄움**.
+- **기동**: `bash scripts/continuous.sh` 또는 `nohup bash scripts/grok-loop.sh >> .grok-loop.log 2>&1 &`
+
 ### [2026-06-08] #15 — “또 멈췄는데” → queue 전부 소비
 
 - **실수 패턴**: 사용자가 “또 멈췄는데” 보낼 때마다 **이전 턴 요약만** 하고 새 커밋 없이 종료.
@@ -129,7 +136,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 **고정 참조**
 ```bash
-bash scripts/continuous.sh   # autopilot + work-queue-watch (nohup 내장)
+bash scripts/continuous.sh   # autopilot + work-queue-watch + grok-loop (nohup 내장)
+nohup bash scripts/grok-loop.sh >> .grok-loop.log 2>&1 &   # 5분마다 grok headless만
 source scripts/prod-db-urls.sh && node scripts/seed-demo.mjs
 npm run build && git push origin main
 curl -sL https://canaithis.vercel.app/feed.xml | head -1   # <?xml 확인

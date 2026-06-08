@@ -49,3 +49,6 @@ canaithis-submission.zip
 .work-queue.log
 .continuous.log
 .agent-wake
+.grok-tick.log
+.grok-loop.log
+.grok-tick.lock

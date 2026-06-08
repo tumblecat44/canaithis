@@ -25,4 +25,5 @@ start_if_missing() {
 log "continuous start"
 start_if_missing "scripts/autopilot.sh" "${ROOT}/scripts/autopilot.sh"
 start_if_missing "scripts/work-queue-watch.sh" "${ROOT}/scripts/work-queue-watch.sh"
-log "continuous ready — tail .continuous.log .autopilot.log .work-queue.log"
+start_if_missing "scripts/grok-loop.sh" "${ROOT}/scripts/grok-loop.sh"
+log "continuous ready — tail .continuous.log .autopilot.log .work-queue.log .grok-loop.log"
