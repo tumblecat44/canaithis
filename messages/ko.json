@@ -65,6 +65,7 @@
     "solutionsTitle": "솔루션",
     "solutionsSubtitle": "좋아요가 많은 답이 위로 올라갑니다.",
     "addSolution": "솔루션 제출",
+    "addSolutionSubtitle": "이 챌린지를 어떻게 풀었는지 코드와 데모 링크와 함께 공유하세요.",
     "content": "설명",
     "githubUrl": "GitHub URL",
     "demoUrl": "데모 URL",

@@ -1,7 +1,6 @@
-import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-
-import { redirect } from "next/navigation";
 
 import { Link } from "@/i18n/navigation";
 
@@ -10,9 +9,30 @@ import { SolutionForm } from "@/components/solution-form";
 import { PageHeader } from "@/components/design/page-header";
 import { getChallengeById } from "@/lib/queries/challenges";
 
+export const dynamic = "force-dynamic";
+
 type NewSolutionPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: Pick<NewSolutionPageProps, "params">): Promise<Metadata> {
+  const { locale, id } = await params;
+  const t = await getTranslations({ locale, namespace: "challenge" });
+  const meta = await getTranslations({ locale, namespace: "meta" });
+  const challenge = await getChallengeById(id);
+
+  const description = challenge
+    ? `${t("addSolutionSubtitle")} — ${challenge.title}`
+    : t("addSolutionSubtitle");
+
+  return {
+    title: `${t("addSolution")} · ${meta("title")}`,
+    description,
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function NewSolutionPage({ params }: NewSolutionPageProps) {
   const { locale, id } = await params;
