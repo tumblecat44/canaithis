@@ -17,6 +17,19 @@ jobs:
           echo "/ko → $code"
           test "$code" = "200"
 
+      - name: Check homepage challenge cards (DB)
+        run: |
+          home_html=$(curl -sL https://canaithis.vercel.app/ko)
+          challenge_id=$(
+            echo "$home_html" \
+              | grep -oE 'challenges/[a-f0-9]{24}' \
+              | grep -v '/new' \
+              | head -1 \
+              | sed 's|challenges/||'
+          )
+          test -n "$challenge_id"
+          echo "/ko challenge card → challenges/${challenge_id}"
+
       - name: Check login page
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/login)
