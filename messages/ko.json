@@ -97,7 +97,8 @@
     "deleteComment": "삭제",
     "loginToComment": "댓글을 남기려면 로그인하세요.",
     "viewCount": "조회 {count}회",
-    "previewDemo": "데모 미리보기"
+    "previewDemo": "데모 미리보기",
+    "previewGithub": "GitHub 미리보기"
   },
   "user": {
     "anonymous": "익명",

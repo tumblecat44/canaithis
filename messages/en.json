@@ -97,7 +97,8 @@
     "deleteComment": "Delete",
     "loginToComment": "Sign in to comment.",
     "viewCount": "{count} views",
-    "previewDemo": "Preview demo"
+    "previewDemo": "Preview demo",
+    "previewGithub": "Preview on GitHub"
   },
   "user": {
     "anonymous": "Anonymous",

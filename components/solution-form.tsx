@@ -8,6 +8,7 @@ import { toast } from "sonner";
 
 import { createSolution } from "@/actions/solutions";
 import { DemoUrlPreview } from "@/components/demo-url-preview";
+import { GithubUrlPreview } from "@/components/github-url-preview";
 import { ShellCard } from "@/components/design/shell-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,6 +38,7 @@ export function SolutionForm({ challengeId }: SolutionFormProps) {
     defaultValues: { challengeId },
   });
 
+  const githubUrl = watch("githubUrl") ?? "";
   const demoUrl = watch("demoUrl") ?? "";
 
   const onSubmit = handleSubmit((data) => {
@@ -96,6 +98,7 @@ export function SolutionForm({ challengeId }: SolutionFormProps) {
           {errors.githubUrl ? (
             <p className="text-sm text-destructive">{errors.githubUrl.message}</p>
           ) : null}
+          <GithubUrlPreview url={githubUrl} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="demoUrl">{t("demoUrl")}</Label>

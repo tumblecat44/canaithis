@@ -7,6 +7,7 @@ import { useEffect } from "react";
 
 import { updateSolution } from "@/actions/solutions";
 import { DemoUrlPreview } from "@/components/demo-url-preview";
+import { GithubUrlPreview } from "@/components/github-url-preview";
 import { ShellCard } from "@/components/design/shell-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,6 +34,7 @@ export function SolutionEditForm({
   const t = useTranslations("challenge");
   const router = useRouter();
   const [state, formAction, pending] = useActionState(updateSolution, null);
+  const [githubUrl, setGithubUrl] = useState(defaultValues.githubUrl);
   const [demoUrl, setDemoUrl] = useState(defaultValues.demoUrl);
 
   useEffect(() => {
@@ -65,9 +67,11 @@ export function SolutionEditForm({
             name="githubUrl"
             type="url"
             required
-            defaultValue={defaultValues.githubUrl}
+            value={githubUrl}
+            onChange={(e) => setGithubUrl(e.target.value)}
             className="rounded-xl"
           />
+          <GithubUrlPreview url={githubUrl} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="demoUrl">{t("demoUrl")}</Label>
