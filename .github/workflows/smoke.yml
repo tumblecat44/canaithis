@@ -76,6 +76,12 @@ jobs:
           echo "/ko/login → $code"
           test "$code" = "200"
 
+      - name: Check English login page
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/en/login)
+          echo "/en/login → $code"
+          test "$code" = "200"
+
       - name: Check profile redirects to login
         run: |
           hdr=$(mktemp)

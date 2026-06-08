@@ -94,6 +94,10 @@ smoke() {
   log "smoke /ko/login → ${code}"
   [[ "$code" == "200" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/en/login" || echo "000")
+  log "smoke /en/login → ${code}"
+  [[ "$code" == "200" ]] || ok=1
+
   local hdr
   hdr=$(mktemp)
   code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "${PROD_URL}/ko/profile" || echo "000")
