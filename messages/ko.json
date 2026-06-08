@@ -110,6 +110,12 @@
     "solutions": "제출한 솔루션",
     "noChallenges": "올린 챌린지가 없습니다.",
     "noSolutions": "제출한 솔루션이 없습니다.",
+    "emptyChallengesDescription": "아직 올린 챌린지가 없어요. 다른 멤버의 챌린지를 둘러보거나 홈으로 돌아가 보세요.",
+    "emptyChallengesBrowseCta": "챌린지 둘러보기",
+    "emptyChallengesHomeCta": "홈으로",
+    "emptySolutionsDescription": "아직 제출한 솔루션이 없어요. 다른 멤버의 챌린지를 둘러보거나 홈으로 돌아가 보세요.",
+    "emptySolutionsBrowseCta": "챌린지 둘러보기",
+    "emptySolutionsHomeCta": "홈으로",
     "likesOnSolution": "좋아요 {count}개",
     "notFound": "사용자를 찾을 수 없습니다.",
     "backHome": "홈으로"

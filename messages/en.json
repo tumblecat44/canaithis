@@ -110,6 +110,12 @@
     "solutions": "Solutions",
     "noChallenges": "No challenges posted.",
     "noSolutions": "No solutions submitted.",
+    "emptyChallengesDescription": "This member has not posted any challenges yet. Browse others or head back home.",
+    "emptyChallengesBrowseCta": "Browse challenges",
+    "emptyChallengesHomeCta": "Back home",
+    "emptySolutionsDescription": "This member has not submitted any solutions yet. Browse challenges or head back home.",
+    "emptySolutionsBrowseCta": "Browse challenges",
+    "emptySolutionsHomeCta": "Back home",
     "likesOnSolution": "{count} likes",
     "notFound": "User not found.",
     "backHome": "Back home"

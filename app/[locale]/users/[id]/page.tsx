@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ChallengeCard } from "@/components/design/challenge-card";
+import { EmptyState } from "@/components/design/empty-state";
 import { ProfileSolutionCard } from "@/components/design/profile-solution-card";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
@@ -109,7 +110,14 @@ export default async function PublicUserPage({ params }: PublicUserPageProps) {
       <section className="space-y-4">
         <h2 className="text-lg font-semibold">{t("challenges")}</h2>
         {user.challenges.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t("noChallenges")}</p>
+          <EmptyState
+            title={t("noChallenges")}
+            description={t("emptyChallengesDescription")}
+            actionLabel={t("emptyChallengesBrowseCta")}
+            actionHref="/?sort=popular"
+            secondaryActionLabel={t("emptyChallengesHomeCta")}
+            secondaryActionHref="/"
+          />
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
             {user.challenges.map((c) => (
@@ -122,7 +130,14 @@ export default async function PublicUserPage({ params }: PublicUserPageProps) {
       <section className="space-y-4">
         <h2 className="text-lg font-semibold">{t("solutions")}</h2>
         {user.solutions.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t("noSolutions")}</p>
+          <EmptyState
+            title={t("noSolutions")}
+            description={t("emptySolutionsDescription")}
+            actionLabel={t("emptySolutionsBrowseCta")}
+            actionHref="/?sort=popular"
+            secondaryActionLabel={t("emptySolutionsHomeCta")}
+            secondaryActionHref="/"
+          />
         ) : (
           <div className="space-y-3">
             {user.solutions.map((s) => (
