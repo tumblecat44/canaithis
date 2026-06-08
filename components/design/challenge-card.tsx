@@ -29,6 +29,8 @@ type ChallengeCardProps = {
   featured?: boolean;
   className?: string;
   highlightQuery?: string;
+  /** Overlay link — card body navigates to challenge; author link stays separate. */
+  fullCardClick?: boolean;
 };
 
 export async function ChallengeCard({
@@ -36,6 +38,7 @@ export async function ChallengeCard({
   featured = false,
   className,
   highlightQuery,
+  fullCardClick = false,
 }: ChallengeCardProps) {
   const t = await getTranslations();
   const locale = await getLocale();
@@ -51,8 +54,15 @@ export async function ChallengeCard({
           "h-full transition-transform duration-500 ease-premium group-hover:-translate-y-0.5",
           featured && "md:min-h-[280px]",
         )}
-        innerClassName="flex h-full flex-col overflow-hidden p-0"
+        innerClassName="relative flex h-full flex-col overflow-hidden p-0"
       >
+        {fullCardClick ? (
+          <Link
+            href={`/challenges/${challenge.id}`}
+            className="absolute inset-0 z-0 rounded-[calc(1rem-0.375rem)]"
+            aria-label={challenge.title}
+          />
+        ) : null}
         {challenge.imageUrl ? (
           <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
             <Image
@@ -64,7 +74,12 @@ export async function ChallengeCard({
             />
           </div>
         ) : null}
-        <div className="flex flex-1 flex-col gap-3 p-5 md:p-6">
+        <div
+          className={cn(
+            "flex flex-1 flex-col gap-3 p-5 md:p-6",
+            fullCardClick && "relative z-[1] pointer-events-none",
+          )}
+        >
           <div className="flex items-center justify-between gap-2">
             <Badge variant="secondary" className="rounded-full">
               {t(`categories.${challenge.category}` as "categories.other")}
@@ -79,14 +94,19 @@ export async function ChallengeCard({
             className={cn(
               "font-semibold tracking-tight text-foreground transition-colors ease-premium",
               featured ? "text-xl md:text-2xl" : "text-lg",
+              fullCardClick && "group-hover:text-primary",
             )}
           >
-            <Link
-              href={`/challenges/${challenge.id}`}
-              className="hover:text-primary"
-            >
+            {fullCardClick ? (
               <HighlightText text={challenge.title} query={highlightQuery} />
-            </Link>
+            ) : (
+              <Link
+                href={`/challenges/${challenge.id}`}
+                className="hover:text-primary"
+              >
+                <HighlightText text={challenge.title} query={highlightQuery} />
+              </Link>
+            )}
           </h2>
           <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
             <HighlightText text={excerpt} query={highlightQuery} />
@@ -106,7 +126,10 @@ export async function ChallengeCard({
               <span>
                 <Link
                   href={`/users/${challenge.author.id}`}
-                  className="relative z-10 hover:text-primary"
+                  className={cn(
+                    "hover:text-primary",
+                    fullCardClick && "pointer-events-auto relative z-10",
+                  )}
                 >
                   {challenge.author.name ?? t("challenge.by")}
                 </Link>{" "}

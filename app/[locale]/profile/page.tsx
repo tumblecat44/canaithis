@@ -205,7 +205,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           ) : (
             <div className="grid gap-4 md:grid-cols-2">
               {bookmarks.map((b) => (
-                <ChallengeCard key={b.id} challenge={b.challenge} />
+                <ChallengeCard
+                  key={b.id}
+                  challenge={b.challenge}
+                  fullCardClick
+                />
               ))}
             </div>
           )}

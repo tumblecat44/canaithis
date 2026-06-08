@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "profile-bookmark-card-actions",
-      "task": "프로필 북마크 탭 ChallengeCard에도 동일한 전체 클릭 패턴 적용 (이미 ChallengeCard 링크 있음 — 호버·접근성 정리)",
+      "id": "profile-bookmark-unbookmark",
+      "task": "프로필 북마크 탭 ChallengeCard에 북마크 해제 버튼 추가 (fullCardClick overlay 위 pointer-events-auto)",
       "status": "pending"
     }
   ],
@@ -19,6 +19,7 @@
     "profile-solutions-links",
     "profile-solution-snippet",
     "profile-solution-challenge-link",
-    "profile-challenge-card-link"
+    "profile-challenge-card-link",
+    "profile-bookmark-card-actions"
   ]
 }
