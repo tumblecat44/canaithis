@@ -108,6 +108,27 @@ smoke() {
     ok=1
   fi
 
+  local first_item
+  first_item=$(echo "$feed_body" | sed -n '/<item>/,/<\/item>/p' | head -20 || true)
+  if echo "$first_item" | grep -qE '<title>[^<]{2,}</title>'; then
+    log "smoke feed.xml item → title OK"
+  else
+    log "smoke feed.xml item → missing or empty title"
+    ok=1
+  fi
+  if echo "$first_item" | grep -qE '<link>https?://[^<]+/challenges/[a-f0-9]{24}</link>'; then
+    log "smoke feed.xml item → link OK"
+  else
+    log "smoke feed.xml item → invalid link"
+    ok=1
+  fi
+  if echo "$first_item" | grep -qE '<guid[^>]*>https?://[^<]+/challenges/[a-f0-9]{24}</guid>'; then
+    log "smoke feed.xml item → guid OK"
+  else
+    log "smoke feed.xml item → invalid guid"
+    ok=1
+  fi
+
   local challenge_id
   challenge_id=$(
     echo "$feed_body" \

@@ -71,6 +71,13 @@ jobs:
           item_count=$(echo "$feed_body" | grep -c '<item>' || true)
           test "$item_count" -ge 1
           echo "feed.xml → ${item_count} RSS item(s) OK"
+          first_item=$(echo "$feed_body" | sed -n '/<item>/,/<\/item>/p' | head -20)
+          echo "$first_item" | grep -qE '<title>[^<]{2,}</title>'
+          echo "feed.xml item → title OK"
+          echo "$first_item" | grep -qE '<link>https?://[^<]+/challenges/[a-f0-9]{24}</link>'
+          echo "feed.xml item → link OK"
+          echo "$first_item" | grep -qE '<guid[^>]*>https?://[^<]+/challenges/[a-f0-9]{24}</guid>'
+          echo "feed.xml item → guid OK"
 
       - name: Check challenge edit redirects to login
         run: |
