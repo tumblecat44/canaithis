@@ -34,6 +34,12 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request }) {
       const pathname = stripLocalePrefix(request.nextUrl.pathname);
+      const challengeEditMatch = pathname.match(
+        /^\/challenges\/([^/]+)\/edit\/?$/,
+      );
+      if (challengeEditMatch && !isValidUserId(challengeEditMatch[1]!)) {
+        return new NextResponse(null, { status: 404 });
+      }
       const solutionEditMatch = pathname.match(
         /^\/challenges\/([^/]+)\/solutions\/([^/]+)\/edit\/?$/,
       );
