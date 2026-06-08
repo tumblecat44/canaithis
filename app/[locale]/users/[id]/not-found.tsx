@@ -1,8 +1,21 @@
-import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: "user" });
+  const meta = await getTranslations({ locale, namespace: "meta" });
+
+  return {
+    title: `${t("notFoundTitle")} · ${meta("title")}`,
+    description: t("notFoundDescription"),
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function UserNotFound() {
   const t = await getTranslations("user");

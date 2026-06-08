@@ -120,6 +120,8 @@
     "emptySolutionsHomeCta": "Back home",
     "likesOnSolution": "{count} likes",
     "notFound": "User not found.",
+    "notFoundTitle": "User not found",
+    "notFoundDescription": "The profile you requested does not exist or may have been removed.",
     "backHome": "Back home",
     "breadcrumbLabel": "Breadcrumb"
   },
