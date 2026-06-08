@@ -22,6 +22,25 @@ smoke() {
   log "smoke /ko → ${code}"
   [[ "$code" == "200" ]] || ok=1
 
+  local home_html
+  home_html=$(curl -sL "${PROD_URL}/ko" || true)
+
+  local home_challenge_id
+  home_challenge_id=$(
+    echo "$home_html" \
+      | grep -oE 'challenges/[a-f0-9]{24}' \
+      | grep -v '/new' \
+      | head -1 \
+      | sed 's|challenges/||' \
+      || true
+  )
+  if [[ -z "$home_challenge_id" ]]; then
+    log "smoke /ko challenge card → none (DB feed empty?)"
+    ok=1
+  else
+    log "smoke /ko challenge card → challenges/${home_challenge_id}"
+  fi
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/login" || echo "000")
   log "smoke /ko/login → ${code}"
   [[ "$code" == "200" ]] || ok=1
@@ -108,20 +127,8 @@ smoke() {
     fi
   fi
 
-  local home_html
-  home_html=$(curl -sL "${PROD_URL}/ko" || true)
-
-  local home_challenge_id
-  home_challenge_id=$(
-    echo "$home_html" \
-      | grep -oE 'challenges/[a-f0-9]{24}' \
-      | grep -v '/new' \
-      | head -1 \
-      | sed 's|challenges/||' \
-      || true
-  )
   if [[ -z "$home_challenge_id" ]]; then
-    log "smoke challenge-edit redirect → no challenge id from /ko"
+    log "smoke challenge-edit redirect → skipped (no challenge id from /ko)"
     ok=1
   else
     hdr=$(mktemp)
