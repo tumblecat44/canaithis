@@ -7,6 +7,29 @@ import { HomeFeed } from "@/components/home-feed";
 import { Link } from "@/i18n/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 
+function siteBase() {
+  return (
+    process.env.AUTH_URL ??
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000")
+  );
+}
+
+function homeCanonicalUrl(params: {
+  q?: string;
+  category?: string;
+  page?: number;
+}) {
+  const search = new URLSearchParams();
+  if (params.q?.trim()) search.set("q", params.q.trim());
+  if (params.category) search.set("category", params.category);
+  const pageNum = Math.max(1, params.page ?? 1);
+  if (pageNum > 1) search.set("page", String(pageNum));
+  const qs = search.toString();
+  return qs ? `${siteBase()}/?${qs}` : `${siteBase()}/`;
+}
+
 type HomePageProps = {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{
@@ -28,6 +51,13 @@ export async function generateMetadata({
   const th = await getTranslations({ locale, namespace: "home" });
   const tc = await getTranslations({ locale, namespace: "categories" });
   const pageNum = Math.max(1, Number(page) || 1);
+  const canonical = homeCanonicalUrl({ q, category, page: pageNum });
+  const ogBase = {
+    locale: locale === "ko" ? "ko_KR" : "en_US",
+    siteName: t("title"),
+    type: "website" as const,
+    url: canonical,
+  };
 
   let titlePart: string;
   let description = t("description");
@@ -41,7 +71,16 @@ export async function generateMetadata({
   } else if (pageNum > 1) {
     titlePart = th("pageTitle", { page: pageNum });
   } else {
-    return { title: t("title"), description };
+    return {
+      title: t("title"),
+      description,
+      alternates: { canonical },
+      openGraph: {
+        ...ogBase,
+        title: t("title"),
+        description,
+      },
+    };
   }
 
   if (pageNum > 1 && (q?.trim() || category)) {
@@ -51,6 +90,12 @@ export async function generateMetadata({
   return {
     title: `${titlePart} · ${t("title")}`,
     description,
+    alternates: { canonical },
+    openGraph: {
+      ...ogBase,
+      title: titlePart,
+      description,
+    },
   };
 }
 

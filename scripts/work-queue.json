@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "home-canonical-meta",
-      "task": "홈 페이지 canonical URL + 기본 OpenGraph url 메타",
+      "id": "login-page-meta",
+      "task": "로그인 페이지 title·robots noindex 메타",
       "status": "pending"
     }
   ],
@@ -27,6 +27,7 @@
     "profile-solutions-empty-cta",
     "public-profile-empty-cta",
     "public-profile-jsonld-breadcrumb",
-    "challenge-jsonld-breadcrumb"
+    "challenge-jsonld-breadcrumb",
+    "home-canonical-meta"
   ]
 }
