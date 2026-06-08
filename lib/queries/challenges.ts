@@ -64,6 +64,32 @@ export async function getUserChallenges(userId: string) {
   });
 }
 
+export async function getRelatedChallenges(
+  challengeId: string,
+  category: string,
+  limit = 3,
+) {
+  return prisma.challenge.findMany({
+    where: {
+      id: { not: challengeId },
+      category,
+    },
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    include: {
+      author: { select: { id: true, name: true, image: true } },
+      _count: { select: { solutions: true } },
+    },
+  });
+}
+
+export async function getAllChallengeIds() {
+  return prisma.challenge.findMany({
+    select: { id: true, createdAt: true },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export async function getCommunityStats() {
   const [challenges, solutions, likes, users] = await Promise.all([
     prisma.challenge.count(),

@@ -60,7 +60,10 @@
     "cancel": "취소",
     "editChallenge": "챌린지 수정",
     "editChallengeSubtitle": "제목, 설명, 카테고리를 업데이트할 수 있습니다.",
-    "saveChallenge": "저장"
+    "saveChallenge": "저장",
+    "share": "공유",
+    "linkCopied": "링크가 복사되었습니다",
+    "relatedTitle": "비슷한 챌린지"
   },
   "profile": {
     "title": "프로필",

@@ -60,7 +60,10 @@
     "cancel": "Cancel",
     "editChallenge": "Edit challenge",
     "editChallengeSubtitle": "Update the title, description, and category.",
-    "saveChallenge": "Save"
+    "saveChallenge": "Save",
+    "share": "Share",
+    "linkCopied": "Link copied",
+    "relatedTitle": "Related challenges"
   },
   "profile": {
     "title": "Profile",

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -9,6 +10,8 @@ import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { SolutionCard } from "@/components/design/solution-card";
 import { ShellCard } from "@/components/design/shell-card";
+import { RelatedChallenges } from "@/components/related-challenges";
+import { ShareButton } from "@/components/share-button";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -17,6 +20,27 @@ import { getChallengeById } from "@/lib/queries/challenges";
 type ChallengeDetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: ChallengeDetailPageProps): Promise<Metadata> {
+  const { id } = await params;
+  const challenge = await getChallengeById(id);
+
+  if (!challenge) {
+    return { title: "CanAIThis" };
+  }
+
+  return {
+    title: `${challenge.title} · CanAIThis`,
+    description: challenge.description.slice(0, 160),
+    openGraph: {
+      title: challenge.title,
+      description: challenge.description.slice(0, 160),
+      images: challenge.imageUrl ? [challenge.imageUrl] : undefined,
+    },
+  };
+}
 
 export default async function ChallengeDetailPage({
   params,
@@ -66,17 +90,20 @@ export default async function ChallengeDetailPage({
                 {t("by")} {challenge.author.name ?? challenge.author.email}
               </span>
             </div>
-            {session?.user?.id === challenge.authorId ? (
-              <Link
-                href={`/challenges/${challenge.id}/edit`}
-                className={cn(
-                  buttonVariants({ variant: "outline", size: "sm" }),
-                  "rounded-full",
-                )}
-              >
-                {t("editChallenge")}
-              </Link>
-            ) : null}
+            <div className="flex flex-wrap items-center gap-2">
+              <ShareButton title={challenge.title} />
+              {session?.user?.id === challenge.authorId ? (
+                <Link
+                  href={`/challenges/${challenge.id}/edit`}
+                  className={cn(
+                    buttonVariants({ variant: "outline", size: "sm" }),
+                    "rounded-full",
+                  )}
+                >
+                  {t("editChallenge")}
+                </Link>
+              ) : null}
+            </div>
           </div>
         </ShellCard>
       </Reveal>
@@ -123,6 +150,11 @@ export default async function ChallengeDetailPage({
       ) : (
         <p className="text-sm text-muted-foreground">{t("loginToLike")}</p>
       )}
+
+      <RelatedChallenges
+        challengeId={challenge.id}
+        category={challenge.category}
+      />
     </div>
   );
 }
