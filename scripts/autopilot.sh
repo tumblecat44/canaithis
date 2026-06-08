@@ -32,7 +32,7 @@ smoke() {
     ok=1
   fi
 
-  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/users/clxxxxxxxxxxxxxxxxxxxxxxxxx" || echo "000")
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/users/not-a-valid-user" || echo "000")
   log "smoke /ko/users/invalid → ${code}"
   [[ "$code" == "404" ]] || ok=1
 

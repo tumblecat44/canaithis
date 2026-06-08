@@ -26,6 +26,6 @@ jobs:
 
       - name: Check invalid user 404
         run: |
-          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/users/clxxxxxxxxxxxxxxxxxxxxxxxxx)
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/users/not-a-valid-user)
           echo "/ko/users/invalid → $code"
           test "$code" = "404"

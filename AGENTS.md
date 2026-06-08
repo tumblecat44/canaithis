@@ -127,5 +127,5 @@ bash scripts/continuous.sh   # autopilot + work-queue-watch (nohup 내장)
 source scripts/prod-db-urls.sh && node scripts/seed-demo.mjs
 npm run build && git push origin main
 curl -sL https://canaithis.vercel.app/feed.xml | head -1   # <?xml 확인
-curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/users/clxxxxxxxxxxxxxxxxxxxxxxxxx  # 404
+curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/users/not-a-valid-user  # 404
 ```

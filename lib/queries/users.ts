@@ -1,12 +1,9 @@
 import { cache } from "react";
 
 import { prisma } from "@/lib/prisma";
+import { isValidUserId } from "@/lib/user-id";
 
-const CUID_RE = /^c[a-z0-9]{20,}$/i;
-
-export function isValidUserId(userId: string) {
-  return CUID_RE.test(userId);
-}
+export { isValidUserId };
 
 export const getPublicUser = cache(async function getPublicUser(userId: string) {
   if (!isValidUserId(userId)) {
