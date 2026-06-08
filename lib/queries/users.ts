@@ -26,7 +26,10 @@ export const getPublicUser = cache(async function getPublicUser(userId: string) 
       },
       solutions: {
         orderBy: { createdAt: "desc" },
-        include: {
+        select: {
+          id: true,
+          githubUrl: true,
+          demoUrl: true,
           challenge: { select: { id: true, title: true } },
           _count: { select: { likes: true } },
         },

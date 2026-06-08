@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { GithubLogoIcon, LinkIcon } from "@phosphor-icons/react/dist/ssr";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { redirect } from "next/navigation";
@@ -157,8 +158,11 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
             </p>
           ) : (
             solutions.map((s) => (
-              <ShellCard key={s.id} innerClassName="flex items-center justify-between gap-4 p-4">
-                <div>
+              <ShellCard
+                key={s.id}
+                innerClassName="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div className="space-y-2">
                   <Link
                     href={`/challenges/${s.challenge.id}`}
                     className="font-medium hover:text-primary"
@@ -168,6 +172,32 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                   <p className="text-xs text-muted-foreground">
                     {t("likeCount", { count: s._count.likes })}
                   </p>
+                  <div className="flex flex-wrap gap-2">
+                    <a
+                      href={s.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        buttonVariants({ variant: "outline", size: "sm" }),
+                        "inline-flex gap-1.5 rounded-full",
+                      )}
+                    >
+                      <GithubLogoIcon weight="light" className="size-4" />
+                      GitHub
+                    </a>
+                    <a
+                      href={s.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        buttonVariants({ variant: "outline", size: "sm" }),
+                        "inline-flex gap-1.5 rounded-full",
+                      )}
+                    >
+                      <LinkIcon weight="light" className="size-4" />
+                      Demo
+                    </a>
+                  </div>
                 </div>
                 <div className="flex shrink-0 flex-wrap gap-2">
                   <Link
