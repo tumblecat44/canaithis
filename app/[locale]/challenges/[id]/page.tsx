@@ -61,6 +61,7 @@ export default async function ChallengeDetailPage({
   setRequestLocale(locale);
   const t = await getTranslations("challenge");
   const tc = await getTranslations("categories");
+  const tu = await getTranslations("user");
   const session = await auth();
   const challenge = await getChallengeById(id);
 
@@ -140,7 +141,7 @@ export default async function ChallengeDetailPage({
                 >
                   {challenge.author.name ?? challenge.author.email}
                 </Link>{" "}
-                ·{" "}
+                · {tu("solutionCount", { count: challenge.author._count.solutions })} ·{" "}
                 {new Intl.DateTimeFormat(locale, {
                   year: "numeric",
                   month: "long",

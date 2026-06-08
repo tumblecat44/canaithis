@@ -27,6 +27,7 @@
     "featured": "주목",
     "search": "검색",
     "searchTitle": "「{query}」 검색",
+    "categoryTitle": "{category} 챌린지",
     "sortLabel": "정렬",
     "sortLatest": "최신순",
     "sortPopular": "인기순",

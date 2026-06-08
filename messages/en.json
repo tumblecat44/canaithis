@@ -27,6 +27,7 @@
     "featured": "Featured",
     "search": "Search",
     "searchTitle": "Search: {query}",
+    "categoryTitle": "{category} challenges",
     "sortLabel": "Sort",
     "sortLatest": "Latest",
     "sortPopular": "Popular",

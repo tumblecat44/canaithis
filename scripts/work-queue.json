@@ -1,23 +1,14 @@
 {
-  "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리. status를 done으로 바꾸고 다음 pending 1개追加.",
+  "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
-    { "id": "category-meta", "task": "카테고리 필터 URL ?category= OG/title 반영", "status": "pending" },
-    { "id": "challenge-author-bio", "task": "챌린지 상세 작성자 카드에 솔루션 수 표시", "status": "pending" }
+    { "id": "pagination-meta", "task": "홈 ?page=2 title에 페이지 번호", "status": "pending" }
   ],
   "done": [
     "feed-xml-middleware",
     "sort-views",
     "recent-activity",
-    "solution-author-link",
-    "bookmarks",
-    "comments",
-    "public-profile",
-    "continuous-daemon",
-    "user-not-found-404",
-    "image-url-preview",
-    "sitemap-users",
-    "footer-sitemap",
-    "og-locale",
+    "category-meta",
+    "challenge-author-solutions",
     "grok-loop-daemon"
   ]
 }

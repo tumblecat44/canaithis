@@ -51,4 +51,4 @@ canaithis-submission.zip
 .agent-wake
 .grok-tick.log
 .grok-loop.log
-.grok-tick.lock
+.grok-tick.pid

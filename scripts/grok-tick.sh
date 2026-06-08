@@ -8,7 +8,7 @@ cd "$ROOT"
 export PATH="${HOME}/.grok/bin:${PATH:-/usr/bin:/bin}"
 GROK="${GROK_BIN:-$(command -v grok 2>/dev/null || echo "${HOME}/.grok/bin/grok")}"
 LOG="${ROOT}/.grok-tick.log"
-LOCK="${ROOT}/.grok-tick.lock"
+PIDFILE="${ROOT}/.grok-tick.pid"
 PROMPT_TMPL="${ROOT}/scripts/grok-tick-prompt.md"
 MAX_TURNS="${GROK_MAX_TURNS:-25}"
 MODEL="${GROK_MODEL:-}"
@@ -72,10 +72,22 @@ run_tick() {
   fi
 }
 
+acquire_lock() {
+  if [[ -f "$PIDFILE" ]]; then
+    local old_pid
+    old_pid="$(cat "$PIDFILE" 2>/dev/null || true)"
+    if [[ -n "$old_pid" ]] && kill -0 "$old_pid" 2>/dev/null; then
+      log "tick skip — pid ${old_pid} still running"
+      return 1
+    fi
+  fi
+  echo $$ >"$PIDFILE"
+  trap 'rm -f "$PIDFILE"' EXIT INT TERM
+  return 0
+}
+
 main() {
-  exec 9>"$LOCK"
-  if ! flock -n 9; then
-    log "tick skip — previous session still running"
+  if ! acquire_lock; then
     exit 0
   fi
   run_tick

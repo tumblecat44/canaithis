@@ -70,7 +70,15 @@ export async function getChallengeById(id: string) {
   return prisma.challenge.findUnique({
     where: { id },
     include: {
-      author: { select: { id: true, name: true, image: true, email: true } },
+      author: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          email: true,
+          _count: { select: { solutions: true } },
+        },
+      },
       solutions: {
         include: {
           author: { select: { id: true, name: true, image: true } },

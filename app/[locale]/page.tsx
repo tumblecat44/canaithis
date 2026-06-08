@@ -23,15 +23,25 @@ export async function generateMetadata({
   searchParams,
 }: HomePageProps): Promise<Metadata> {
   const { locale } = await params;
-  const { q } = await searchParams;
+  const { q, category } = await searchParams;
   const t = await getTranslations({ locale, namespace: "meta" });
   const th = await getTranslations({ locale, namespace: "home" });
+  const tc = await getTranslations({ locale, namespace: "categories" });
 
   if (q?.trim()) {
     const title = th("searchTitle", { query: q.trim() });
     return {
       title: `${title} · ${t("title")}`,
       description: t("description"),
+    };
+  }
+
+  if (category) {
+    const label = tc(category as "other");
+    const title = th("categoryTitle", { category: label });
+    return {
+      title: `${title} · ${t("title")}`,
+      description: th("emptyCategoryDescription"),
     };
   }
 
