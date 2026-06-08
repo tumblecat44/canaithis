@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { isValidUserId } from "@/lib/user-id";
 
 export type ChallengeSort = "latest" | "popular" | "views";
 
@@ -67,6 +68,10 @@ export async function getChallenges(filters?: {
 }
 
 export async function getChallengeById(id: string) {
+  if (!isValidUserId(id)) {
+    return null;
+  }
+
   return prisma.challenge.findUnique({
     where: { id },
     include: {

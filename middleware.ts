@@ -11,11 +11,16 @@ const handleI18nRouting = createIntlMiddleware(routing);
 const { auth } = NextAuth(authConfig);
 
 const USER_PATH_RE = /^\/(ko|en)\/users\/([^/]+)\/?$/;
+const CHALLENGE_PATH_RE = /^\/(ko|en)\/challenges\/([^/]+)\/?$/;
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
   const userMatch = pathname.match(USER_PATH_RE);
   if (userMatch && !isValidUserId(userMatch[2]!)) {
+    return new NextResponse(null, { status: 404 });
+  }
+  const challengeMatch = pathname.match(CHALLENGE_PATH_RE);
+  if (challengeMatch && !isValidUserId(challengeMatch[2]!)) {
     return new NextResponse(null, { status: 404 });
   }
   return handleI18nRouting(req);

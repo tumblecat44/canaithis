@@ -36,6 +36,10 @@ smoke() {
   log "smoke /ko/users/invalid → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/challenges/invalid" || echo "000")
+  log "smoke /ko/challenges/invalid → ${code}"
+  [[ "$code" == "404" ]] || ok=1
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/sitemap.xml" || echo "000")
   log "smoke /sitemap.xml → ${code}"
   [[ "$code" == "200" ]] || ok=1
