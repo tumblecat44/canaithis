@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { redirect } from "next/navigation";
@@ -31,6 +32,20 @@ export const dynamic = "force-dynamic";
 type ProfilePageProps = {
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: Pick<ProfilePageProps, "params">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "profile" });
+  const meta = await getTranslations({ locale, namespace: "meta" });
+
+  return {
+    title: `${t("title")} · ${meta("title")}`,
+    description: meta("description"),
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
   const { locale } = await params;

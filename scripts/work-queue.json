@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "profile-page-meta",
-      "task": "프로필 페이지 title·robots noindex 메타",
+      "id": "challenge-new-meta",
+      "task": "챌린지 작성 페이지 title·robots noindex 메타",
       "status": "pending"
     }
   ],
@@ -29,6 +29,7 @@
     "public-profile-empty-cta",
     "public-profile-jsonld-breadcrumb",
     "challenge-jsonld-breadcrumb",
-    "home-canonical-meta"
+    "home-canonical-meta",
+    "profile-page-meta"
   ]
 }
