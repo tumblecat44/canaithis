@@ -74,6 +74,18 @@ export async function getChallengeById(id: string) {
   });
 }
 
+export async function getUserStats(userId: string) {
+  const [challenges, solutions, likesReceived] = await Promise.all([
+    prisma.challenge.count({ where: { authorId: userId } }),
+    prisma.solution.count({ where: { authorId: userId } }),
+    prisma.like.count({
+      where: { solution: { authorId: userId } },
+    }),
+  ]);
+
+  return { challenges, solutions, likesReceived };
+}
+
 export async function getUserChallenges(userId: string) {
   return prisma.challenge.findMany({
     where: { authorId: userId },

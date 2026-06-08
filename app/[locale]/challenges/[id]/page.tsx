@@ -11,6 +11,7 @@ import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { SolutionCard } from "@/components/design/solution-card";
 import { ShellCard } from "@/components/design/shell-card";
+import { ChallengeStats } from "@/components/challenge-stats";
 import { RelatedChallenges } from "@/components/related-challenges";
 import { ShareButton } from "@/components/share-button";
 import { Badge } from "@/components/ui/badge";
@@ -56,6 +57,11 @@ export default async function ChallengeDetailPage({
   if (!challenge) {
     notFound();
   }
+
+  const totalLikes = challenge.solutions.reduce(
+    (sum, s) => sum + s._count.likes,
+    0,
+  );
 
   return (
     <div className="space-y-10">
@@ -133,17 +139,38 @@ export default async function ChallengeDetailPage({
       </Reveal>
 
       <section className="space-y-6">
-        <div>
+        <div className="space-y-2">
           <h2 className="text-2xl font-semibold tracking-tight">
             {t("solutionsTitle")}
           </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             {t("solutionsSubtitle")}
           </p>
+          <ChallengeStats
+            solutionCount={challenge.solutions.length}
+            totalLikes={totalLikes}
+          />
         </div>
 
         {challenge.solutions.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t("noSolutions")}</p>
+          <ShellCard innerClassName="p-6 text-center">
+            <p className="text-sm text-muted-foreground">{t("noSolutions")}</p>
+            {session?.user ? (
+              <Link
+                href={`/challenges/${challenge.id}/solutions/new`}
+                className={cn(
+                  buttonVariants(),
+                  "mt-4 inline-flex rounded-full",
+                )}
+              >
+                {t("beFirstSolution")}
+              </Link>
+            ) : (
+              <p className="mt-3 text-xs text-muted-foreground">
+                {t("loginToLike")}
+              </p>
+            )}
+          </ShellCard>
         ) : (
           <div className="space-y-4">
             {challenge.solutions.map((solution, i) => (

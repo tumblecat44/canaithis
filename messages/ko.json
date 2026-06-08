@@ -38,7 +38,10 @@
     "resultCount": "{count}개 결과",
     "clearFilters": "필터 초기화",
     "trendingTitle": "인기 솔루션",
-    "trendingLikes": "좋아요"
+    "trendingLikes": "좋아요",
+    "emptySearchTitle": "검색 결과 없음",
+    "emptySearchDescription": "「{query}」에 맞는 챌린지가 없습니다. 다른 키워드를 시도하거나 새 질문을 올려보세요.",
+    "emptyCategoryDescription": "이 카테고리에 챌린지가 없습니다. 첫 번째 질문을 올려보세요."
   },
   "challenge": {
     "newTitle": "챌린지 올리기",
@@ -71,7 +74,10 @@
     "saveChallenge": "저장",
     "share": "공유",
     "linkCopied": "링크가 복사되었습니다",
-    "relatedTitle": "비슷한 챌린지"
+    "relatedTitle": "비슷한 챌린지",
+    "solutionCount": "솔루션 {count}개",
+    "totalLikes": "좋아요 {count}개",
+    "beFirstSolution": "첫 솔루션 올리기"
   },
   "profile": {
     "title": "프로필",
@@ -82,7 +88,10 @@
     "edit": "수정",
     "delete": "삭제",
     "solutionCount": "{count}개 솔루션",
-    "likeCount": "{count}개 좋아요"
+    "likeCount": "{count}개 좋아요",
+    "statChallenges": "챌린지",
+    "statSolutions": "솔루션",
+    "statLikesReceived": "받은 좋아요"
   },
   "login": {
     "title": "로그인",

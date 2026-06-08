@@ -1,8 +1,12 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 
+import { auth } from "@/auth";
+
 export async function SiteFooter() {
   const t = await getTranslations("footer");
+  const nav = await getTranslations("nav");
+  const session = await auth();
 
   return (
     <footer className="border-t border-border/60 px-4 py-8">
@@ -15,6 +19,11 @@ export async function SiteFooter() {
           <Link href="/challenges/new" className="hover:text-primary">
             {t("newChallenge")}
           </Link>
+          {session?.user ? (
+            <Link href="/profile" className="hover:text-primary">
+              {nav("profile")}
+            </Link>
+          ) : null}
         </nav>
       </div>
     </footer>

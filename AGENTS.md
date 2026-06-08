@@ -6,58 +6,54 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ---
 
-## Agent session log (멈출 때마다 갱신)
+## Agent tattoos (낙인 — 절대 덮어쓰지 말 것)
 
-에이전트가 자율 개선 루프를 **멈출 때마다** 아래 **「최신 중단 기록」** 블록을 덮어쓴다.  
-이유 · 당시 상태 · 다음에 할 일을 남겨 다음 세션이 바로 이어가게 한다.
+**규칙**
+- 멈출 때마다 **맨 아래에 항목을追加(append)** 한다. 기존 낙인 수정·삭제·덮어쓰기 금지.
+- 목적: 같은 실수 반복 방지. “다음에 뭐 하지?”가 아니라 **“이거 또 하면 안 됨”**을 머리에 박아 둠.
+- 자율 루프는 **멈추지 않는다**. 낙인은 기록용이지 종료 허가증이 아님.
+- 각 낙인 형식: `### [날짜] #N — 한 줄 제목` → 실수/교훈 → (선택) 당시 상태.
 
-### 최신 중단 기록 — 2026-06-08
+### [2026-06-08] #1 — Vercel DATABASE_URL이 빈 문자열이었다
 
-**왜 멈췄는가**
-- 사용자가 “무한 반복, 절대 멈추지 마”를 요청했으나, 에이전트 턴/컨텍스트 한도와 **사용자 응답 대기** 때문에 사이클 4(필터·트렌딩) 배포 후 자연 종료됨.
-- 배포 검증(`curl` 200, `인기 솔루션`·`3개 결과` 확인)까지 끝냈고, **다음 사이클(북마크·댓글 등)은 시작 전**에 멈춤.
-- Vercel `vercel logs` 백그라운드 작업은 301초 후 exit -1(타임아웃) — 프로덕션 장애 원인은 아님(당시 사이트 200 정상).
+- `vercel env pull`로 확인 시 `DATABASE_URL`/`DIRECT_URL` 값 길이 2 (`""`). 홈 `HomeFeed` 전부 digest 에러.
+- **다시 하지 마라**: 배포 후 `curl` 200만 믿지 말고 **DB 쿼리 성공(챌린지 카드 HTML)** 까지 본다.
+- **교훈**: env 키가 “있음” ≠ “값이 있음”. 프로덕션 DB 연결은 `scripts/prod-db-urls.sh` → `vercel env add`로 세팅.
 
-**당시 프로덕션 상태**
-- URL: https://canaithis.vercel.app
-- DB: Supabase `ktacyhbsahxygwsssczh` (malgun-res와 **public 스키마 공유** — CanAIThis 테이블만 추가됨)
-- Vercel env: `DATABASE_URL`, `DIRECT_URL`, `SUPABASE_PROJECT_REF` 설정 완료 (이전엔 **빈 문자열**이라 홈 피드 전부 실패)
-- 데모 데이터: 챌린지 3 · 솔루션 3 · 멤버 1 (`scripts/seed-demo.mjs`, 이미 데이터 있으면 스킵)
+### [2026-06-08] #2 — Supabase ref `cbuwyfyhiibobgygpkxv`는 죽은 프로젝트
 
-**이번 세션에 배포한 것 (커밋 순)**
-| 커밋 | 내용 |
-|------|------|
-| `74d701f` | DB 복구, 챌린지 수정, 홈 커뮤니티 통계, i18n navigation |
-| `ce9956f` | 공유 버튼, 비슷한 챌린지, 동적 sitemap·OG |
-| `27a0e4d` | 홈 페이지네이션(9개), 카드 작성자·날짜, 상세 삭제 |
-| `cd0aaf8` | 필터 뱃지·결과 수·초기화, 검색 하이라이트, 인기 솔루션 |
+- `scripts/prod-db-urls.sh` 기본값 + malgun `CANAITHIS_SUPABASE_REF` 미설정 시 pooler `tenant/user postgres.cbuwyfyhiibobgygpkxv not found`.
+- **실제 ref**: `ktacyhbsahxygwsssczh` (`$HOME/malgun-res/.env.supabase.local`의 `SUPABASE_PROJECT_REF`).
+- Vercel에 `SUPABASE_PROJECT_REF=ktacyhbsahxygwsssczh`도 같이 넣어 둠.
 
-**다음 세션에서 할 일 (우선순위)**
-1. **프로덕션 스모크** — `curl -sL https://canaithis.vercel.app/ko` → 통계 숫자·챌린지 카드 노출 확인.
-2. **사이클 5 후보** (스키마 없이 가능한 것부터):
-   - 프로필 통계 카드 (내 챌린지/솔루션/받은 좋아요 수)
-   - 홈 `?q=` 검색 UX polish (빈 결과 empty state 문구)
-   - 챌린지 상세 솔루션 수·좋아요 합계 표시
-3. **스키마 마이그레이션 필요 시**:
-   - 북마크(`Bookmark` 모델) 또는 댓글(`Comment`) — `prisma migrate` 로컬에서 `ERR_REQUIRE_ESM`(zeptomatch) 나면 `scripts/apply-migration.mjs` 패턴으로 SQL 직접 적용.
-4. **DB/배포 주의**:
-   - `scripts/prod-db-urls.sh` — ref는 `CANAITHIS_SUPABASE_REF` 또는 `SUPABASE_PROJECT_REF`, 기본 `ktacyhbsahxygwsssczh`. `cbuwyfyhiibobgygpkxv` 쓰면 pooler `tenant not found`.
-   - malgun-res 테이블과 **같은 DB** — CanAIThis 전용 스키마 분리는 아직 안 함; 필요 시 `@@schema("canaithis")` 검토.
-5. **커밋 금지**: `.serena/`, `canaithis-submission.zip` (`.gitignore`에 있음).
+### [2026-06-08] #3 — malgun-res와 DB 공유
 
-**로컬 실행**
+- public 스키마에 `reservations`, `tenants` 등 malgun 테이블과 CanAIThis `User`/`Challenge`/`Solution`/`Like` **공존**.
+- 마이그레이션: `npx prisma migrate deploy` 로컬에서 `ERR_REQUIRE_ESM`(zeptomatch) → **`node scripts/apply-migration.mjs`** 로 SQL 직접 적용.
+- 전용 Supabase 프로젝트 없음(무료 한도). 스키마 분리 필요 시 `@@schema("canaithis")` 검토 — 아직 미적용.
+
+### [2026-06-08] #4 — `.serena/`, `canaithis-submission.zip` 커밋 금지
+
+- 한 번 실수로 커밋됨 → `git rm --cached` + `.gitignore` 추가. **다시 스테이징하지 마라.**
+
+### [2026-06-08] #5 — 세션 로그 덮어쓰기 금지 (사용자 지시)
+
+- “최신 중단 기록” 블록 **덮어쓰기**는 사용자가 거부함. 낙인은 **문신** — 지울수록 같은 자리만 아픔.
+- 멈춤 이유를 적되, **항목追加만** 한다.
+
+### [2026-06-08] #6 — 사이클 4까지 배포했으나 “절대 멈추지 마” 직후 멈춤
+
+- 사이클 4(필터·트렌딩·하이라이트) push·프로덕션 확인 후 **사이클 5 착수 전** 턴 종료. 사용자에게 “계속할까요?” 물으며 멈춤 — **이 패턴 금지**.
+- 프로덕션 당시: https://canaithis.vercel.app/ko 200, 챌린지 3·솔루션 3·멤버 1.
+
+### [2026-06-08] #7 — 사이클 5 착수 (이 턴)
+
+- 상식적 다음 기능(스키마 없이): **프로필 통계**, **챌린지 상세 솔루션·좋아요 합계**, **검색 빈 결과 UX**, **푸터 프로필 링크**.
+- 그 다음(스키마 필요): 북마크 → 댓글. `apply-migration.mjs` 패턴 재사용.
+
+**고정 참조**
 ```bash
-npm install && npm run dev          # .env.local = Prisma Dev 로컬 DB
-source scripts/prod-db-urls.sh      # 프로덕션 DB URL (마이그레이션/시드용)
-node scripts/seed-demo.mjs        # 빈 DB일 때만 데모 삽입
-npm run build && git push origin main   # Vercel 자동 배포
+source scripts/prod-db-urls.sh && node scripts/seed-demo.mjs   # 프로덕션 DB 시드
+npm run build && git push origin main                          # Vercel 배포
+curl -sL https://canaithis.vercel.app/ko | grep -c "text-2xl" # DB+렌더 스모크
 ```
-
----
-
-### 이전 중단 기록 — 2026-06-08 (사이클 3 직후)
-
-**왜 멈췄는가**  
-사이클 3(페이지네이션·상세 삭제) push 후 사용자에게 진행 요약만 전달하고 종료. 프로덕션 배포 대기 중이었음.
-
-**다음에 할 일** → 위 「최신 중단 기록」의 사이클 4 항목을 수행함(완료).

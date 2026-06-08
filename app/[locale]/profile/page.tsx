@@ -9,6 +9,7 @@ import { auth } from "@/auth";
 import { deleteChallenge } from "@/actions/challenges";
 import { deleteSolution } from "@/actions/solutions";
 import { PageHeader } from "@/components/design/page-header";
+import { ProfileStats } from "@/components/profile-stats";
 import { Reveal } from "@/components/design/reveal";
 import { ShellCard } from "@/components/design/shell-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -72,6 +73,10 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
             </p>
           </div>
         </ShellCard>
+      </Reveal>
+
+      <Reveal delay={0.06}>
+        <ProfileStats userId={userId} />
       </Reveal>
 
       <Tabs defaultValue="challenges">

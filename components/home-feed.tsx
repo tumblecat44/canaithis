@@ -86,10 +86,22 @@ export async function HomeFeed({
       {challenges.length === 0 ? (
         <Reveal delay={0.1}>
           <EmptyState
-            title={t("emptyTitle")}
-            description={t("emptyDescription")}
-            actionLabel={t("title")}
-            actionHref="/challenges/new"
+            title={
+              q?.trim() || category
+                ? t("emptySearchTitle")
+                : t("emptyTitle")
+            }
+            description={
+              q?.trim()
+                ? t("emptySearchDescription", { query: q.trim() })
+                : category
+                  ? t("emptyCategoryDescription")
+                  : t("emptyDescription")
+            }
+            actionLabel={
+              q?.trim() || category ? t("clearFilters") : t("title")
+            }
+            actionHref={q?.trim() || category ? "/" : "/challenges/new"}
           />
         </Reveal>
       ) : (

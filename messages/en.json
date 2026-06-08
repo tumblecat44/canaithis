@@ -38,7 +38,10 @@
     "resultCount": "{count} results",
     "clearFilters": "Clear filters",
     "trendingTitle": "Trending solutions",
-    "trendingLikes": "likes"
+    "trendingLikes": "likes",
+    "emptySearchTitle": "No results",
+    "emptySearchDescription": "No challenges match \"{query}\". Try another keyword or post a new one.",
+    "emptyCategoryDescription": "No challenges in this category yet. Be the first to post."
   },
   "challenge": {
     "newTitle": "Post a challenge",
@@ -71,7 +74,10 @@
     "saveChallenge": "Save",
     "share": "Share",
     "linkCopied": "Link copied",
-    "relatedTitle": "Related challenges"
+    "relatedTitle": "Related challenges",
+    "solutionCount": "{count} solutions",
+    "totalLikes": "{count} likes",
+    "beFirstSolution": "Post the first solution"
   },
   "profile": {
     "title": "Profile",
@@ -82,7 +88,10 @@
     "edit": "Edit",
     "delete": "Delete",
     "solutionCount": "{count} solutions",
-    "likeCount": "{count} likes"
+    "likeCount": "{count} likes",
+    "statChallenges": "Challenges",
+    "statSolutions": "Solutions",
+    "statLikesReceived": "Likes received"
   },
   "login": {
     "title": "Sign in",
