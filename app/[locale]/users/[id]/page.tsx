@@ -1,18 +1,13 @@
 import Image from "next/image";
-import { GithubLogoIcon, LinkIcon } from "@phosphor-icons/react/dist/ssr";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import { Link } from "@/i18n/navigation";
-
 import { ChallengeCard } from "@/components/design/challenge-card";
-import { SolutionSnippet } from "@/components/design/solution-snippet";
+import { ProfileSolutionCard } from "@/components/design/profile-solution-card";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { ShellCard } from "@/components/design/shell-card";
-import { buttonVariants } from "@/components/ui/button";
 import { getPublicUser } from "@/lib/queries/users";
-import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -131,44 +126,15 @@ export default async function PublicUserPage({ params }: PublicUserPageProps) {
         ) : (
           <div className="space-y-3">
             {user.solutions.map((s) => (
-              <ShellCard key={s.id} innerClassName="space-y-2 p-4">
-                <Link
-                  href={`/challenges/${s.challenge.id}`}
-                  className="font-medium hover:text-primary"
-                >
-                  {s.challenge.title}
-                </Link>
-                <SolutionSnippet content={s.content} />
-                <p className="text-xs text-muted-foreground">
-                  {t("likesOnSolution", { count: s._count.likes })}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <a
-                    href={s.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      buttonVariants({ variant: "outline", size: "sm" }),
-                      "inline-flex gap-1.5 rounded-full",
-                    )}
-                  >
-                    <GithubLogoIcon weight="light" className="size-4" />
-                    GitHub
-                  </a>
-                  <a
-                    href={s.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      buttonVariants({ variant: "outline", size: "sm" }),
-                      "inline-flex gap-1.5 rounded-full",
-                    )}
-                  >
-                    <LinkIcon weight="light" className="size-4" />
-                    Demo
-                  </a>
-                </div>
-              </ShellCard>
+              <ProfileSolutionCard
+                key={s.id}
+                challengeId={s.challenge.id}
+                challengeTitle={s.challenge.title}
+                content={s.content}
+                githubUrl={s.githubUrl}
+                demoUrl={s.demoUrl}
+                likeLabel={t("likesOnSolution", { count: s._count.likes })}
+              />
             ))}
           </div>
         )}

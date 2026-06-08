@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "profile-solution-challenge-link",
-      "task": "프로필 솔루션 카드 미리보기·제목 클릭 시 챌린지 상세로 이동 (카드 전체 링크 영역)",
+      "id": "profile-challenge-card-link",
+      "task": "프로필 챌린지 탭 카드 전체 클릭 시 챌린지 상세로 이동 (수정·삭제 버튼은 별도)",
       "status": "pending"
     }
   ],
@@ -17,6 +17,7 @@
     "pagination-meta",
     "solution-edit-preview",
     "profile-solutions-links",
-    "profile-solution-snippet"
+    "profile-solution-snippet",
+    "profile-solution-challenge-link"
   ]
 }
