@@ -128,6 +128,18 @@ smoke() {
     log "smoke feed.xml item → invalid guid"
     ok=1
   fi
+  if echo "$first_item" | grep -qE '<pubDate>[A-Za-z]{3}, [0-9]{2} [A-Za-z]{3} [0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2} GMT</pubDate>'; then
+    log "smoke feed.xml item → pubDate OK"
+  else
+    log "smoke feed.xml item → invalid pubDate"
+    ok=1
+  fi
+  if echo "$first_item" | grep -qE '<description>[^<]{2,}</description>'; then
+    log "smoke feed.xml item → description OK"
+  else
+    log "smoke feed.xml item → missing or empty description"
+    ok=1
+  fi
 
   local challenge_id
   challenge_id=$(
