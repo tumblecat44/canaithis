@@ -4,6 +4,10 @@ import { GithubLogoIcon, LinkIcon, HeartIcon } from "@phosphor-icons/react/dist/
 import { getTranslations } from "next-intl/server";
 
 import { toggleLike } from "@/actions/likes";
+import {
+  SolutionComments,
+  type CommentData,
+} from "@/components/solution-comments";
 import { ShellCard } from "@/components/design/shell-card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,18 +20,21 @@ export type SolutionCardData = {
   author: { id: string; name: string | null; image: string | null };
   _count: { likes: number };
   likes: { userId: string }[];
+  comments: CommentData[];
 };
 
 type SolutionCardProps = {
   solution: SolutionCardData;
   challengeId: string;
   currentUserId?: string;
+  locale: string;
 };
 
 export async function SolutionCard({
   solution,
   challengeId,
   currentUserId,
+  locale,
 }: SolutionCardProps) {
   const t = await getTranslations("challenge");
   const liked = currentUserId
@@ -129,6 +136,12 @@ export async function SolutionCard({
             </Link>
           ) : null}
         </div>
+        <SolutionComments
+          solutionId={solution.id}
+          comments={solution.comments}
+          currentUserId={currentUserId}
+          locale={locale}
+        />
       </div>
     </ShellCard>
   );

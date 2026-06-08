@@ -58,6 +58,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - 마이그레이션: `node scripts/apply-bookmarks-migration.mjs` (프로덕션 DB에 적용함). `prisma generate`는 빌드 전 필수.
 - **다음**: 댓글(`Comment`) — 같은 마이그레이션 패턴. 멈추지 말고 바로 착수.
 
+### [2026-06-08] #9 — 사이클 7: 솔루션 댓글
+
+- `Comment` 모델 + `apply-comments-migration.mjs` 프로덕션 적용.
+- 솔루션 카드 하단 댓글 스레드, 작성자 삭제.
+- **다음**: 알림 없이도 괜찮으면 — 챌린지 작성자 공개 프로필(`/users/[id]`), 조회수, RSS. 멈추지 말 것.
+
 **고정 참조**
 ```bash
 source scripts/prod-db-urls.sh && node scripts/seed-demo.mjs   # 프로덕션 DB 시드

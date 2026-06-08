@@ -192,6 +192,7 @@ export default async function ChallengeDetailPage({
                   solution={solution}
                   challengeId={challenge.id}
                   currentUserId={session?.user?.id}
+                  locale={locale}
                 />
               </Reveal>
             ))}

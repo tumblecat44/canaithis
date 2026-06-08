@@ -80,7 +80,13 @@
     "beFirstSolution": "Post the first solution",
     "bookmark": "Save",
     "bookmarked": "Saved",
-    "unbookmarked": "Removed from saved"
+    "unbookmarked": "Removed from saved",
+    "commentsTitle": "Comments",
+    "noComments": "No comments yet.",
+    "commentPlaceholder": "Leave feedback or ask a question.",
+    "addComment": "Comment",
+    "deleteComment": "Delete",
+    "loginToComment": "Sign in to comment."
   },
   "profile": {
     "title": "Profile",

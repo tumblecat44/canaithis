@@ -80,7 +80,13 @@
     "beFirstSolution": "첫 솔루션 올리기",
     "bookmark": "저장",
     "bookmarked": "저장됨",
-    "unbookmarked": "저장 취소됨"
+    "unbookmarked": "저장 취소됨",
+    "commentsTitle": "댓글",
+    "noComments": "아직 댓글이 없습니다.",
+    "commentPlaceholder": "피드백이나 질문을 남겨보세요.",
+    "addComment": "댓글 달기",
+    "deleteComment": "삭제",
+    "loginToComment": "댓글을 남기려면 로그인하세요."
   },
   "profile": {
     "title": "프로필",
