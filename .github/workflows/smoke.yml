@@ -54,6 +54,22 @@ jobs:
           echo "/ko/challenges/${challenge_id} → $code"
           test "$code" = "200"
 
+      - name: Check English homepage challenge cards (DB)
+        run: |
+          en_html=$(curl -sL https://canaithis.vercel.app/en)
+          challenge_id=$(
+            echo "$en_html" \
+              | grep -oE 'challenges/[a-f0-9]{24}' \
+              | grep -v '/new' \
+              | head -1 \
+              | sed 's|challenges/||'
+          )
+          test -n "$challenge_id"
+          echo "/en challenge card → challenges/${challenge_id}"
+          code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/en/challenges/${challenge_id}")
+          echo "/en/challenges/${challenge_id} → $code"
+          test "$code" = "200"
+
       - name: Check login page
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/login)

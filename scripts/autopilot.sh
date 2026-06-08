@@ -71,6 +71,25 @@ smoke() {
     [[ "$code" == "200" ]] || ok=1
   fi
 
+  local en_home_challenge_id
+  en_home_challenge_id=$(
+    echo "$en_html" \
+      | grep -oE 'challenges/[a-f0-9]{24}' \
+      | grep -v '/new' \
+      | head -1 \
+      | sed 's|challenges/||' \
+      || true
+  )
+  if [[ -z "$en_home_challenge_id" ]]; then
+    log "smoke /en challenge card → none (DB feed empty?)"
+    ok=1
+  else
+    log "smoke /en challenge card → challenges/${en_home_challenge_id}"
+    code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/en/challenges/${en_home_challenge_id}" || echo "000")
+    log "smoke /en/challenges/${en_home_challenge_id} → ${code}"
+    [[ "$code" == "200" ]] || ok=1
+  fi
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/login" || echo "000")
   log "smoke /ko/login → ${code}"
   [[ "$code" == "200" ]] || ok=1
