@@ -12,6 +12,8 @@ const { auth } = NextAuth(authConfig);
 
 const USER_PATH_RE = /^\/(ko|en)\/users\/([^/]+)\/?$/;
 const CHALLENGE_PATH_RE = /^\/(ko|en)\/challenges\/([^/]+)\/?$/;
+const SOLUTION_EDIT_PATH_RE =
+  /^\/(ko|en)\/challenges\/([^/]+)\/solutions\/([^/]+)\/edit\/?$/;
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
@@ -21,6 +23,14 @@ export default auth((req) => {
   }
   const challengeMatch = pathname.match(CHALLENGE_PATH_RE);
   if (challengeMatch && !isValidUserId(challengeMatch[2]!)) {
+    return new NextResponse(null, { status: 404 });
+  }
+  const solutionEditMatch = pathname.match(SOLUTION_EDIT_PATH_RE);
+  if (
+    solutionEditMatch &&
+    (!isValidUserId(solutionEditMatch[2]!) ||
+      !isValidUserId(solutionEditMatch[3]!))
+  ) {
     return new NextResponse(null, { status: 404 });
   }
   return handleI18nRouting(req);
