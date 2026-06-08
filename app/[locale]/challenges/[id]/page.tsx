@@ -24,6 +24,15 @@ import {
 } from "@/lib/queries/challenges";
 import { incrementChallengeView } from "@/lib/queries/users";
 
+function siteBase() {
+  return (
+    process.env.AUTH_URL ??
+    (process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000")
+  );
+}
+
 type ChallengeDetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
@@ -40,15 +49,21 @@ export async function generateMetadata({
   }
 
   const description = challenge.description.slice(0, 160);
+  const challengeUrl = `${siteBase()}/challenges/${challenge.id}`;
 
   return {
     title: `${challenge.title} · ${t("title")}`,
     description,
+    alternates: {
+      canonical: challengeUrl,
+    },
     openGraph: {
       locale: locale === "ko" ? "ko_KR" : "en_US",
       siteName: t("title"),
       title: challenge.title,
       description,
+      type: "article",
+      url: challengeUrl,
       images: challenge.imageUrl ? [challenge.imageUrl] : undefined,
     },
   };
@@ -62,6 +77,7 @@ export default async function ChallengeDetailPage({
   const t = await getTranslations("challenge");
   const tc = await getTranslations("categories");
   const tu = await getTranslations("user");
+  const tm = await getTranslations("meta");
   const session = await auth();
   const challenge = await getChallengeById(id);
 
@@ -80,23 +96,41 @@ export default async function ChallengeDetailPage({
     ? await isChallengeBookmarked(session.user.id, challenge.id)
     : false;
 
-  const base =
-    process.env.AUTH_URL ??
-    (process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000");
+  const base = siteBase();
+  const challengeUrl = `${base}/challenges/${challenge.id}`;
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "DiscussionForumPosting",
-    headline: challenge.title,
-    text: challenge.description,
-    datePublished: challenge.createdAt.toISOString(),
-    author: {
-      "@type": "Person",
-      name: challenge.author.name ?? "Anonymous",
-    },
-    url: `${base}/challenges/${challenge.id}`,
-    ...(challenge.imageUrl ? { image: challenge.imageUrl } : {}),
+    "@graph": [
+      {
+        "@type": "DiscussionForumPosting",
+        headline: challenge.title,
+        text: challenge.description,
+        datePublished: challenge.createdAt.toISOString(),
+        author: {
+          "@type": "Person",
+          name: challenge.author.name ?? "Anonymous",
+        },
+        url: challengeUrl,
+        ...(challenge.imageUrl ? { image: challenge.imageUrl } : {}),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: tm("title"),
+            item: base,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: challenge.title,
+            item: challengeUrl,
+          },
+        ],
+      },
+    ],
   };
 
   return (
@@ -105,6 +139,24 @@ export default async function ChallengeDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <nav aria-label={tu("breadcrumbLabel")}>
+        <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+          <li>
+            <Link
+              href="/"
+              className="transition-colors hover:text-primary"
+            >
+              {tm("title")}
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <span aria-current="page" className="text-foreground">
+              {challenge.title}
+            </span>
+          </li>
+        </ol>
+      </nav>
       <Reveal>
         <PageHeader
           eyebrow={tc(challenge.category as "other")}
