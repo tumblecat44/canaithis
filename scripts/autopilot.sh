@@ -25,6 +25,16 @@ smoke() {
   local home_html
   home_html=$(curl -sL "${PROD_URL}/ko" || true)
 
+  local rss_link
+  rss_link=$(echo "$home_html" | grep -oE '<link[^>]*application/rss\+xml[^>]*>' || true)
+  if [[ -n "$rss_link" ]] && echo "$rss_link" | grep -q 'rel="alternate"' \
+    && echo "$rss_link" | grep -qE 'href="[^"]*/feed\.xml"'; then
+    log "smoke /ko head → RSS alternate link OK"
+  else
+    log "smoke /ko head → missing RSS alternate link"
+    ok=1
+  fi
+
   local home_challenge_id
   home_challenge_id=$(
     echo "$home_html" \

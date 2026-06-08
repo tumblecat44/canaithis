@@ -17,6 +17,15 @@ jobs:
           echo "/ko → $code"
           test "$code" = "200"
 
+      - name: Check homepage RSS alternate link
+        run: |
+          home_html=$(curl -sL https://canaithis.vercel.app/ko)
+          rss_link=$(echo "$home_html" | grep -oE '<link[^>]*application/rss\+xml[^>]*>' || true)
+          test -n "$rss_link"
+          echo "$rss_link" | grep -q 'rel="alternate"'
+          echo "$rss_link" | grep -qE 'href="[^"]*/feed\.xml"'
+          echo "/ko head → RSS alternate link OK"
+
       - name: Check homepage challenge cards (DB)
         run: |
           home_html=$(curl -sL https://canaithis.vercel.app/ko)

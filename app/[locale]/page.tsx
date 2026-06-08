@@ -16,6 +16,10 @@ function siteBase() {
   );
 }
 
+function rssAlternateTypes() {
+  return { "application/rss+xml": `${siteBase()}/feed.xml` } as const;
+}
+
 function homeCanonicalUrl(params: {
   q?: string;
   category?: string;
@@ -74,7 +78,7 @@ export async function generateMetadata({
     return {
       title: t("title"),
       description,
-      alternates: { canonical },
+      alternates: { canonical, types: rssAlternateTypes() },
       openGraph: {
         ...ogBase,
         title: t("title"),
@@ -90,7 +94,7 @@ export async function generateMetadata({
   return {
     title: `${titlePart} · ${t("title")}`,
     description,
-    alternates: { canonical },
+    alternates: { canonical, types: rssAlternateTypes() },
     openGraph: {
       ...ogBase,
       title: titlePart,
