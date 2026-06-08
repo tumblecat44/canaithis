@@ -106,9 +106,14 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
         </TabsList>
         <TabsContent value="challenges" className="mt-4 space-y-3">
           {challenges.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("emptyChallenges")}
-            </p>
+            <EmptyState
+              title={t("emptyChallenges")}
+              description={t("emptyChallengesDescription")}
+              actionLabel={t("emptyChallengesPostCta")}
+              actionHref="/challenges/new"
+              secondaryActionLabel={t("emptyChallengesBrowseCta")}
+              secondaryActionHref="/"
+            />
           ) : (
             challenges.map((c) => (
               <ProfileChallengeCard
