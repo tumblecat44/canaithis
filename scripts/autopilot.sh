@@ -35,6 +35,23 @@ smoke() {
     ok=1
   fi
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/en" || echo "000")
+  log "smoke /en → ${code}"
+  [[ "$code" == "200" ]] || ok=1
+
+  local en_html
+  en_html=$(curl -sL "${PROD_URL}/en" || true)
+
+  local en_rss_link
+  en_rss_link=$(echo "$en_html" | grep -oE '<link[^>]*application/rss\+xml[^>]*>' || true)
+  if [[ -n "$en_rss_link" ]] && echo "$en_rss_link" | grep -q 'rel="alternate"' \
+    && echo "$en_rss_link" | grep -qE 'href="[^"]*/feed\.xml"'; then
+    log "smoke /en head → RSS alternate link OK"
+  else
+    log "smoke /en head → missing RSS alternate link"
+    ok=1
+  fi
+
   local home_challenge_id
   home_challenge_id=$(
     echo "$home_html" \

@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-home-en-rss-alternate-link",
-      "task": "autopilot.sh·smoke.yml에 /en HTML head의 RSS alternate link(rel=alternate, type=application/rss+xml, href=/feed.xml) 검증 추가",
+      "id": "smoke-home-en-challenge-cards",
+      "task": "autopilot.sh·smoke.yml에 /en 홈페이지 챌린지 카드·상세 200 검증 추가",
       "status": "pending"
     }
   ],
@@ -63,6 +63,7 @@
     "smoke-feed-rss-item-fields",
     "smoke-feed-rss-item-pubdate",
     "smoke-feed-rss-channel-fields",
-    "smoke-home-rss-alternate-link"
+    "smoke-home-rss-alternate-link",
+    "smoke-home-en-rss-alternate-link"
   ]
 }

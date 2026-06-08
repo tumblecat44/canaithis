@@ -26,6 +26,18 @@ jobs:
           echo "$rss_link" | grep -qE 'href="[^"]*/feed\.xml"'
           echo "/ko head → RSS alternate link OK"
 
+      - name: Check English homepage RSS alternate link
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/en)
+          echo "/en → $code"
+          test "$code" = "200"
+          en_html=$(curl -sL https://canaithis.vercel.app/en)
+          rss_link=$(echo "$en_html" | grep -oE '<link[^>]*application/rss\+xml[^>]*>' || true)
+          test -n "$rss_link"
+          echo "$rss_link" | grep -q 'rel="alternate"'
+          echo "$rss_link" | grep -qE 'href="[^"]*/feed\.xml"'
+          echo "/en head → RSS alternate link OK"
+
       - name: Check homepage challenge cards (DB)
         run: |
           home_html=$(curl -sL https://canaithis.vercel.app/ko)
