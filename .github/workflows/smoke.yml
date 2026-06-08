@@ -29,6 +29,9 @@ jobs:
           )
           test -n "$challenge_id"
           echo "/ko challenge card → challenges/${challenge_id}"
+          code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/ko/challenges/${challenge_id}")
+          echo "/ko/challenges/${challenge_id} → $code"
+          test "$code" = "200"
 
       - name: Check login page
         run: |

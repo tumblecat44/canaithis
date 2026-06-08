@@ -39,6 +39,9 @@ smoke() {
     ok=1
   else
     log "smoke /ko challenge card → challenges/${home_challenge_id}"
+    code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/challenges/${home_challenge_id}" || echo "000")
+    log "smoke /ko/challenges/${home_challenge_id} → ${code}"
+    [[ "$code" == "200" ]] || ok=1
   fi
 
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/login" || echo "000")
