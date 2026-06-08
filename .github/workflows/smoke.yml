@@ -23,6 +23,17 @@ jobs:
           echo "/ko/login → $code"
           test "$code" = "200"
 
+      - name: Check profile redirects to login
+        run: |
+          hdr=$(mktemp)
+          code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "https://canaithis.vercel.app/ko/profile")
+          location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
+          rm -f "$hdr"
+          echo "/ko/profile → $code $location"
+          test "$code" = "307"
+          echo "$location" | grep -qi "/login"
+          echo "$location" | grep -qi "callbackUrl"
+
       - name: Check challenges new redirects to login
         run: |
           hdr=$(mktemp)
