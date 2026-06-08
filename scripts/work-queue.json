@@ -2,12 +2,13 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "login-page-meta",
-      "task": "로그인 페이지 title·robots noindex 메타",
+      "id": "profile-page-meta",
+      "task": "프로필 페이지 title·robots noindex 메타",
       "status": "pending"
     }
   ],
   "done": [
+    "login-page-meta",
     "feed-xml-middleware",
     "sort-views",
     "recent-activity",

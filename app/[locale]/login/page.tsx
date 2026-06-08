@@ -1,14 +1,30 @@
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
 import { signIn } from "@/auth";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { ShellCard } from "@/components/design/shell-card";
 import { Button } from "@/components/ui/button";
-import { getTranslations, setRequestLocale } from "next-intl/server";
 
 type LoginPageProps = {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ callbackUrl?: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: Pick<LoginPageProps, "params">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "login" });
+  const meta = await getTranslations({ locale, namespace: "meta" });
+
+  return {
+    title: `${t("title")} · ${meta("title")}`,
+    description: t("subtitle"),
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function LoginPage({
   params,
