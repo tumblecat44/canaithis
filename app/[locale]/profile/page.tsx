@@ -14,7 +14,9 @@ import { Reveal } from "@/components/design/reveal";
 import { ShellCard } from "@/components/design/shell-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { buttonVariants } from "@/components/ui/button";
+import { ChallengeCard } from "@/components/design/challenge-card";
 import {
+  getUserBookmarks,
   getUserChallenges,
   getUserSolutions,
 } from "@/lib/queries/challenges";
@@ -38,9 +40,10 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     redirect("/login?callbackUrl=/profile");
   }
 
-  const [challenges, solutions] = await Promise.all([
+  const [challenges, solutions, bookmarks] = await Promise.all([
     getUserChallenges(userId),
     getUserSolutions(userId),
+    getUserBookmarks(userId),
   ]);
 
   return (
@@ -86,6 +89,9 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
           </TabsTrigger>
           <TabsTrigger value="solutions" className="rounded-full">
             {t("mySolutions")}
+          </TabsTrigger>
+          <TabsTrigger value="bookmarks" className="rounded-full">
+            {t("myBookmarks")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="challenges" className="mt-4 space-y-3">
@@ -186,6 +192,19 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
                 </div>
               </ShellCard>
             ))
+          )}
+        </TabsContent>
+        <TabsContent value="bookmarks" className="mt-4 space-y-3">
+          {bookmarks.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              {t("emptyBookmarks")}
+            </p>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2">
+              {bookmarks.map((b) => (
+                <ChallengeCard key={b.id} challenge={b.challenge} />
+              ))}
+            </div>
           )}
         </TabsContent>
       </Tabs>

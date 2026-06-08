@@ -74,6 +74,34 @@ export async function getChallengeById(id: string) {
   });
 }
 
+export async function isChallengeBookmarked(
+  userId: string,
+  challengeId: string,
+) {
+  const bookmark = await prisma.bookmark.findUnique({
+    where: {
+      userId_challengeId: { userId, challengeId },
+    },
+    select: { id: true },
+  });
+  return Boolean(bookmark);
+}
+
+export async function getUserBookmarks(userId: string) {
+  return prisma.bookmark.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" },
+    include: {
+      challenge: {
+        include: {
+          author: { select: { id: true, name: true, image: true } },
+          _count: { select: { solutions: true } },
+        },
+      },
+    },
+  });
+}
+
 export async function getUserStats(userId: string) {
   const [challenges, solutions, likesReceived] = await Promise.all([
     prisma.challenge.count({ where: { authorId: userId } }),

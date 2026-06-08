@@ -77,7 +77,10 @@
     "relatedTitle": "Related challenges",
     "solutionCount": "{count} solutions",
     "totalLikes": "{count} likes",
-    "beFirstSolution": "Post the first solution"
+    "beFirstSolution": "Post the first solution",
+    "bookmark": "Save",
+    "bookmarked": "Saved",
+    "unbookmarked": "Removed from saved"
   },
   "profile": {
     "title": "Profile",
@@ -91,7 +94,9 @@
     "likeCount": "{count} likes",
     "statChallenges": "Challenges",
     "statSolutions": "Solutions",
-    "statLikesReceived": "Likes received"
+    "statLikesReceived": "Likes received",
+    "myBookmarks": "Saved",
+    "emptyBookmarks": "No saved challenges yet."
   },
   "login": {
     "title": "Sign in",

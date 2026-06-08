@@ -51,6 +51,13 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - 상식적 다음 기능(스키마 없이): **프로필 통계**, **챌린지 상세 솔루션·좋아요 합계**, **검색 빈 결과 UX**, **푸터 프로필 링크**.
 - 그 다음(스키마 필요): 북마크 → 댓글. `apply-migration.mjs` 패턴 재사용.
 
+### [2026-06-08] #8 — 사이클 5·6 완료, 북마크 스키마 추가
+
+- 사이클 5: 프로필 통계·상세 메트릭·검색 empty·푸터 프로필 (`db6135b`).
+- 사이클 6: `Bookmark` 모델 + 상세 저장 버튼 + 프로필 「저장한 챌린지」탭.
+- 마이그레이션: `node scripts/apply-bookmarks-migration.mjs` (프로덕션 DB에 적용함). `prisma generate`는 빌드 전 필수.
+- **다음**: 댓글(`Comment`) — 같은 마이그레이션 패턴. 멈추지 말고 바로 착수.
+
 **고정 참조**
 ```bash
 source scripts/prod-db-urls.sh && node scripts/seed-demo.mjs   # 프로덕션 DB 시드

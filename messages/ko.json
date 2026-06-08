@@ -77,7 +77,10 @@
     "relatedTitle": "비슷한 챌린지",
     "solutionCount": "솔루션 {count}개",
     "totalLikes": "좋아요 {count}개",
-    "beFirstSolution": "첫 솔루션 올리기"
+    "beFirstSolution": "첫 솔루션 올리기",
+    "bookmark": "저장",
+    "bookmarked": "저장됨",
+    "unbookmarked": "저장 취소됨"
   },
   "profile": {
     "title": "프로필",
@@ -91,7 +94,9 @@
     "likeCount": "{count}개 좋아요",
     "statChallenges": "챌린지",
     "statSolutions": "솔루션",
-    "statLikesReceived": "받은 좋아요"
+    "statLikesReceived": "받은 좋아요",
+    "myBookmarks": "저장한 챌린지",
+    "emptyBookmarks": "저장한 챌린지가 없습니다."
   },
   "login": {
     "title": "로그인",

@@ -19,6 +19,7 @@ model User {
   challenges    Challenge[]
   solutions     Solution[]
   likes         Like[]
+  bookmarks     Bookmark[]
 }
 
 model Account {
@@ -66,6 +67,7 @@ model Challenge {
   createdAt   DateTime   @default(now())
   author      User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   solutions   Solution[]
+  bookmarks   Bookmark[]
 }
 
 model Solution {
@@ -90,4 +92,15 @@ model Like {
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([solutionId, userId])
+}
+
+model Bookmark {
+  id          String   @id @default(cuid())
+  userId      String
+  challengeId String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, challengeId])
 }

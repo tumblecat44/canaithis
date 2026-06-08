@@ -11,13 +11,17 @@ import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { SolutionCard } from "@/components/design/solution-card";
 import { ShellCard } from "@/components/design/shell-card";
+import { BookmarkButton } from "@/components/bookmark-button";
 import { ChallengeStats } from "@/components/challenge-stats";
 import { RelatedChallenges } from "@/components/related-challenges";
 import { ShareButton } from "@/components/share-button";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { getChallengeById } from "@/lib/queries/challenges";
+import {
+  getChallengeById,
+  isChallengeBookmarked,
+} from "@/lib/queries/challenges";
 
 type ChallengeDetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
@@ -62,6 +66,9 @@ export default async function ChallengeDetailPage({
     (sum, s) => sum + s._count.likes,
     0,
   );
+  const bookmarked = session?.user?.id
+    ? await isChallengeBookmarked(session.user.id, challenge.id)
+    : false;
 
   return (
     <div className="space-y-10">
@@ -103,6 +110,12 @@ export default async function ChallengeDetailPage({
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
+              {session?.user ? (
+                <BookmarkButton
+                  challengeId={challenge.id}
+                  initialBookmarked={bookmarked}
+                />
+              ) : null}
               <ShareButton title={challenge.title} />
               {session?.user?.id === challenge.authorId ? (
                 <>
