@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { ArrowUpRightIcon, ChatCircleIcon } from "@phosphor-icons/react/dist/ssr";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { HighlightText } from "@/components/highlight-text";
 import { ShellCard } from "@/components/design/shell-card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -22,12 +23,14 @@ type ChallengeCardProps = {
   challenge: ChallengeCardData;
   featured?: boolean;
   className?: string;
+  highlightQuery?: string;
 };
 
 export async function ChallengeCard({
   challenge,
   featured = false,
   className,
+  highlightQuery,
 }: ChallengeCardProps) {
   const t = await getTranslations();
   const locale = await getLocale();
@@ -73,10 +76,10 @@ export async function ChallengeCard({
               featured ? "text-xl md:text-2xl" : "text-lg",
             )}
           >
-            {challenge.title}
+            <HighlightText text={challenge.title} query={highlightQuery} />
           </h2>
           <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
-            {excerpt}
+            <HighlightText text={excerpt} query={highlightQuery} />
           </p>
           <div className="flex items-center justify-between gap-3 pt-1">
             <div className="flex flex-col gap-0.5 text-xs text-muted-foreground">

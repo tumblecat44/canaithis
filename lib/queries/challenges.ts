@@ -108,6 +108,17 @@ export async function getAllChallengeIds() {
   });
 }
 
+export async function getTrendingSolutions(limit = 3) {
+  return prisma.solution.findMany({
+    orderBy: { likes: { _count: "desc" } },
+    take: limit,
+    include: {
+      challenge: { select: { id: true, title: true } },
+      _count: { select: { likes: true } },
+    },
+  });
+}
+
 export async function getCommunityStats() {
   const [challenges, solutions, likes, users] = await Promise.all([
     prisma.challenge.count(),

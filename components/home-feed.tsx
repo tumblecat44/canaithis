@@ -5,9 +5,11 @@ import { ChallengeCard } from "@/components/design/challenge-card";
 import { EmptyState } from "@/components/design/empty-state";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
+import { HomeActiveFilters } from "@/components/home-active-filters";
 import { HomeFilters } from "@/components/home-filters";
 import { HomePagination } from "@/components/home-pagination";
 import { HomeStats } from "@/components/home-stats";
+import { TrendingSolutions } from "@/components/trending-solutions";
 import {
   getChallenges,
   type ChallengeSort,
@@ -41,7 +43,7 @@ export async function HomeFeed({
     sort: challengeSort,
     page: pageNum,
   });
-  const { items: challenges, totalPages } = feed;
+  const { items: challenges, total, totalPages } = feed;
 
   return (
     <div className="space-y-10">
@@ -66,6 +68,21 @@ export async function HomeFeed({
         />
       </Reveal>
 
+      <Reveal delay={0.06}>
+        <HomeActiveFilters
+          q={q}
+          category={category}
+          sort={sort}
+          total={total}
+        />
+      </Reveal>
+
+      {!q && !category && pageNum === 1 ? (
+        <Reveal delay={0.07}>
+          <TrendingSolutions />
+        </Reveal>
+      ) : null}
+
       {challenges.length === 0 ? (
         <Reveal delay={0.1}>
           <EmptyState
@@ -89,6 +106,7 @@ export async function HomeFeed({
                 challenge={challenge}
                 featured={index === 0}
                 className="h-full"
+                highlightQuery={q}
               />
             </Reveal>
           ))}

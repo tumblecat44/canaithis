@@ -88,7 +88,12 @@ export default async function ChallengeDetailPage({
                 {tc(challenge.category as "other")}
               </Badge>
               <span className="text-sm text-muted-foreground">
-                {t("by")} {challenge.author.name ?? challenge.author.email}
+                {t("by")} {challenge.author.name ?? challenge.author.email} ·{" "}
+                {new Intl.DateTimeFormat(locale, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                }).format(challenge.createdAt)}
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-2">

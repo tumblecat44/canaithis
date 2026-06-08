@@ -34,7 +34,11 @@
     "paginationLabel": "Pagination",
     "prevPage": "Previous",
     "nextPage": "Next",
-    "pageOf": "{page} / {total}"
+    "pageOf": "{page} / {total}",
+    "resultCount": "{count} results",
+    "clearFilters": "Clear filters",
+    "trendingTitle": "Trending solutions",
+    "trendingLikes": "likes"
   },
   "challenge": {
     "newTitle": "Post a challenge",
