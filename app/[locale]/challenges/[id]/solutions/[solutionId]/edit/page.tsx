@@ -1,7 +1,6 @@
-import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { notFound, redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-
-import { redirect } from "next/navigation";
 
 import { Link } from "@/i18n/navigation";
 
@@ -10,9 +9,25 @@ import { SolutionEditForm } from "@/components/solution-edit-form";
 import { PageHeader } from "@/components/design/page-header";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 type EditSolutionPageProps = {
   params: Promise<{ locale: string; id: string; solutionId: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: Pick<EditSolutionPageProps, "params">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "challenge" });
+  const meta = await getTranslations({ locale, namespace: "meta" });
+
+  return {
+    title: `${t("editSolution")} · ${meta("title")}`,
+    description: t("editSolutionSubtitle"),
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function EditSolutionPage({ params }: EditSolutionPageProps) {
   const { locale, id, solutionId } = await params;

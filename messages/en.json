@@ -75,6 +75,7 @@
     "noSolutions": "No solutions yet.",
     "notFound": "Challenge not found.",
     "editSolution": "Edit solution",
+    "editSolutionSubtitle": "Update the content, GitHub, and demo URLs.",
     "saveSolution": "Save",
     "saved": "Saved.",
     "cancel": "Cancel",
