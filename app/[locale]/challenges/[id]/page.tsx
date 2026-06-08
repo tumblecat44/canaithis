@@ -22,6 +22,7 @@ import {
   getChallengeById,
   isChallengeBookmarked,
 } from "@/lib/queries/challenges";
+import { incrementChallengeView } from "@/lib/queries/users";
 
 type ChallengeDetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
@@ -62,6 +63,9 @@ export default async function ChallengeDetailPage({
     notFound();
   }
 
+  await incrementChallengeView(id);
+  challenge.viewCount += 1;
+
   const totalLikes = challenge.solutions.reduce(
     (sum, s) => sum + s._count.likes,
     0,
@@ -101,7 +105,14 @@ export default async function ChallengeDetailPage({
                 {tc(challenge.category as "other")}
               </Badge>
               <span className="text-sm text-muted-foreground">
-                {t("by")} {challenge.author.name ?? challenge.author.email} ·{" "}
+                {t("by")}{" "}
+                <Link
+                  href={`/users/${challenge.author.id}`}
+                  className="font-medium text-foreground hover:text-primary"
+                >
+                  {challenge.author.name ?? challenge.author.email}
+                </Link>{" "}
+                ·{" "}
                 {new Intl.DateTimeFormat(locale, {
                   year: "numeric",
                   month: "long",
@@ -162,6 +173,7 @@ export default async function ChallengeDetailPage({
           <ChallengeStats
             solutionCount={challenge.solutions.length}
             totalLikes={totalLikes}
+            viewCount={challenge.viewCount}
           />
         </div>
 

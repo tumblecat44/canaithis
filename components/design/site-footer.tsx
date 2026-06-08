@@ -19,6 +19,9 @@ export async function SiteFooter() {
           <Link href="/challenges/new" className="hover:text-primary">
             {t("newChallenge")}
           </Link>
+          <a href="/feed.xml" className="hover:text-primary">
+            {t("rss")}
+          </a>
           {session?.user ? (
             <Link href="/profile" className="hover:text-primary">
               {nav("profile")}

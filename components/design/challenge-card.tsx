@@ -15,7 +15,7 @@ export type ChallengeCardData = {
   category: string;
   imageUrl: string | null;
   createdAt: Date;
-  author: { name: string | null; image: string | null };
+  author: { id: string; name: string | null; image: string | null };
   _count: { solutions: number };
 };
 
@@ -40,7 +40,7 @@ export async function ChallengeCard({
       : challenge.description;
 
   return (
-    <Link href={`/challenges/${challenge.id}`} className={cn("group block", className)}>
+    <div className={cn("group block", className)}>
       <ShellCard
         className={cn(
           "h-full transition-transform duration-500 ease-premium group-hover:-translate-y-0.5",
@@ -72,11 +72,16 @@ export async function ChallengeCard({
           </div>
           <h2
             className={cn(
-              "font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors ease-premium",
+              "font-semibold tracking-tight text-foreground transition-colors ease-premium",
               featured ? "text-xl md:text-2xl" : "text-lg",
             )}
           >
-            <HighlightText text={challenge.title} query={highlightQuery} />
+            <Link
+              href={`/challenges/${challenge.id}`}
+              className="hover:text-primary"
+            >
+              <HighlightText text={challenge.title} query={highlightQuery} />
+            </Link>
           </h2>
           <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-muted-foreground">
             <HighlightText text={excerpt} query={highlightQuery} />
@@ -88,7 +93,13 @@ export async function ChallengeCard({
                 {challenge._count.solutions} {t("home.solutions")}
               </span>
               <span>
-                {challenge.author.name ?? t("challenge.by")} ·{" "}
+                <Link
+                  href={`/users/${challenge.author.id}`}
+                  className="relative z-10 hover:text-primary"
+                >
+                  {challenge.author.name ?? t("challenge.by")}
+                </Link>{" "}
+                ·{" "}
                 {new Intl.DateTimeFormat(locale, {
                   month: "short",
                   day: "numeric",
@@ -101,6 +112,6 @@ export async function ChallengeCard({
           </div>
         </div>
       </ShellCard>
-    </Link>
+    </div>
   );
 }

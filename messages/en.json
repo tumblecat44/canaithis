@@ -86,7 +86,20 @@
     "commentPlaceholder": "Leave feedback or ask a question.",
     "addComment": "Comment",
     "deleteComment": "Delete",
-    "loginToComment": "Sign in to comment."
+    "loginToComment": "Sign in to comment.",
+    "viewCount": "{count} views"
+  },
+  "user": {
+    "anonymous": "Anonymous",
+    "memberSince": "Member since {date}",
+    "challengeCount": "{count} challenges",
+    "solutionCount": "{count} solutions",
+    "likesReceived": "{count} likes received",
+    "challenges": "Challenges",
+    "solutions": "Solutions",
+    "noChallenges": "No challenges posted.",
+    "noSolutions": "No solutions submitted.",
+    "likesOnSolution": "{count} likes"
   },
   "profile": {
     "title": "Profile",
@@ -118,7 +131,8 @@
   "footer": {
     "tagline": "CanAIThis — Can AI do this?",
     "home": "Home",
-    "newChallenge": "Post challenge"
+    "newChallenge": "Post challenge",
+    "rss": "RSS"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",

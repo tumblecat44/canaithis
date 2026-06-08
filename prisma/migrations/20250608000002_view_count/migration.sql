@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Challenge" ADD COLUMN IF NOT EXISTS "viewCount" INTEGER NOT NULL DEFAULT 0;

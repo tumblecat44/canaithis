@@ -64,6 +64,13 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - 솔루션 카드 하단 댓글 스레드, 작성자 삭제.
 - **다음**: 알림 없이도 괜찮으면 — 챌린지 작성자 공개 프로필(`/users/[id]`), 조회수, RSS. 멈추지 말 것.
 
+### [2026-06-08] #10 — 사이클 8: 공개 프로필·조회수·RSS
+
+- `/users/[id]` 공개 프로필, 작성자 링크, `viewCount` 컬럼, `/feed.xml` RSS.
+- 마이그레이션: `node scripts/apply-view-count-migration.mjs`
+- **카드 안 중첩 Link 금지** — ChallengeCard는 outer `<Link>` 대신 제목/작성자 각각 Link (`#10` 교훈).
+- **다음**: 정렬에 조회수(`?sort=views`), 최근 활동 피드, 솔루션 작성자도 `/users/[id]` 링크.
+
 **고정 참조**
 ```bash
 source scripts/prod-db-urls.sh && node scripts/seed-demo.mjs   # 프로덕션 DB 시드

@@ -86,7 +86,20 @@
     "commentPlaceholder": "피드백이나 질문을 남겨보세요.",
     "addComment": "댓글 달기",
     "deleteComment": "삭제",
-    "loginToComment": "댓글을 남기려면 로그인하세요."
+    "loginToComment": "댓글을 남기려면 로그인하세요.",
+    "viewCount": "조회 {count}회"
+  },
+  "user": {
+    "anonymous": "익명",
+    "memberSince": "{date}부터 활동",
+    "challengeCount": "챌린지 {count}개",
+    "solutionCount": "솔루션 {count}개",
+    "likesReceived": "받은 좋아요 {count}개",
+    "challenges": "올린 챌린지",
+    "solutions": "제출한 솔루션",
+    "noChallenges": "올린 챌린지가 없습니다.",
+    "noSolutions": "제출한 솔루션이 없습니다.",
+    "likesOnSolution": "좋아요 {count}개"
   },
   "profile": {
     "title": "프로필",
@@ -118,7 +131,8 @@
   "footer": {
     "tagline": "CanAIThis — AI로 이거 해봤다 / 이거 되나?",
     "home": "홈",
-    "newChallenge": "챌린지 올리기"
+    "newChallenge": "챌린지 올리기",
+    "rss": "RSS"
   },
   "errors": {
     "generic": "문제가 발생했습니다. 다시 시도해 주세요.",
