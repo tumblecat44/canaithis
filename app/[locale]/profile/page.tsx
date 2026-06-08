@@ -15,6 +15,7 @@ import { ShellCard } from "@/components/design/shell-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { buttonVariants } from "@/components/ui/button";
 import { ChallengeCard } from "@/components/design/challenge-card";
+import { ProfileChallengeCard } from "@/components/design/profile-challenge-card";
 import { ProfileSolutionCard } from "@/components/design/profile-solution-card";
 import {
   getUserBookmarks,
@@ -108,46 +109,43 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
             </p>
           ) : (
             challenges.map((c) => (
-              <ShellCard key={c.id} innerClassName="flex items-center justify-between gap-4 p-4">
-                <div>
-                  <Link
-                    href={`/challenges/${c.id}`}
-                    className="font-medium hover:text-primary"
-                  >
-                    {c.title}
-                  </Link>
-                  <p className="text-xs text-muted-foreground">
-                    {t("solutionCount", { count: c._count.solutions })}
-                  </p>
-                </div>
-                <div className="flex shrink-0 flex-wrap gap-2">
-                  <Link
-                    href={`/challenges/${c.id}/edit`}
-                    className={cn(
-                      buttonVariants({ variant: "outline", size: "sm" }),
-                      "rounded-full",
-                    )}
-                  >
-                    {t("edit")}
-                  </Link>
-                  <form
-                    action={async () => {
-                      "use server";
-                      await deleteChallenge(c.id);
-                    }}
-                  >
-                    <button
-                      type="submit"
+              <ProfileChallengeCard
+                key={c.id}
+                challengeId={c.id}
+                title={c.title}
+                solutionCountLabel={t("solutionCount", {
+                  count: c._count.solutions,
+                })}
+                actions={
+                  <>
+                    <Link
+                      href={`/challenges/${c.id}/edit`}
                       className={cn(
-                        buttonVariants({ variant: "destructive", size: "sm" }),
+                        buttonVariants({ variant: "outline", size: "sm" }),
                         "rounded-full",
                       )}
                     >
-                      {t("delete")}
-                    </button>
-                  </form>
-                </div>
-              </ShellCard>
+                      {t("edit")}
+                    </Link>
+                    <form
+                      action={async () => {
+                        "use server";
+                        await deleteChallenge(c.id);
+                      }}
+                    >
+                      <button
+                        type="submit"
+                        className={cn(
+                          buttonVariants({ variant: "destructive", size: "sm" }),
+                          "rounded-full",
+                        )}
+                      >
+                        {t("delete")}
+                      </button>
+                    </form>
+                  </>
+                }
+              />
             ))
           )}
         </TabsContent>
