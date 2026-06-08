@@ -26,7 +26,11 @@
     "search": "Search",
     "sortLabel": "Sort",
     "sortLatest": "Latest",
-    "sortPopular": "Popular"
+    "sortPopular": "Popular",
+    "statChallenges": "Challenges",
+    "statSolutions": "Solutions",
+    "statLikes": "Likes",
+    "statMembers": "Members"
   },
   "challenge": {
     "newTitle": "Post a challenge",
@@ -53,7 +57,10 @@
     "editSolution": "Edit solution",
     "saveSolution": "Save",
     "saved": "Saved.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "editChallenge": "Edit challenge",
+    "editChallengeSubtitle": "Update the title, description, and category.",
+    "saveChallenge": "Save"
   },
   "profile": {
     "title": "Profile",
@@ -62,7 +69,9 @@
     "emptyChallenges": "You have not posted any challenges.",
     "emptySolutions": "You have not submitted any solutions.",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "solutionCount": "{count} solutions",
+    "likeCount": "{count} likes"
   },
   "login": {
     "title": "Sign in",

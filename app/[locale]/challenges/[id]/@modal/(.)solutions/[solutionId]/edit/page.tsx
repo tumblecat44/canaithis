@@ -1,18 +1,21 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import { RouteModal } from "@/components/route-modal";
 import { SolutionEditForm } from "@/components/solution-edit-form";
 import { prisma } from "@/lib/prisma";
 
 type ModalEditSolutionProps = {
-  params: Promise<{ id: string; solutionId: string }>;
+  params: Promise<{ locale: string; id: string; solutionId: string }>;
 };
 
 export default async function ModalEditSolutionPage({
   params,
 }: ModalEditSolutionProps) {
-  const { id, solutionId } = await params;
+  const { locale, id, solutionId } = await params;
+  setRequestLocale(locale);
   const session = await auth();
 
   if (!session?.user?.id) {

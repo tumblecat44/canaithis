@@ -1,11 +1,13 @@
 import { Suspense } from "react";
-import Link from "next/link";
+import { setRequestLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
 
 import { HomeFeed } from "@/components/home-feed";
+import { Link } from "@/i18n/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type HomePageProps = {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{
     login?: string;
     q?: string;
@@ -14,9 +16,16 @@ type HomePageProps = {
   }>;
 };
 
-export default async function HomePage({ searchParams }: HomePageProps) {
+export default async function HomePage({
+  params,
+  searchParams,
+}: HomePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const { login, q, category, sort } = await searchParams;
   const t = await getTranslations("home");
+  const nav = await getTranslations("nav");
 
   return (
     <div className="space-y-6">
@@ -27,12 +36,12 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             href="/login"
             className="font-medium text-primary underline-offset-4 hover:underline"
           >
-            Sign in
+            {nav("login")}
           </Link>
         </p>
       )}
       <Suspense fallback={<HomeFeedSkeleton />}>
-        <HomeFeed q={q} category={category} sort={sort} />
+        <HomeFeed locale={locale} q={q} category={category} sort={sort} />
       </Suspense>
     </div>
   );

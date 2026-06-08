@@ -1,6 +1,9 @@
-import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
+import { redirect } from "next/navigation";
+
+import { Link } from "@/i18n/navigation";
 
 import { auth } from "@/auth";
 import { SolutionEditForm } from "@/components/solution-edit-form";
@@ -8,11 +11,12 @@ import { PageHeader } from "@/components/design/page-header";
 import { prisma } from "@/lib/prisma";
 
 type EditSolutionPageProps = {
-  params: Promise<{ id: string; solutionId: string }>;
+  params: Promise<{ locale: string; id: string; solutionId: string }>;
 };
 
 export default async function EditSolutionPage({ params }: EditSolutionPageProps) {
-  const { id, solutionId } = await params;
+  const { locale, id, solutionId } = await params;
+  setRequestLocale(locale);
   const session = await auth();
   const t = await getTranslations("challenge");
 

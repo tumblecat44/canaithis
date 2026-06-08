@@ -3,13 +3,19 @@ import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { ShellCard } from "@/components/design/shell-card";
 import { Button } from "@/components/ui/button";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 type LoginPageProps = {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ callbackUrl?: string }>;
 };
 
-export default async function LoginPage({ searchParams }: LoginPageProps) {
+export default async function LoginPage({
+  params,
+  searchParams,
+}: LoginPageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const { callbackUrl } = await searchParams;
   const redirectTo = callbackUrl?.startsWith("/") ? callbackUrl : "/";
   const t = await getTranslations("login");

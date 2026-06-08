@@ -1,11 +1,12 @@
-import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ChallengeCard } from "@/components/design/challenge-card";
 import { EmptyState } from "@/components/design/empty-state";
 import { PageHeader } from "@/components/design/page-header";
 import { Reveal } from "@/components/design/reveal";
 import { HomeFilters } from "@/components/home-filters";
+import { HomeStats } from "@/components/home-stats";
 import {
   getChallenges,
   type ChallengeSort,
@@ -13,12 +14,15 @@ import {
 import { cn } from "@/lib/utils";
 
 type HomeFeedProps = {
+  locale: string;
   q?: string;
   category?: string;
   sort?: string;
 };
 
-export async function HomeFeed({ q, category, sort }: HomeFeedProps) {
+export async function HomeFeed({ locale, q, category, sort }: HomeFeedProps) {
+  setRequestLocale(locale);
+
   const t = await getTranslations("home");
   const challengeSort: ChallengeSort =
     sort === "popular" ? "popular" : "latest";
@@ -32,6 +36,10 @@ export async function HomeFeed({ q, category, sort }: HomeFeedProps) {
           title={t("title")}
           description={t("subtitle")}
         />
+      </Reveal>
+
+      <Reveal delay={0.04}>
+        <HomeStats />
       </Reveal>
 
       <Reveal delay={0.05}>

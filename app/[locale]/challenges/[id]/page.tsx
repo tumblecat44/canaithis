@@ -1,7 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
+import { Link } from "@/i18n/navigation";
 
 import { auth } from "@/auth";
 import { PageHeader } from "@/components/design/page-header";
@@ -14,13 +15,14 @@ import { cn } from "@/lib/utils";
 import { getChallengeById } from "@/lib/queries/challenges";
 
 type ChallengeDetailPageProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ locale: string; id: string }>;
 };
 
 export default async function ChallengeDetailPage({
   params,
 }: ChallengeDetailPageProps) {
-  const { id } = await params;
+  const { locale, id } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("challenge");
   const tc = await getTranslations("categories");
   const session = await auth();
@@ -55,13 +57,26 @@ export default async function ChallengeDetailPage({
               />
             </div>
           ) : null}
-          <div className="flex flex-wrap items-center gap-3 p-5 md:p-6">
-            <Badge variant="secondary" className="rounded-full">
-              {tc(challenge.category as "other")}
-            </Badge>
-            <span className="text-sm text-muted-foreground">
-              {t("by")} {challenge.author.name ?? challenge.author.email}
-            </span>
+          <div className="flex flex-wrap items-center justify-between gap-3 p-5 md:p-6">
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge variant="secondary" className="rounded-full">
+                {tc(challenge.category as "other")}
+              </Badge>
+              <span className="text-sm text-muted-foreground">
+                {t("by")} {challenge.author.name ?? challenge.author.email}
+              </span>
+            </div>
+            {session?.user?.id === challenge.authorId ? (
+              <Link
+                href={`/challenges/${challenge.id}/edit`}
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "rounded-full",
+                )}
+              >
+                {t("editChallenge")}
+              </Link>
+            ) : null}
           </div>
         </ShellCard>
       </Reveal>

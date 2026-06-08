@@ -1,6 +1,7 @@
 import { unstable_noStore as noStore } from "next/cache";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
 import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
 
 import { auth } from "@/auth";
 import { ChallengeForm } from "@/components/challenge-form";
@@ -9,7 +10,16 @@ import { Reveal } from "@/components/design/reveal";
 
 export const dynamic = "force-dynamic";
 
-export default async function NewChallengePage() {
+type NewChallengePageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function NewChallengePage({
+  params,
+}: NewChallengePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   noStore();
   const session = await auth();
 

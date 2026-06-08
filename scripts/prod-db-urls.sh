@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Builds Supabase connection strings for CanAIThis production.
-# Default: malgun-staging-20260601 (cbuwyfyhiibobgygpkxv) — reserved project slot.
+# Default: shared Supabase project (ktacyhbsahxygwsssczh) when CANAITHIS_SUPABASE_REF is unset.
 set -euo pipefail
 
-REF="${SUPABASE_PROJECT_REF:-cbuwyfyhiibobgygpkxv}"
+REF="${SUPABASE_PROJECT_REF:-}"
 REGION_HOST="${SUPABASE_POOLER_HOST:-aws-1-ap-northeast-2.pooler.supabase.com}"
 
 if [[ -f "${CANAITHIS_ENV:-}" ]]; then
@@ -12,8 +12,9 @@ if [[ -f "${CANAITHIS_ENV:-}" ]]; then
 elif [[ -f "${MALGUN_ENV:-$HOME/malgun-res/.env.supabase.local}" ]]; then
   # shellcheck disable=SC1090
   source "${MALGUN_ENV:-$HOME/malgun-res/.env.supabase.local}"
-  REF="${CANAITHIS_SUPABASE_REF:-cbuwyfyhiibobgygpkxv}"
 fi
+
+REF="${CANAITHIS_SUPABASE_REF:-${SUPABASE_PROJECT_REF:-ktacyhbsahxygwsssczh}}"
 
 : "${SUPABASE_DB_PASSWORD:?Set SUPABASE_DB_PASSWORD}"
 

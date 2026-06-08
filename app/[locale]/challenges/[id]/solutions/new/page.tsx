@@ -1,6 +1,9 @@
-import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
+import { redirect } from "next/navigation";
+
+import { Link } from "@/i18n/navigation";
 
 import { auth } from "@/auth";
 import { SolutionForm } from "@/components/solution-form";
@@ -8,11 +11,12 @@ import { PageHeader } from "@/components/design/page-header";
 import { getChallengeById } from "@/lib/queries/challenges";
 
 type NewSolutionPageProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ locale: string; id: string }>;
 };
 
 export default async function NewSolutionPage({ params }: NewSolutionPageProps) {
-  const { id } = await params;
+  const { locale, id } = await params;
+  setRequestLocale(locale);
   const session = await auth();
   if (!session?.user?.id) {
     redirect(`/login?callbackUrl=/challenges/${id}/solutions/new`);

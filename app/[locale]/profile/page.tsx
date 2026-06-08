@@ -1,7 +1,9 @@
 import Image from "next/image";
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
 import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+
+import { Link } from "@/i18n/navigation";
 
 import { auth } from "@/auth";
 import { deleteChallenge } from "@/actions/challenges";
@@ -19,7 +21,14 @@ import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProfilePage() {
+type ProfilePageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export default async function ProfilePage({ params }: ProfilePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   const session = await auth();
   const t = await getTranslations("profile");
   const userId = session?.user?.id;
@@ -90,25 +99,36 @@ export default async function ProfilePage() {
                     {c.title}
                   </Link>
                   <p className="text-xs text-muted-foreground">
-                    {c._count.solutions} solutions
+                    {t("solutionCount", { count: c._count.solutions })}
                   </p>
                 </div>
-                <form
-                  action={async () => {
-                    "use server";
-                    await deleteChallenge(c.id);
-                  }}
-                >
-                  <button
-                    type="submit"
+                <div className="flex shrink-0 flex-wrap gap-2">
+                  <Link
+                    href={`/challenges/${c.id}/edit`}
                     className={cn(
-                      buttonVariants({ variant: "destructive", size: "sm" }),
+                      buttonVariants({ variant: "outline", size: "sm" }),
                       "rounded-full",
                     )}
                   >
-                    {t("delete")}
-                  </button>
-                </form>
+                    {t("edit")}
+                  </Link>
+                  <form
+                    action={async () => {
+                      "use server";
+                      await deleteChallenge(c.id);
+                    }}
+                  >
+                    <button
+                      type="submit"
+                      className={cn(
+                        buttonVariants({ variant: "destructive", size: "sm" }),
+                        "rounded-full",
+                      )}
+                    >
+                      {t("delete")}
+                    </button>
+                  </form>
+                </div>
               </ShellCard>
             ))
           )}
@@ -129,7 +149,7 @@ export default async function ProfilePage() {
                     {s.challenge.title}
                   </Link>
                   <p className="text-xs text-muted-foreground">
-                    {s._count.likes} likes
+                    {t("likeCount", { count: s._count.likes })}
                   </p>
                 </div>
                 <div className="flex shrink-0 flex-wrap gap-2">

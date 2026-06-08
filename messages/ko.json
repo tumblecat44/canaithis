@@ -26,7 +26,11 @@
     "search": "검색",
     "sortLabel": "정렬",
     "sortLatest": "최신순",
-    "sortPopular": "인기순"
+    "sortPopular": "인기순",
+    "statChallenges": "챌린지",
+    "statSolutions": "솔루션",
+    "statLikes": "좋아요",
+    "statMembers": "멤버"
   },
   "challenge": {
     "newTitle": "챌린지 올리기",
@@ -53,7 +57,10 @@
     "editSolution": "솔루션 수정",
     "saveSolution": "저장",
     "saved": "저장되었습니다.",
-    "cancel": "취소"
+    "cancel": "취소",
+    "editChallenge": "챌린지 수정",
+    "editChallengeSubtitle": "제목, 설명, 카테고리를 업데이트할 수 있습니다.",
+    "saveChallenge": "저장"
   },
   "profile": {
     "title": "프로필",
@@ -62,7 +69,9 @@
     "emptyChallenges": "올린 챌린지가 없습니다.",
     "emptySolutions": "제출한 솔루션이 없습니다.",
     "edit": "수정",
-    "delete": "삭제"
+    "delete": "삭제",
+    "solutionCount": "{count}개 솔루션",
+    "likeCount": "{count}개 좋아요"
   },
   "login": {
     "title": "로그인",

@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from "next-intl/server";
 
 import { FloatingHeader } from "@/components/design/floating-header";
 import { SiteFooter } from "@/components/design/site-footer";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { locales, type Locale } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -21,12 +25,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
+export const dynamic = "force-dynamic";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("meta");
+type LocaleLayoutProps = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
   return {
     title: t("title"),
     description: t("description"),
@@ -38,18 +50,13 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-type LocaleLayoutProps = {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-};
-
 export default async function LocaleLayout({
   children,
   params,
 }: LocaleLayoutProps) {
   const { locale } = await params;
 
-  if (!locales.includes(locale as Locale)) {
+  if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
@@ -64,7 +71,7 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <body className="bg-mesh flex min-h-[100dvh] flex-col">
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale as Locale} messages={messages}>
           <ThemeProvider>
             <FloatingHeader />
             <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-16 pt-4">

@@ -64,6 +64,17 @@ export async function getUserChallenges(userId: string) {
   });
 }
 
+export async function getCommunityStats() {
+  const [challenges, solutions, likes, users] = await Promise.all([
+    prisma.challenge.count(),
+    prisma.solution.count(),
+    prisma.like.count(),
+    prisma.user.count(),
+  ]);
+
+  return { challenges, solutions, likes, users };
+}
+
 export async function getUserSolutions(userId: string) {
   return prisma.solution.findMany({
     where: { authorId: userId },
