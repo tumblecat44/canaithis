@@ -91,16 +91,26 @@ smoke() {
   log "smoke /feed.xml → ${code}"
   [[ "$code" == "200" ]] || ok=1
 
-  if curl -sL "${PROD_URL}/feed.xml" | head -1 | grep -q "<?xml"; then
+  local feed_body
+  feed_body=$(curl -sL "${PROD_URL}/feed.xml" || true)
+  if echo "$feed_body" | head -1 | grep -q "<?xml"; then
     log "smoke feed.xml body → RSS OK"
   else
     log "smoke feed.xml body → NOT RSS"
     ok=1
   fi
+  local feed_item_count
+  feed_item_count=$(echo "$feed_body" | grep -c '<item>' || true)
+  if [[ "$feed_item_count" -ge 1 ]]; then
+    log "smoke feed.xml → ${feed_item_count} RSS item(s) OK"
+  else
+    log "smoke feed.xml → no RSS <item> elements"
+    ok=1
+  fi
 
   local challenge_id
   challenge_id=$(
-    curl -sL "${PROD_URL}/feed.xml" \
+    echo "$feed_body" \
       | grep -oE 'challenges/[a-f0-9]{24}' \
       | head -1 \
       | sed 's|challenges/||' \
