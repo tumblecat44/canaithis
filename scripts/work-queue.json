@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-invalid-locale-nested-challenges-invalid-solutions-new-404",
-      "task": "autopilot.sh·smoke.yml에 /xx/challenges/invalid/solutions/new(잘못된 locale 하위 경로) 404 검증 추가",
+      "id": "smoke-invalid-locale-nested-challenges-invalid-solutions-invalid-edit-404",
+      "task": "autopilot.sh·smoke.yml에 /xx/challenges/invalid/solutions/invalid/edit(잘못된 locale 하위 경로) 404 검증 추가",
       "status": "pending"
     }
   ],
@@ -22,7 +22,6 @@
     "profile-solutions-links",
     "profile-solution-snippet",
     "profile-solution-challenge-link",
-    "profile-challenge-card-link",
     "profile-bookmark-card-actions",
     "profile-bookmark-unbookmark",
     "profile-bookmark-empty-cta",
@@ -83,6 +82,7 @@
     "smoke-invalid-locale-nested-profile-404",
     "smoke-invalid-locale-nested-challenges-new-404",
     "smoke-invalid-locale-nested-challenges-invalid-404",
-    "smoke-invalid-locale-nested-challenges-invalid-edit-404"
+    "smoke-invalid-locale-nested-challenges-invalid-edit-404",
+    "smoke-invalid-locale-nested-challenges-invalid-solutions-new-404"
   ]
 }
