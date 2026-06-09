@@ -330,6 +330,30 @@ smoke() {
     fi
   fi
 
+  if [[ -z "$en_home_challenge_id" ]]; then
+    log "smoke en challenge-edit redirect → skipped (no challenge id from /en)"
+    ok=1
+  else
+    hdr=$(mktemp)
+    code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "${PROD_URL}/en/challenges/${en_home_challenge_id}/edit" || echo "000")
+    location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
+    rm -f "$hdr"
+    log "smoke /en/challenges/${en_home_challenge_id}/edit → ${code} ${location:-}"
+    [[ "$code" == "307" ]] || ok=1
+    if echo "$location" | grep -qi "/login"; then
+      log "smoke en challenge-edit redirect → login OK"
+    else
+      log "smoke en challenge-edit redirect → not /login"
+      ok=1
+    fi
+    if echo "$location" | grep -qi "callbackUrl"; then
+      log "smoke en challenge-edit redirect → callbackUrl OK"
+    else
+      log "smoke en challenge-edit redirect → no callbackUrl"
+      ok=1
+    fi
+  fi
+
   local solution_id
   solution_id=$(
     echo "$home_html" \
