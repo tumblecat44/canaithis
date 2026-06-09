@@ -656,6 +656,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **curl 검증**: 프로덕션 `/xx/challenges?q=test&category=coding` → 404 확인 후 push.
 - **다음 pending**: `smoke-invalid-locale-nested-challenges-q-search-category-coding-sort-latest-404` — `/xx/challenges?q=test&category=coding&sort=latest` 404.
 
+### [2026-06-09] #104 — 틱 20260609T092058Z: invalid locale nested challenges search category coding sort latest 404 smoke
+
+- **이 턴**: `smoke-invalid-locale-nested-challenges-q-search-category-coding-sort-latest-404` — `autopilot.sh`·`smoke.yml`에 `/xx/challenges?q=test&category=coding&sort=latest` 404 검증 추가.
+- **curl 검증**: 프로덕션 `/xx/challenges?q=test&category=coding&sort=latest` → 404 확인 후 push.
+- **다음 pending**: `smoke-invalid-locale-home-q-search-category-coding-sort-latest-404` — `/xx?q=test&category=coding&sort=latest` 404.
+
 **고정 참조**
 ```bash
 bash scripts/continuous.sh   # autopilot + work-queue-watch + grok-loop (nohup 내장)
