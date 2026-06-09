@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-invalid-locale-nested-challenges-q-search-category-sort-popular-404",
-      "task": "autopilot.sh·smoke.yml에 /xx/challenges?q=test&category=design&sort=popular(잘못된 locale + 챌린지 목록 + 검색 + 카테고리 + 정렬) 404 검증 추가",
+      "id": "smoke-invalid-locale-nested-challenges-q-search-category-sort-views-404",
+      "task": "autopilot.sh·smoke.yml에 /xx/challenges?q=test&category=design&sort=views(잘못된 locale + 챌린지 목록 + 검색 + 카테고리 + 정렬) 404 검증 추가",
       "status": "pending"
     }
   ],
@@ -115,6 +115,7 @@
     "smoke-invalid-locale-nested-challenges-q-search-category-404",
     "smoke-invalid-locale-nested-challenges-q-search-category-sort-latest-404",
     "smoke-invalid-locale-home-q-search-category-sort-latest-404",
-    "smoke-invalid-locale-home-q-search-category-sort-popular-404"
+    "smoke-invalid-locale-home-q-search-category-sort-popular-404",
+    "smoke-invalid-locale-nested-challenges-q-search-category-sort-popular-404"
   ]
 }
