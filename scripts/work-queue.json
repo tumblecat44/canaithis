@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-en-solution-new-login-redirect",
-      "task": "autopilot.sh·smoke.yml에 /en/challenges/{id}/solutions/new 로그인 리다이렉트 검증 추가",
+      "id": "smoke-en-challenge-edit-login-redirect",
+      "task": "autopilot.sh·smoke.yml에 /en/challenges/{id}/edit 로그인 리다이렉트 검증 추가",
       "status": "pending"
     }
   ],
@@ -68,6 +68,7 @@
     "smoke-home-en-challenge-cards",
     "smoke-en-login-page",
     "smoke-en-profile-login-redirect",
-    "smoke-en-challenges-new-login-redirect"
+    "smoke-en-challenges-new-login-redirect",
+    "smoke-en-solution-new-login-redirect"
   ]
 }

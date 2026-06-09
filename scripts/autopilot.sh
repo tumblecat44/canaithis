@@ -285,6 +285,25 @@ smoke() {
       log "smoke solution-new redirect → no callbackUrl"
       ok=1
     fi
+
+    hdr=$(mktemp)
+    code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "${PROD_URL}/en/challenges/${challenge_id}/solutions/new" || echo "000")
+    location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
+    rm -f "$hdr"
+    log "smoke /en/challenges/${challenge_id}/solutions/new → ${code} ${location:-}"
+    [[ "$code" == "307" ]] || ok=1
+    if echo "$location" | grep -qi "/login"; then
+      log "smoke en solution-new redirect → login OK"
+    else
+      log "smoke en solution-new redirect → not /login"
+      ok=1
+    fi
+    if echo "$location" | grep -qi "callbackUrl"; then
+      log "smoke en solution-new redirect → callbackUrl OK"
+    else
+      log "smoke en solution-new redirect → no callbackUrl"
+      ok=1
+    fi
   fi
 
   if [[ -z "$home_challenge_id" ]]; then

@@ -195,6 +195,25 @@ jobs:
           echo "$location" | grep -qi "/login"
           echo "$location" | grep -qi "callbackUrl"
 
+      - name: Check English solution new redirects to login
+        run: |
+          challenge_id=$(
+            curl -sL https://canaithis.vercel.app/feed.xml \
+              | grep -oE 'challenges/[a-f0-9]{24}' \
+              | head -1 \
+              | sed 's|challenges/||'
+          )
+          test -n "$challenge_id"
+          echo "challenge id from feed.xml → $challenge_id"
+          hdr=$(mktemp)
+          code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "https://canaithis.vercel.app/en/challenges/${challenge_id}/solutions/new")
+          location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
+          rm -f "$hdr"
+          echo "/en/challenges/${challenge_id}/solutions/new → $code $location"
+          test "$code" = "307"
+          echo "$location" | grep -qi "/login"
+          echo "$location" | grep -qi "callbackUrl"
+
       - name: Check solution edit redirects to login
         run: |
           home_html=$(curl -sL https://canaithis.vercel.app/ko)
