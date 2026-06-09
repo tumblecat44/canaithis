@@ -474,6 +474,10 @@ smoke() {
   log "smoke /ko/challenges/invalid/solutions/invalid/edit → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/en/challenges/invalid/solutions/invalid/edit" || echo "000")
+  log "smoke /en/challenges/invalid/solutions/invalid/edit → ${code}"
+  [[ "$code" == "404" ]] || ok=1
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/robots.txt" || echo "000")
   log "smoke /robots.txt → ${code}"
   [[ "$code" == "200" ]] || ok=1

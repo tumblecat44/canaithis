@@ -349,6 +349,12 @@ jobs:
           echo "/ko/challenges/invalid/solutions/invalid/edit → $code"
           test "$code" = "404"
 
+      - name: Check English invalid solution edit 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/en/challenges/invalid/solutions/invalid/edit)
+          echo "/en/challenges/invalid/solutions/invalid/edit → $code"
+          test "$code" = "404"
+
       - name: Check robots.txt and Sitemap directive
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/robots.txt)
