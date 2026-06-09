@@ -458,6 +458,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **curl 검증**: 프로덕션 `/xx?page=2&q=test` → 404 확인 후 push.
 - **다음 pending**: `smoke-invalid-locale-home-page-q-search-sort-latest-404` — `/xx?page=2&q=test&sort=latest` 404.
 
+### [2026-06-09] #71 — 틱 20260609T060311Z: invalid locale home page search sort latest 404 smoke
+
+- **이 턴**: `smoke-invalid-locale-home-page-q-search-sort-latest-404` — `autopilot.sh`·`smoke.yml`에 `/xx?page=2&q=test&sort=latest` 404 검증 추가.
+- **curl 검증**: 프로덕션 `/xx?page=2&q=test&sort=latest` → 404 확인 후 push.
+- **다음 pending**: `smoke-invalid-locale-home-page-q-search-sort-popular-404` — `/xx?page=2&q=test&sort=popular` 404.
+
 **고정 참조**
 ```bash
 bash scripts/continuous.sh   # autopilot + work-queue-watch + grok-loop (nohup 내장)
