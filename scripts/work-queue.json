@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-en-invalid-challenge-404",
-      "task": "autopilot.sh·smoke.yml에 /en/challenges/invalid 404 검증 추가",
+      "id": "smoke-en-invalid-challenge-edit-404",
+      "task": "autopilot.sh·smoke.yml에 /en/challenges/invalid/edit 404 검증 추가",
       "status": "pending"
     }
   ],
@@ -71,6 +71,7 @@
     "smoke-en-challenges-new-login-redirect",
     "smoke-en-solution-new-login-redirect",
     "smoke-en-challenge-edit-login-redirect",
-    "smoke-en-solution-edit-login-redirect"
+    "smoke-en-solution-edit-login-redirect",
+    "smoke-en-invalid-challenge-404"
   ]
 }

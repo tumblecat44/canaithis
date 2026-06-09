@@ -313,6 +313,12 @@ jobs:
           echo "/ko/challenges/invalid → $code"
           test "$code" = "404"
 
+      - name: Check English invalid challenge 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/en/challenges/invalid)
+          echo "/en/challenges/invalid → $code"
+          test "$code" = "404"
+
       - name: Check invalid challenge edit 404
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/challenges/invalid/edit)
