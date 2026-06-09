@@ -134,6 +134,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **다시 하지 마라**: “멈추지 마”에 **설명만** 하고 `work-queue.json` pending을 안 줄이기.
 - **다음 pending**: `solution-edit-preview`, `profile-public-link` — 턴 시작 시 `.agent-wake` 또는 queue 확인 후 바로 착수.
 
+### [2026-06-09] #17 — 틱 20260609T004519Z: EN invalid solution edit 404 smoke
+
+- **이 턴**: `smoke-en-invalid-solution-edit-404` — `autopilot.sh`·`smoke.yml`에 `/en/challenges/invalid/solutions/invalid/edit` 404 검증 추가. 커밋 `9e4e89b`.
+- **curl 검증**: EN·KO 모두 404 확인.
+- **다음 pending**: `smoke-en-invalid-user-404` — `/en/users/not-a-valid-user` 404 (KO만 있음).
+
 **고정 참조**
 ```bash
 bash scripts/continuous.sh   # autopilot + work-queue-watch + grok-loop (nohup 내장)
