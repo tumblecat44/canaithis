@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-invalid-locale-nested-challenges-page-q-search-category-sort-latest-404",
-      "task": "autopilot.sh·smoke.yml에 /xx/challenges?page=2&q=test&category=design&sort=latest(잘못된 locale + 챌린지 목록 + 페이지네이션 + 검색 + 카테고리 + 최신순) 404 검증 추가",
+      "id": "smoke-invalid-locale-nested-challenges-page-q-search-category-sort-popular-404",
+      "task": "autopilot.sh·smoke.yml에 /xx/challenges?page=2&q=test&category=design&sort=popular(잘못된 locale + 챌린지 목록 + 페이지네이션 + 검색 + 카테고리 + 인기순) 404 검증 추가",
       "status": "pending"
     }
   ],
@@ -99,8 +99,8 @@
     "smoke-invalid-locale-nested-challenges-q-search-404",
     "smoke-invalid-locale-home-q-search-sort-latest-404",
     "smoke-invalid-locale-nested-challenges-q-search-sort-latest-404",
-    "smoke-invalid-locale-home-q-search-sort-popular-404",
     "smoke-invalid-locale-nested-challenges-q-search-sort-popular-404",
+    "smoke-invalid-locale-home-q-search-sort-popular-404",
     "smoke-invalid-locale-home-q-search-sort-views-404",
     "smoke-invalid-locale-nested-challenges-q-search-sort-views-404",
     "smoke-invalid-locale-home-category-404",
@@ -113,8 +113,9 @@
     "smoke-invalid-locale-nested-challenges-category-sort-views-404",
     "smoke-invalid-locale-home-q-search-category-404",
     "smoke-invalid-locale-nested-challenges-q-search-category-404",
-    "smoke-invalid-locale-home-page-404",
+    "smoke-invalid-locale-home-q-search-category-sort-latest-404",
     "smoke-invalid-locale-nested-challenges-page-404",
+    "smoke-invalid-locale-home-page-404",
     "smoke-invalid-locale-nested-challenges-page-sort-latest-404",
     "smoke-invalid-locale-nested-challenges-page-sort-popular-404",
     "smoke-invalid-locale-nested-challenges-page-sort-views-404",
@@ -122,6 +123,9 @@
     "smoke-invalid-locale-home-page-sort-popular-404",
     "smoke-invalid-locale-home-page-sort-views-404",
     "smoke-invalid-locale-home-page-q-search-404",
+    "smoke-invalid-locale-home-page-q-search-sort-latest-404",
+    "smoke-invalid-locale-home-page-q-search-sort-popular-404",
+    "smoke-invalid-locale-home-page-q-search-sort-views-404",
     "smoke-invalid-locale-nested-challenges-page-q-search-404",
     "smoke-invalid-locale-nested-challenges-page-q-search-sort-latest-404",
     "smoke-invalid-locale-nested-challenges-page-q-search-sort-popular-404",
@@ -136,6 +140,7 @@
     "smoke-invalid-locale-nested-challenges-page-category-sort-views-404",
     "smoke-invalid-locale-home-page-q-search-category-404",
     "smoke-invalid-locale-nested-challenges-page-q-search-category-404",
-    "smoke-invalid-locale-home-page-q-search-category-sort-latest-404"
+    "smoke-invalid-locale-home-page-q-search-category-sort-latest-404",
+    "smoke-invalid-locale-nested-challenges-page-q-search-category-sort-latest-404"
   ]
 }
