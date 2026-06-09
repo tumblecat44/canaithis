@@ -445,6 +445,12 @@ jobs:
           echo "/xx/challenges?q=test (invalid locale nested + search) → $code"
           test "$code" = "404"
 
+      - name: Check invalid locale nested challenges search sort latest 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/xx/challenges?q=test&sort=latest")
+          echo "/xx/challenges?q=test&sort=latest (invalid locale nested + search + sort) → $code"
+          test "$code" = "404"
+
       - name: Check invalid challenge 404
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/challenges/invalid)
