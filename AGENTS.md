@@ -164,6 +164,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **curl 검증**: 프로덕션 `/xx/login` → 404 확인 후 push.
 - **다음 pending**: `smoke-invalid-locale-nested-profile-404` — `/xx/profile` 404.
 
+### [2026-06-09] #22 — 틱 20260609T011512Z: invalid locale nested profile 404 smoke
+
+- **이 턴**: `smoke-invalid-locale-nested-profile-404` — `autopilot.sh`·`smoke.yml`에 `/xx/profile` 404 검증 추가.
+- **curl 검증**: 프로덕션 `/xx/profile` → 404 확인 후 push.
+- **다음 pending**: `smoke-invalid-locale-nested-challenges-new-404` — `/xx/challenges/new` 404.
+
 **고정 참조**
 ```bash
 bash scripts/continuous.sh   # autopilot + work-queue-watch + grok-loop (nohup 내장)

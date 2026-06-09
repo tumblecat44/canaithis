@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-invalid-locale-nested-profile-404",
-      "task": "autopilot.sh·smoke.yml에 /xx/profile(잘못된 locale 하위 경로) 404 검증 추가",
+      "id": "smoke-invalid-locale-nested-challenges-new-404",
+      "task": "autopilot.sh·smoke.yml에 /xx/challenges/new(잘못된 locale 하위 경로) 404 검증 추가",
       "status": "pending"
     }
   ],
@@ -79,6 +79,7 @@
     "smoke-en-invalid-user-404",
     "smoke-invalid-locale-404",
     "smoke-invalid-locale-nested-404",
-    "smoke-invalid-locale-nested-login-404"
+    "smoke-invalid-locale-nested-login-404",
+    "smoke-invalid-locale-nested-profile-404"
   ]
 }
