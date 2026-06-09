@@ -379,6 +379,12 @@ jobs:
           echo "/xx/feed.xml (invalid locale nested) → $code"
           test "$code" = "404"
 
+      - name: Check invalid locale nested sitemap.xml 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/xx/sitemap.xml)
+          echo "/xx/sitemap.xml (invalid locale nested) → $code"
+          test "$code" = "404"
+
       - name: Check invalid challenge 404
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/challenges/invalid)
