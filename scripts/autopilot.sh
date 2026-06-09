@@ -710,6 +710,14 @@ smoke() {
   log "smoke /xx/challenges?category=editing&sort=latest (invalid locale nested + editing category + latest sort) → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx/challenges?category=editing&sort=popular" || echo "000")
+  log "smoke /xx/challenges?category=editing&sort=popular (invalid locale nested + editing category + popular sort) → ${code}"
+  [[ "$code" == "404" ]] || ok=1
+
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx/challenges?category=editing&sort=views" || echo "000")
+  log "smoke /xx/challenges?category=editing&sort=views (invalid locale nested + editing category + views sort) → ${code}"
+  [[ "$code" == "404" ]] || ok=1
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx/challenges" || echo "000")
   log "smoke /xx/challenges (invalid locale nested) → ${code}"
   [[ "$code" == "404" ]] || ok=1
