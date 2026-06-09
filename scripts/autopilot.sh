@@ -590,6 +590,10 @@ smoke() {
   log "smoke /xx?category=editing&sort=popular (invalid locale home + editing category + popular sort) → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx?category=editing&sort=views" || echo "000")
+  log "smoke /xx?category=editing&sort=views (invalid locale home + editing category + views sort) → ${code}"
+  [[ "$code" == "404" ]] || ok=1
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx?category=design&sort=latest" || echo "000")
   log "smoke /xx?category=design&sort=latest (invalid locale home + category + sort) → ${code}"
   [[ "$code" == "404" ]] || ok=1
