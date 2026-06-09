@@ -490,6 +490,10 @@ smoke() {
   log "smoke /xx/users/not-a-valid-user (invalid locale nested) → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx/feed.xml" || echo "000")
+  log "smoke /xx/feed.xml (invalid locale nested) → ${code}"
+  [[ "$code" == "404" ]] || ok=1
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/challenges/invalid" || echo "000")
   log "smoke /ko/challenges/invalid → ${code}"
   [[ "$code" == "404" ]] || ok=1
