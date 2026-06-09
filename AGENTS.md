@@ -140,6 +140,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **curl 검증**: EN·KO 모두 404 확인.
 - **다음 pending**: `smoke-en-invalid-user-404` — `/en/users/not-a-valid-user` 404 (KO만 있음).
 
+### [2026-06-09] #18 — 틱 20260609T005111Z: EN invalid user 404 smoke
+
+- **이 턴**: `smoke-en-invalid-user-404` — `autopilot.sh`·`smoke.yml`에 `/en/users/not-a-valid-user` 404 검증 추가.
+- **curl 검증**: KO·EN 모두 404 확인 후 push.
+- **다음 pending**: `smoke-invalid-locale-404` — `/xx`(잘못된 locale) 404.
+
 **고정 참조**
 ```bash
 bash scripts/continuous.sh   # autopilot + work-queue-watch + grok-loop (nohup 내장)
