@@ -451,6 +451,12 @@ jobs:
           echo "/xx/challenges?page=2 (invalid locale nested + pagination) → $code"
           test "$code" = "404"
 
+      - name: Check invalid locale nested challenges page sort latest 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/xx/challenges?page=2&sort=latest")
+          echo "/xx/challenges?page=2&sort=latest (invalid locale nested + pagination + latest sort) → $code"
+          test "$code" = "404"
+
       - name: Check invalid locale nested login 404
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/xx/login)
