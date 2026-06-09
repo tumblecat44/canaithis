@@ -463,6 +463,12 @@ jobs:
           echo "/xx?page=2&category=design (invalid locale home + pagination + category) → $code"
           test "$code" = "404"
 
+      - name: Check invalid locale home page category sort latest 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/xx?page=2&category=design&sort=latest")
+          echo "/xx?page=2&category=design&sort=latest (invalid locale home + pagination + category + sort) → $code"
+          test "$code" = "404"
+
       - name: Check invalid locale nested challenges category 404
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/xx/challenges?category=design")
