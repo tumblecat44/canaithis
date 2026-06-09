@@ -494,6 +494,10 @@ smoke() {
   log "smoke /xx/challenges?category=design (invalid locale nested + category) → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx/challenges?category=design&sort=latest" || echo "000")
+  log "smoke /xx/challenges?category=design&sort=latest (invalid locale nested + category + sort) → ${code}"
+  [[ "$code" == "404" ]] || ok=1
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx/challenges" || echo "000")
   log "smoke /xx/challenges (invalid locale nested) → ${code}"
   [[ "$code" == "404" ]] || ok=1
