@@ -582,6 +582,10 @@ smoke() {
   log "smoke /xx/challenges?page=2&sort=views (invalid locale nested + pagination + views sort) → ${code}"
   [[ "$code" == "404" ]] || ok=1
 
+  code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx/challenges?page=2&q=test" || echo "000")
+  log "smoke /xx/challenges?page=2&q=test (invalid locale nested + pagination + search) → ${code}"
+  [[ "$code" == "404" ]] || ok=1
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/xx/login" || echo "000")
   log "smoke /xx/login (invalid locale nested) → ${code}"
   [[ "$code" == "404" ]] || ok=1
