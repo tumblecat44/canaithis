@@ -379,6 +379,12 @@ jobs:
           echo "/xx?category=design&sort=popular (invalid locale home + category + popular sort) → $code"
           test "$code" = "404"
 
+      - name: Check invalid locale home category sort views 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/xx?category=design&sort=views")
+          echo "/xx?category=design&sort=views (invalid locale home + category + views sort) → $code"
+          test "$code" = "404"
+
       - name: Check invalid locale nested challenges category 404
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/xx/challenges?category=design")
