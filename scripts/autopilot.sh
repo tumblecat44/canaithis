@@ -398,6 +398,50 @@ smoke() {
     fi
   fi
 
+  local en_solution_id
+  en_solution_id=$(
+    echo "$en_html" \
+      | grep -oE 'ACTION_ID_[a-f0-9]{24}' \
+      | head -1 \
+      | sed 's|ACTION_ID_||' \
+      || true
+  )
+  if [[ -z "$en_solution_id" ]]; then
+    log "smoke en solution-edit redirect → no solution id from /en"
+    ok=1
+  else
+    local en_edit_challenge_id en_edit_found=0
+    while read -r en_edit_challenge_id; do
+      [[ -n "$en_edit_challenge_id" ]] || continue
+      hdr=$(mktemp)
+      code=$(curl -s -o /dev/null -D "$hdr" -w "%{http_code}" "${PROD_URL}/en/challenges/${en_edit_challenge_id}/solutions/${en_solution_id}/edit" || echo "000")
+      location=$(grep -i "^location:" "$hdr" | tr -d '\r' || true)
+      rm -f "$hdr"
+      if [[ "$code" == "307" ]] && echo "$location" | grep -qi "/login"; then
+        log "smoke /en/challenges/${en_edit_challenge_id}/solutions/${en_solution_id}/edit → ${code} ${location:-}"
+        log "smoke en solution-edit redirect → login OK"
+        if echo "$location" | grep -qi "callbackUrl"; then
+          log "smoke en solution-edit redirect → callbackUrl OK"
+        else
+          log "smoke en solution-edit redirect → no callbackUrl"
+          ok=1
+        fi
+        en_edit_found=1
+        break
+      fi
+    done < <(
+      echo "$en_html" \
+        | grep -oE 'challenges/[a-f0-9]{24}' \
+        | grep -v '/new' \
+        | sed 's|challenges/||' \
+        | awk '!seen[$0]++'
+    )
+    if [[ "$en_edit_found" -eq 0 ]]; then
+      log "smoke en solution-edit redirect → no challenge matched solution ${en_solution_id}"
+      ok=1
+    fi
+  fi
+
   code=$(curl -sL -o /dev/null -w "%{http_code}" "${PROD_URL}/ko/users/not-a-valid-user" || echo "000")
   log "smoke /ko/users/invalid → ${code}"
   [[ "$code" == "404" ]] || ok=1
