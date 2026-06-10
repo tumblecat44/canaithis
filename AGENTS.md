@@ -980,6 +980,12 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - **curl 검증**: 프로덕션 `/xx?category=automation` → 404 확인 후 push.
 - **다음 pending**: `smoke-invalid-locale-home-category-automation-sort-latest-404` — `/xx?category=automation&sort=latest` 404.
 
+### [2026-06-10] #158 — 틱 20260610T004820Z: invalid locale home category automation sort latest 404 smoke
+
+- **이 턴**: `smoke-invalid-locale-home-category-automation-sort-latest-404` — `autopilot.sh`·`smoke.yml`에 `/xx?category=automation&sort=latest` 404 검증 추가.
+- **curl 검증**: 프로덕션 `/xx?category=automation&sort=latest` → 404 확인 후 push.
+- **다음 pending**: `smoke-invalid-locale-home-category-automation-sort-popular-404` — `/xx?category=automation&sort=popular` 404.
+
 **고정 참조**
 ```bash
 bash scripts/continuous.sh   # autopilot + work-queue-watch + grok-loop (nohup 내장)
