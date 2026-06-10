@@ -1177,6 +1177,12 @@ jobs:
           echo "/xx/challenges?page=2&q=test&category=automation&sort=popular (invalid locale nested + pagination + search + automation category + popular sort) → $code"
           test "$code" = "404"
 
+      - name: Check invalid locale nested challenges page search category automation sort views 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/xx/challenges?page=2&q=test&category=automation&sort=views")
+          echo "/xx/challenges?page=2&q=test&category=automation&sort=views (invalid locale nested + pagination + search + automation category + views sort) → $code"
+          test "$code" = "404"
+
       - name: Check invalid locale nested login 404
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/xx/login)
