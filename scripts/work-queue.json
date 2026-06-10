@@ -2,8 +2,8 @@
   "note": "grok-loop.sh(5분) 또는 에이전트 턴이 pending[0]부터 처리.",
   "pending": [
     {
-      "id": "smoke-invalid-locale-nested-challenges-page-category-editing-sort-views-404",
-      "task": "autopilot.sh·smoke.yml에 /xx/challenges?page=2&category=editing&sort=views(잘못된 locale + nested challenges + 페이지네이션 + editing 카테고리 + views 정렬) 404 검증 추가",
+      "id": "smoke-invalid-locale-home-category-automation-404",
+      "task": "autopilot.sh·smoke.yml에 /xx?category=automation(잘못된 locale + automation 카테고리) 404 검증 추가",
       "status": "pending"
     }
   ],
@@ -108,12 +108,6 @@
     "smoke-invalid-locale-home-page-q-search-category-sort-latest-404",
     "smoke-invalid-locale-home-page-q-search-category-sort-popular-404",
     "smoke-invalid-locale-home-page-q-search-category-sort-views-404",
-    "smoke-invalid-locale-nested-challenges-page-q-search-category-sort-latest-404",
-    "smoke-invalid-locale-nested-challenges-page-q-search-category-sort-popular-404",
-    "smoke-invalid-locale-nested-challenges-page-q-search-category-sort-views-404",
-    "smoke-invalid-locale-home-page-q-search-category-sort-latest-404",
-    "smoke-invalid-locale-home-page-q-search-category-sort-popular-404",
-    "smoke-invalid-locale-home-page-q-search-category-sort-views-404",
     "smoke-invalid-locale-home-category-coding-404",
     "smoke-invalid-locale-home-category-coding-sort-latest-404",
     "smoke-invalid-locale-home-category-coding-sort-popular-404",
@@ -174,6 +168,7 @@
     "smoke-invalid-locale-home-page-q-search-category-editing-sort-latest-404",
     "smoke-invalid-locale-nested-challenges-page-category-editing-404",
     "smoke-invalid-locale-nested-challenges-page-category-editing-sort-latest-404",
-    "smoke-invalid-locale-nested-challenges-page-category-editing-sort-popular-404"
+    "smoke-invalid-locale-nested-challenges-page-category-editing-sort-popular-404",
+    "smoke-invalid-locale-nested-challenges-page-category-editing-sort-views-404"
   ]
 }
