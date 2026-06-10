@@ -643,6 +643,12 @@ jobs:
           echo "/xx?q=test&category=automation&sort=latest (invalid locale home + search + automation category + latest sort) → $code"
           test "$code" = "404"
 
+      - name: Check invalid locale home search category automation sort popular 404
+        run: |
+          code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/xx?q=test&category=automation&sort=popular")
+          echo "/xx?q=test&category=automation&sort=popular (invalid locale home + search + automation category + popular sort) → $code"
+          test "$code" = "404"
+
       - name: Check invalid locale home category sort latest 404
         run: |
           code=$(curl -sL -o /dev/null -w "%{http_code}" "https://canaithis.vercel.app/xx?category=design&sort=latest")
