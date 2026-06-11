@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
 import { createSolution } from "@/actions/solutions";
@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   createSolutionSchema,
+  type CreateSolutionFormInput,
   type CreateSolutionInput,
 } from "@/lib/validations/solution";
 
@@ -30,24 +31,24 @@ export function SolutionForm({ challengeId }: SolutionFormProps) {
 
   const {
     register,
+    control,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<CreateSolutionInput>({
+  } = useForm<CreateSolutionFormInput, unknown, CreateSolutionInput>({
     resolver: zodResolver(createSolutionSchema),
     defaultValues: { challengeId },
   });
 
-  const githubUrl = watch("githubUrl") ?? "";
-  const demoUrl = watch("demoUrl") ?? "";
+  const githubUrl = useWatch({ control, name: "githubUrl" }) ?? "";
+  const demoUrl = useWatch({ control, name: "demoUrl" }) ?? "";
 
   const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
       const formData = new FormData();
       formData.set("challengeId", data.challengeId);
       formData.set("content", data.content);
-      formData.set("githubUrl", data.githubUrl);
-      formData.set("demoUrl", data.demoUrl);
+      formData.set("githubUrl", data.githubUrl ?? "");
+      formData.set("demoUrl", data.demoUrl ?? "");
 
       try {
         const result = await createSolution(null, formData);
@@ -79,7 +80,7 @@ export function SolutionForm({ challengeId }: SolutionFormProps) {
             id="content"
             rows={5}
             className="rounded-xl"
-            placeholder="What worked, models, prompts, steps..."
+            placeholder={t("solutionPlaceholder")}
             {...register("content")}
           />
           {errors.content ? (

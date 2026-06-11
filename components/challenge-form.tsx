@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
 import { createChallenge } from "@/actions/challenges";
@@ -28,8 +28,8 @@ export function ChallengeForm() {
 
   const {
     register,
+    control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<ChallengeFormValues>({
     resolver: zodResolver(createChallengeSchema),
@@ -39,7 +39,7 @@ export function ChallengeForm() {
     },
   });
 
-  const imageUrl = watch("imageUrl") ?? "";
+  const imageUrl = useWatch({ control, name: "imageUrl" }) ?? "";
 
   const onSubmit = handleSubmit((data) => {
     startTransition(async () => {

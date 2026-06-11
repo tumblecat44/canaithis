@@ -4,10 +4,6 @@ import { GithubLogoIcon, LinkIcon, HeartIcon } from "@phosphor-icons/react/dist/
 import { getTranslations } from "next-intl/server";
 
 import { toggleLike } from "@/actions/likes";
-import {
-  SolutionComments,
-  type CommentData,
-} from "@/components/solution-comments";
 import { ShellCard } from "@/components/design/shell-card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -15,26 +11,23 @@ import { cn } from "@/lib/utils";
 export type SolutionCardData = {
   id: string;
   content: string;
-  githubUrl: string;
-  demoUrl: string;
+  githubUrl: string | null;
+  demoUrl: string | null;
   author: { id: string; name: string | null; image: string | null };
   _count: { likes: number };
   likes: { userId: string }[];
-  comments: CommentData[];
 };
 
 type SolutionCardProps = {
   solution: SolutionCardData;
   challengeId: string;
   currentUserId?: string;
-  locale: string;
 };
 
 export async function SolutionCard({
   solution,
   challengeId,
   currentUserId,
-  locale,
 }: SolutionCardProps) {
   const t = await getTranslations("challenge");
   const liked = currentUserId
@@ -73,32 +66,38 @@ export async function SolutionCard({
         <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">
           {solution.content}
         </p>
-        <div className="flex flex-wrap gap-2">
-          <Link
-            href={solution.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "sm" }),
-              "inline-flex gap-1.5 rounded-full",
-            )}
-          >
-            <GithubLogoIcon weight="light" className="size-4" />
-            GitHub
-          </Link>
-          <Link
-            href={solution.demoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "sm" }),
-              "inline-flex gap-1.5 rounded-full",
-            )}
-          >
-            <LinkIcon weight="light" className="size-4" />
-            Demo
-          </Link>
-        </div>
+        {solution.githubUrl || solution.demoUrl ? (
+          <div className="flex flex-wrap gap-2">
+            {solution.githubUrl ? (
+              <Link
+                href={solution.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "inline-flex gap-1.5 rounded-full",
+                )}
+              >
+                <GithubLogoIcon weight="light" className="size-4" />
+                GitHub
+              </Link>
+            ) : null}
+            {solution.demoUrl ? (
+              <Link
+                href={solution.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "inline-flex gap-1.5 rounded-full",
+                )}
+              >
+                <LinkIcon weight="light" className="size-4" />
+                Demo
+              </Link>
+            ) : null}
+          </div>
+        ) : null}
         <div className="flex flex-wrap items-center gap-2">
           {currentUserId ? (
             <form
@@ -139,12 +138,6 @@ export async function SolutionCard({
             </Link>
           ) : null}
         </div>
-        <SolutionComments
-          solutionId={solution.id}
-          comments={solution.comments}
-          currentUserId={currentUserId}
-          locale={locale}
-        />
       </div>
     </ShellCard>
   );

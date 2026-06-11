@@ -37,6 +37,8 @@ type ChallengeDetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: ChallengeDetailPageProps): Promise<Metadata> {
@@ -79,6 +81,7 @@ export default async function ChallengeDetailPage({
   const tu = await getTranslations("user");
   const tm = await getTranslations("meta");
   const session = await auth();
+  const currentUserId = session?.user?.id;
   const challenge = await getChallengeById(id);
 
   if (!challenge) {
@@ -92,8 +95,8 @@ export default async function ChallengeDetailPage({
     (sum, s) => sum + s._count.likes,
     0,
   );
-  const bookmarked = session?.user?.id
-    ? await isChallengeBookmarked(session.user.id, challenge.id)
+  const bookmarked = currentUserId
+    ? await isChallengeBookmarked(currentUserId, challenge.id)
     : false;
 
   const base = siteBase();
@@ -202,14 +205,14 @@ export default async function ChallengeDetailPage({
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              {session?.user ? (
+              {currentUserId ? (
                 <BookmarkButton
                   challengeId={challenge.id}
                   initialBookmarked={bookmarked}
                 />
               ) : null}
               <ShareButton title={challenge.title} />
-              {session?.user?.id === challenge.authorId ? (
+              {currentUserId === challenge.authorId ? (
                 <>
                   <Link
                     href={`/challenges/${challenge.id}/edit`}
@@ -261,7 +264,7 @@ export default async function ChallengeDetailPage({
         {challenge.solutions.length === 0 ? (
           <ShellCard innerClassName="p-6 text-center">
             <p className="text-sm text-muted-foreground">{t("noSolutions")}</p>
-            {session?.user ? (
+            {currentUserId ? (
               <Link
                 href={`/challenges/${challenge.id}/solutions/new`}
                 className={cn(
@@ -273,7 +276,7 @@ export default async function ChallengeDetailPage({
               </Link>
             ) : (
               <p className="mt-3 text-xs text-muted-foreground">
-                {t("loginToLike")}
+                {t("loginToSolution")}
               </p>
             )}
           </ShellCard>
@@ -284,8 +287,7 @@ export default async function ChallengeDetailPage({
                 <SolutionCard
                   solution={solution}
                   challengeId={challenge.id}
-                  currentUserId={session?.user?.id}
-                  locale={locale}
+                  currentUserId={currentUserId}
                 />
               </Reveal>
             ))}
@@ -293,7 +295,7 @@ export default async function ChallengeDetailPage({
         )}
       </section>
 
-      {session?.user ? (
+      {currentUserId ? (
         <Reveal delay={0.1}>
           <Link
             href={`/challenges/${challenge.id}/solutions/new`}
@@ -306,7 +308,7 @@ export default async function ChallengeDetailPage({
           </Link>
         </Reveal>
       ) : (
-        <p className="text-sm text-muted-foreground">{t("loginToLike")}</p>
+        <p className="text-sm text-muted-foreground">{t("loginToSolution")}</p>
       )}
 
       <RelatedChallenges

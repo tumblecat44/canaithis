@@ -2,6 +2,8 @@
 
 AI로 이거 해봤다 / 이거 되나? — 챌린지·솔루션 커뮤니티 (기말 개별 프로젝트)
 
+챌린지는 “이거 되나요?”라는 질문이고, 솔루션은 그 질문에 누구나 남기는 답변입니다. 직접 성공한 방법, 실패한 시도, 확인 결과를 자유롭게 올리고, 좋은 솔루션은 좋아요로 위로 올라갑니다.
+
 ## 로컬 실행
 
 1. Supabase에서 PostgreSQL URL을 받아 `.env.local`을 [`.env.example`](.env.example) 기준으로 채운다.
@@ -27,7 +29,7 @@ openssl rand -base64 32   # AUTH_SECRET
 ## Phase 7 (선택)
 
 - 홈 피드 정렬: `?sort=latest` (기본) · `?sort=popular` (솔루션 수)
-- 솔루션 수정: 작성자만 `/challenges/[id]/solutions/[solutionId]/edit`
+- 솔루션 수정: 작성자만 `/challenges/[id]/solutions/[solutionId]/edit` (GitHub·데모 링크는 선택)
 - 솔루션 제출 모달: 챌린지 상세에서 링크 시 Parallel + Intercepting Routes (`@modal`)
 
 ## 배포 (Vercel)

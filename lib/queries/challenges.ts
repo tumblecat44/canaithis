@@ -89,12 +89,6 @@ export async function getChallengeById(id: string) {
           author: { select: { id: true, name: true, image: true } },
           _count: { select: { likes: true } },
           likes: { select: { userId: true } },
-          comments: {
-            include: {
-              author: { select: { id: true, name: true } },
-            },
-            orderBy: { createdAt: "asc" },
-          },
         },
         orderBy: { likes: { _count: "desc" } },
       },

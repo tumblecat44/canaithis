@@ -11,8 +11,8 @@ type ProfileSolutionCardProps = {
   challengeId: string;
   challengeTitle: string;
   content: string;
-  githubUrl: string;
-  demoUrl: string;
+  githubUrl: string | null;
+  demoUrl: string | null;
   likeLabel: string;
   actions?: React.ReactNode;
 };
@@ -42,32 +42,38 @@ export function ProfileSolutionCard({
         </p>
         <SolutionSnippet content={content} />
         <p className="text-xs text-muted-foreground">{likeLabel}</p>
-        <div className="flex flex-wrap gap-2 pointer-events-auto">
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "sm" }),
-              "inline-flex gap-1.5 rounded-full",
-            )}
-          >
-            <GithubLogoIcon weight="light" className="size-4" />
-            GitHub
-          </a>
-          <a
-            href={demoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "sm" }),
-              "inline-flex gap-1.5 rounded-full",
-            )}
-          >
-            <LinkIcon weight="light" className="size-4" />
-            Demo
-          </a>
-        </div>
+        {githubUrl || demoUrl ? (
+          <div className="flex flex-wrap gap-2 pointer-events-auto">
+            {githubUrl ? (
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "inline-flex gap-1.5 rounded-full",
+                )}
+              >
+                <GithubLogoIcon weight="light" className="size-4" />
+                GitHub
+              </a>
+            ) : null}
+            {demoUrl ? (
+              <a
+                href={demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "inline-flex gap-1.5 rounded-full",
+                )}
+              >
+                <LinkIcon weight="light" className="size-4" />
+                Demo
+              </a>
+            ) : null}
+          </div>
+        ) : null}
       </div>
       {actions ? (
         <div className="relative z-[1] flex shrink-0 flex-wrap gap-2 pointer-events-auto">

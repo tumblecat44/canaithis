@@ -1176,3 +1176,21 @@ curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/users/no
 - **Vercel env**: production `DATABASE_URL`, `DIRECT_URL`, `SUPABASE_PROJECT_REF`를 새 프로젝트로 교체함. env만 바꾸면 기존 deployment는 자동 재시작되지 않으므로 prod 반영은 redeploy까지 확인해야 한다.
 - **다시 하지 마라**: 삭제된 ref `ktacyhbsahxygwsssczh`/`cbuwyfyhiibobgygpkxv`로 되돌리지 말 것. `scripts/prod-db-urls.sh` 기본 ref와 Vercel env가 같은지 먼저 본다.
 - **검증**: `npx prisma migrate deploy`, `node scripts/seed-demo.mjs`, `curl -L http://localhost:3001/ko` → 200 + demo 챌린지 HTML, 인앱 브라우저 title `CanAIThis`, `npm run lint` → 에러 0/warning 2.
+
+### [2026-06-11] #189 — 솔루션과 댓글을 분리해 제품 의미를 망침
+
+- **실수**: `Solution`이 곧 댓글/답변 단위인데 별도 `Comment` 모델과 댓글 UI를 붙여서 “솔루션에 댓글 다는 앱”처럼 만들었다.
+- **교정**: 기존 댓글은 같은 챌린지의 `Solution`으로 승격하는 migration을 추가하고, `Comment` 코드/UI/검증을 제거했다. GitHub·데모 URL은 선택으로 바꿨다.
+- **다시 하지 마라**: “이거 되나요?” 글에는 누구나 `Solution`을 단다. 신빙성은 별도 댓글 스레드가 아니라 솔루션 좋아요 정렬로 올라간다.
+
+### [2026-06-11] #190 — OAuth client id만 바꿔도 production redeploy가 필요
+
+- **이 턴**: `dgswlife` Google Auth Platform에서 `CanAIThis Production` 웹 OAuth client를 새로 만들고 Vercel production `GOOGLE_ID`/`GOOGLE_SECRET`을 교체했다.
+- **검증**: `vercel deploy --prod --yes` 후 production signin URL이 새 Google client id와 `https://canaithis.vercel.app/api/auth/callback/google` redirect를 사용함을 확인했고, Chrome에서 Google 계정 선택 화면까지 진입했다.
+- **다시 하지 마라**: Google/GitHub OAuth redirect mismatch를 코드 문제로 먼저 몰지 말 것. `/api/auth/signin/<provider>`가 실제로 보내는 `client_id`와 `redirect_uri`를 뽑고, provider console 설정과 Vercel env/redeploy를 한 세트로 본다.
+
+### [2026-06-11] #191 — 배포 여부는 production 증거로만 답해라
+
+- **실수**: 로컬 build·lint·curl 검증을 끝내고도 production deploy 전이면 "배포했다"고 말하면 안 된다.
+- **교정**: 코드 변경은 commit/push, Vercel production deployment, production migration, production URL curl 검증까지 한 세트로 본다.
+- **다시 하지 마라**: 사용자가 "배포했냐"라고 물으면 추측하지 말고 현재 상태를 분리해서 말한 뒤, 아직이면 바로 배포하고 production 응답으로 확인한다.

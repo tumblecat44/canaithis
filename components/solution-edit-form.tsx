@@ -19,8 +19,8 @@ type SolutionEditFormProps = {
   challengeId: string;
   defaultValues: {
     content: string;
-    githubUrl: string;
-    demoUrl: string;
+    githubUrl: string | null;
+    demoUrl: string | null;
   };
   onSuccessNavigateBack?: boolean;
 };
@@ -34,8 +34,8 @@ export function SolutionEditForm({
   const t = useTranslations("challenge");
   const router = useRouter();
   const [state, formAction, pending] = useActionState(updateSolution, null);
-  const [githubUrl, setGithubUrl] = useState(defaultValues.githubUrl);
-  const [demoUrl, setDemoUrl] = useState(defaultValues.demoUrl);
+  const [githubUrl, setGithubUrl] = useState(defaultValues.githubUrl ?? "");
+  const [demoUrl, setDemoUrl] = useState(defaultValues.demoUrl ?? "");
 
   useEffect(() => {
     if (state?.ok && onSuccessNavigateBack) {
@@ -58,6 +58,7 @@ export function SolutionEditForm({
             rows={5}
             defaultValue={defaultValues.content}
             className="rounded-xl"
+            placeholder={t("solutionPlaceholder")}
           />
         </div>
         <div className="space-y-2">
@@ -66,7 +67,6 @@ export function SolutionEditForm({
             id="githubUrl"
             name="githubUrl"
             type="url"
-            required
             value={githubUrl}
             onChange={(e) => setGithubUrl(e.target.value)}
             className="rounded-xl"
@@ -79,7 +79,6 @@ export function SolutionEditForm({
             id="demoUrl"
             name="demoUrl"
             type="url"
-            required
             value={demoUrl}
             onChange={(e) => setDemoUrl(e.target.value)}
             className="rounded-xl"
