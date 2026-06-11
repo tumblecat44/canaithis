@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Builds Supabase connection strings for CanAIThis production.
-# Default: shared Supabase project (ktacyhbsahxygwsssczh) when CANAITHIS_SUPABASE_REF is unset.
+# Default: CanAIThis Supabase project (wdhxsbuhwneuzyqaenfe) when CANAITHIS_SUPABASE_REF is unset.
 set -euo pipefail
 
 REF="${SUPABASE_PROJECT_REF:-}"
@@ -14,7 +14,7 @@ elif [[ -f "${MALGUN_ENV:-$HOME/malgun-res/.env.supabase.local}" ]]; then
   source "${MALGUN_ENV:-$HOME/malgun-res/.env.supabase.local}"
 fi
 
-REF="${CANAITHIS_SUPABASE_REF:-${SUPABASE_PROJECT_REF:-ktacyhbsahxygwsssczh}}"
+REF="${CANAITHIS_SUPABASE_REF:-${SUPABASE_PROJECT_REF:-wdhxsbuhwneuzyqaenfe}}"
 
 : "${SUPABASE_DB_PASSWORD:?Set SUPABASE_DB_PASSWORD}"
 

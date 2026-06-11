@@ -1169,3 +1169,10 @@ npm run build && git push origin main
 curl -sL https://canaithis.vercel.app/feed.xml | head -1   # <?xml 확인
 curl -sL -o /dev/null -w "%{http_code}" https://canaithis.vercel.app/ko/users/not-a-valid-user  # 404
 ```
+
+### [2026-06-11] #188 — Supabase 삭제 후 CanAIThis 전용 프로젝트 재생성
+
+- **이 턴**: 새 Supabase 프로젝트 `wdhxsbuhwneuzyqaenfe` 생성, `.env.local`/`.env.supabase.local` 로컬 DB URL 갱신, Prisma migration 4개 적용, demo seed 3건 투입.
+- **Vercel env**: production `DATABASE_URL`, `DIRECT_URL`, `SUPABASE_PROJECT_REF`를 새 프로젝트로 교체함. env만 바꾸면 기존 deployment는 자동 재시작되지 않으므로 prod 반영은 redeploy까지 확인해야 한다.
+- **다시 하지 마라**: 삭제된 ref `ktacyhbsahxygwsssczh`/`cbuwyfyhiibobgygpkxv`로 되돌리지 말 것. `scripts/prod-db-urls.sh` 기본 ref와 Vercel env가 같은지 먼저 본다.
+- **검증**: `npx prisma migrate deploy`, `node scripts/seed-demo.mjs`, `curl -L http://localhost:3001/ko` → 200 + demo 챌린지 HTML, 인앱 브라우저 title `CanAIThis`, `npm run lint` → 에러 0/warning 2.

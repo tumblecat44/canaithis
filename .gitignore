@@ -49,6 +49,9 @@ canaithis-submission.zip
 .work-queue.log
 .continuous.log
 .agent-wake
+.local/
+.playwright-mcp/
+canaithis-local-home.png
 .grok-tick.log
 .grok-loop.log
 .grok-tick.pid
